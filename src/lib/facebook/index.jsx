@@ -11,25 +11,12 @@ const isRedirectorUrl = (url) => {
 
 export const resolveRedirectUrl = async (url) => {
     try {
-        const response = await axios.get(url, {
-            headers: {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-                Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-            },
-            maxRedirects: 0,
-            validateStatus: (status) => status >= 200 && status < 400,
-        });
-
-        console.log("Resolved redirect URL:", response);
-
-        if (response.headers.location) {
-            return response.headers.location;
-        }
-        return url;
+        const response = await axios.post("/api/video/facebook/realurl", {
+            url: url
+        })
+        
+        return response.data.url;
     } catch (error) {
-        if (error.response && error.response.headers.location) {
-            return error.response.headers.location;
-        }
         console.error("Failed to resolve redirect URL:", (error.response.headers));
         throw new BadRequest("Failed to resolve redirect URL");
     }
