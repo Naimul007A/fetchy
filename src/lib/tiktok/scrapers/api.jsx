@@ -19,8 +19,8 @@ export const fetchTiktokContent = async (url, timeout = 0) => {
             return formatTiktokDataJson(response.data);
         } catch (e) {
             console.log(e)
-            handleScraperError(e);
-            return null;
+            const response = await SSSTik(url)
+            return formatSSSTikJson(response.result, url);
         }
     }
 };
