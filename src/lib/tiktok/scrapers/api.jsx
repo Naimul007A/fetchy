@@ -3,8 +3,7 @@ import { _tiktokVideoFetchApiByPRAS } from "@/constants";
 import axios from "axios";
 import { SSSTik } from "./sssTik";
 import { formatSSSTikJson, formatTiktokDataJson } from "./formaters";
-import cheerio from "cheerio";
-import { Key } from "lucide-react";
+import * as cheerio from "cheerio";
 
 export const fetchTiktokContent = async (url, timeout = 0) => {
     if (!url) return null;
