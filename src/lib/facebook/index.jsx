@@ -20,6 +20,8 @@ export const resolveRedirectUrl = async (url) => {
             validateStatus: (status) => status >= 200 && status < 400,
         });
 
+        console.log("Resolved redirect URL:", response);
+
         if (response.headers.location) {
             return response.headers.location;
         }
