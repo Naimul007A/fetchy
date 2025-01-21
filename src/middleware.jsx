@@ -88,7 +88,7 @@ export async function middleware(request) {
                                         { "name": "Page", "value": `${pathname} (${request.method})`, "inline": false },
                                         { "name": "Download Url", "value": downloadUrlParam, "inline": false },
                                         { "name": "IP", "value": ip, "inline": false },
-                                        { "name": "Country", "value": `${iso.whereCountry(country).country} ${flag}`, "inline": false },
+                                        { "name": "Country", "value": `${iso.whereCountry(country)?.country || country} ${flag}`, "inline": false },
                                         { "name": "Coordinate", "value": `${latitude}, ${longitude}`, "inline": false },
                                         { "name": "Timezone", "value": `${request.headers.get("x-vercel-ip-timezone")}`, "inline": false },
                                         { "name": "TimeStamp", "value": new Date().toLocaleString(), "inline": false },
