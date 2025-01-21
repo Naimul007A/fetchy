@@ -36,7 +36,7 @@ export const navItems = () => {
           icon: Tiktok,
           url: "/tool/tiktok",
           description: "Download Tiktok videos, slideshows and music.",
-          isAvailable: false,
+          isAvailable: true,
           isNew: false
         }
       ],
