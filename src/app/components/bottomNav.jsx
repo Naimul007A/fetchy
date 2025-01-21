@@ -7,6 +7,7 @@ import { Home, Package, PackageOpen } from "lucide-react";
 import { useSpring, animated } from "@react-spring/web";
 import { useRouter } from "next/navigation";
 import { navItems } from "./nav.list";
+import { toast } from "sonner"
 
 const darkTheme = createTheme({
   palette: {
@@ -106,7 +107,12 @@ export default function BottomNavigation() {
           {tools.map((tool, index) => (
             <button
               key={index}
+              disabled={!tool.isAvailable}
               onClick={() => {
+                if (!tool.isAvailable) {
+                  toast.info("This tool is not available right now.");
+                  return
+                }
                 router.push(tool.url);
                 setShowPopup(false);
               }}

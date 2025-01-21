@@ -20,18 +20,24 @@ export const navItems = () => {
           icon: Instagram,
           url: "/tool/instagram",
           description: "Download Instagram videos, reels, and photos.",
+          isAvailable: true,
+          isNew: false
         },
         {
           title: "Facebook",
           icon: Facebook,
           url: "/tool/facebook",
           description: "Download Facebook videos, reels, and stories",
+          isAvailable: true,
+          isNew: false
         },
         {
           title: "Tiktok",
           icon: Tiktok,
           url: "/tool/tiktok",
           description: "Download Tiktok videos, slideshows and music.",
+          isAvailable: false,
+          isNew: false
         }
       ],
     },

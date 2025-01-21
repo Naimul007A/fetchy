@@ -23,6 +23,7 @@ import { ExpandMore } from "@mui/icons-material";
 import Link from "next/link";
 import { Loader } from "lucide-react";
 import { navItems } from "./nav.list";
+import { toast } from "sonner";
 
 export function AppSidebar() {
   const [isLoading, setLoading] = React.useState(true);
@@ -68,7 +69,12 @@ export function AppSidebar() {
                               {item.subItems.map((subItem, subIndex) => (
                                 <SidebarMenuSubItem key={subIndex}>
                                   <SidebarMenuSubButton asChild>
-                                    <Link href={subItem.url}>
+                                    <Link onClick={() => {
+                                      if (!subItem.isAvailable) {
+                                        toast.info("This tool is not available right now.")
+                                        return
+                                      }
+                                    }} href={subItem.isAvailable ? subItem.url : "#"}>
                                       <subItem.icon className="mr-2 h-5 w-5" />
                                       {subItem.title}
                                     </Link>

@@ -72,18 +72,15 @@ export const getContentFbId = (url) => {
 
 export const fetchContentJson = async (url, timeout) => {
     try {
-        const resolvedUrl = isRedirectorUrl(url) ? await resolveRedirectUrl(url) : url;
+        const isRedirector = isRedirectorUrl(url);
 
-        let urlDet = getContentFbId(resolvedUrl);
-
-        if (!urlDet) {
-            const reResolvedUrl = await resolveRedirectUrl(resolvedUrl);
-            urlDet = getContentFbId(reResolvedUrl);
-
-            if (!urlDet) {
-                throw new BadRequest("Facebook video/story ID was not found");
-            }
+        if (isRedirector) {
+            throw new BadRequest(
+                "Apologies, we currently don't support redirector links. However, you can still download your content! Simply open the link in your browser, allow it to redirect you to the original URL, copy that URL, and paste it here again. It should work perfectly!"
+            );
         }
+        
+        const urlDet = getContentFbId(url);
 
         const contentJson = await fetchFromFbGraphQL(
             urlDet.type,

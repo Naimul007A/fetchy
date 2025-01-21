@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 
 import { fetchContentJson } from "@/lib/facebook";
 import { SuccessResponse } from "@/utils";
-import { enableServerAPI } from "@/conf/facebook";
+import { enableFacebook } from "@/conf";
 import { handleError } from "../helper";
 
 export async function POST(request) {
-    if (!enableServerAPI) {
+    if (!enableFacebook) {
         return NextResponse.json(
             { error: "Facebook downloading server currently unavailable" },
             { status: 403 }

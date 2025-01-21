@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { fetchTiktokContentJson } from "@/lib/tiktok";
 import { SuccessResponse } from "@/utils";
 import { handleError } from "../helper";
-import { enableServerAPI } from "@/conf/tiktok";
+import { enableTiktok } from "@/conf";
 
 export async function POST(request) {
-    if (!enableServerAPI) {
+    if (!enableTiktok) {
         return NextResponse.json(
             { error: "Tiktok downloading server currently unavailable" },
             { status: 403 }

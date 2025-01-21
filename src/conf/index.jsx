@@ -1,3 +1,10 @@
+// Tiktok Configurations
+export const enableTiktok = true;
+// Instagram Configurations
+export const enableInstagram = true;
+// Facebook Configurations
+export const enableFacebook = false;
+
 // Upstash configs
 export const upstashUrl = process.env.NEXT_UPSTASH_REDIS_REST_URL ?? "";
 export const upstashToken = process.env.NEXT_UPSTASH_REDIS_REST_TOKEN ?? "";

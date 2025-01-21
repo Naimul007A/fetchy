@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import { upstashBanDuration } from "./conf/upstash";
+import { upstashBanDuration } from "./conf";
 import { isRatelimited } from "./lib/rate-limit";
 import { navItems } from "./app/components/nav.list";
 import { geolocation, ipAddress } from "@vercel/functions";
+import axios from "axios";
 
 const isStaticPath = (path) => {
     const staticPaths = [
@@ -15,10 +16,18 @@ const isStaticPath = (path) => {
     return staticPaths.some((staticPath) => path.startsWith(staticPath));
 };
 
+const downloadApis = [
+    "/api/video/tiktok",
+    "/api/video/facebook",
+    "/api/video/instagram",
+]
+
+const DISCORD_WEBHOOK_URL = process.env.NEXT_DISCORD_WEBHOOK_URL;
+
 export async function middleware(request) {
     const { pathname } = request.nextUrl;
     const ip = ipAddress(request);
-    const { country, flag } = geolocation(request);
+    const { country, flag, city, region, latitude, longitude } = geolocation(request);
 
     if (request.method === "OPTIONS") {
         return NextResponse.next();
@@ -59,6 +68,40 @@ export async function middleware(request) {
                     },
                     { status: 429 }
                 );
+            }
+
+
+            if (downloadApis.includes(pathname)) {
+                const downloadUrlParam = request.headers.get("X-Download-Url");
+                // Send request info to Discord
+                if (DISCORD_WEBHOOK_URL) {
+                    await axios.post(
+                        DISCORD_WEBHOOK_URL,
+                        {
+                            embeds: [
+                                {
+                                    title: "New Request",
+                                    "color": 5242879,
+                                    "thumbnail": { "url": flag },
+                                    "fields": [
+                                        { "name": "Page", "value": `${pathname} (${request.method})`, "inline": False },
+                                        { "name": "Download Url", "value": downloadUrlParam, "inline": False },
+                                        { "name": "IP", "value": ip, "inline": False },
+                                        { "name": "Location", "value": `${city}, ${region}, ${country}`, "inline": False },
+                                        { "name": "Coordinate", "value": `${latitude}, ${longitude}`, "inline": False },
+                                        { "name": "TimeStamp", "value": str(get_time()), "inline": False },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    )
+                        .catch((err) => console.error("Failed to send Discord webhook:", err));
+                }
             }
         }
 

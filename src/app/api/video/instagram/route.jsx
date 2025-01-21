@@ -3,11 +3,11 @@ import { NextResponse } from "next/server";
 import { fetchPostJson } from "@/lib/instagram";
 import { SuccessResponse } from "@/utils";
 
-import { enableServerAPI } from "@/conf/instagram";
+import { enableInstagram } from "@/conf";
 import { handleError } from "../helper";
 
 export async function POST(request) {
-    if (!enableServerAPI) {
+    if (!enableInstagram) {
         return NextResponse.json(
             { error: "Instagram downloading server currently unavailable" },
             { status: 403 }

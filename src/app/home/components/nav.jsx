@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils";
 import { navItems } from "@/app/components/nav.list";
+import { toast } from "sonner";
 
 
 export default function Navigation({ className }) {
@@ -50,11 +51,16 @@ export default function Navigation({ className }) {
                                             {tools.map((tool, index) => (
                                                 <NavigationMenuLink key={index} asChild>
                                                     <Link
-                                                        href={tool.url}
+                                                        onClick={() => {
+                                                            if (!tool.isAvailable) {
+                                                                toast.info("This tool is not available right now.")
+                                                            }
+                                                        }}
+                                                        href={tool.isAvailable ? tool.url : "#"}
                                                         className={
                                                             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground relative"}
                                                     >
-                                                        <div className="text-sm font-medium leading-none">{tool.title}{tool?.status === "new" && <span className="ml-1 text-[10px] bg-purple-700 font-black px-1.5 py-1 absolute top-1 rounded-full">new</span>}</div>
+                                                        <div className="text-sm font-medium leading-none">{tool.title}{tool.isNew && <span className="ml-1 text-[10px] bg-purple-700 font-black px-1.5 py-1 absolute top-1 rounded-full">new</span>}</div>
                                                         <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                                                             {tool.description}
                                                         </p>

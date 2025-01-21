@@ -1,7 +1,5 @@
 import querystring from "querystring";
 
-import { enableGraphQL } from "@/conf/instagram";
-
 import { HttpRequest } from "@/utils";
 import { handleScraperError } from "./helpers";
 import { formatGraphqlJson } from "./formaters";
@@ -53,11 +51,6 @@ const encodePostRequestData = (shortcode) => {
 };
 
 export const fetchFromGraphQL = async (postId, timeout = 0) => {
-  if (!enableGraphQL) {
-    console.log("Instagram GraphQL API is disabled");
-    return null;
-  }
-
   if (!postId) return null;
 
   const API_URL = "https://www.instagram.com/api/graphql";

@@ -47,6 +47,7 @@ const InstagramDownloaderView = () => {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
+                        'X-Download-Url': url
                     }
                 }
             );
