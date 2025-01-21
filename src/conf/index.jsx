@@ -3,7 +3,7 @@ export const enableTiktok = true;
 // Instagram Configurations
 export const enableInstagram = true;
 // Facebook Configurations
-export const enableFacebook = false;
+export const enableFacebook = true;
 
 // Upstash configs
 export const upstashUrl = process.env.NEXT_UPSTASH_REDIS_REST_URL ?? "";
