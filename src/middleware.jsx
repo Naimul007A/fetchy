@@ -91,7 +91,7 @@ export async function middleware(request) {
                                         { "name": "Country", "value": `${iso.whereCountry(country)?.country || country} ${flag}`, "inline": false },
                                         { "name": "Coordinate", "value": `${latitude}, ${longitude}`, "inline": false },
                                         { "name": "Timezone", "value": `${request.headers.get("x-vercel-ip-timezone")}`, "inline": false },
-                                        { "name": "TimeStamp", "value": new Date().toLocaleString(), "inline": false },
+                                        { "name": "TimeStamp", "value": new Date(), "inline": false },
                                     ],
                                 },
                             ],
