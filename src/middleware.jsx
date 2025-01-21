@@ -4,7 +4,7 @@ import { isRatelimited } from "./lib/rate-limit";
 import { navItems } from "./app/components/nav.list";
 import { geolocation, ipAddress } from "@vercel/functions";
 import axios from "axios";
-import geocoder from "geocoder"
+import * as iso from "iso-3166-1"
 
 const isStaticPath = (path) => {
     const staticPaths = [
@@ -73,16 +73,6 @@ export async function middleware(request) {
 
 
             if (downloadApis.includes(pathname)) {
-
-                // retrieve address
-                let address;
-                geocoder.reverseGeocode(latitude, longitude, (err, data) => {
-                    if (err) {
-                        console.error(err);
-                    } else {
-                        address = data.results[0].formatted_address;
-                    }
-                });
                 const downloadUrlParam = request.headers.get("X-Download-Url");
 
                 // Send request info to Discord
@@ -98,7 +88,7 @@ export async function middleware(request) {
                                         { "name": "Page", "value": `${pathname} (${request.method})`, "inline": false },
                                         { "name": "Download Url", "value": downloadUrlParam, "inline": false },
                                         { "name": "IP", "value": ip, "inline": false },
-                                        { "name": "Location", "value": `${address}`, "inline": false },
+                                        { "name": "Country", "value": `${iso.whereCountry(country).country} ${flag}`, "inline": false },
                                         { "name": "Coordinate", "value": `${latitude}, ${longitude}`, "inline": false },
                                         { "name": "Timezone", "value": `${request.headers.get("x-vercel-ip-timezone")}`, "inline": false },
                                         { "name": "TimeStamp", "value": new Date().toLocaleString(), "inline": false },
