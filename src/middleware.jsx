@@ -4,6 +4,7 @@ import { isRatelimited } from "./lib/rate-limit";
 import { navItems } from "./app/components/nav.list";
 import { geolocation, ipAddress } from "@vercel/functions";
 import axios from "axios";
+import * as iso from "iso-3166-1";
 
 const isStaticPath = (path) => {
     const staticPrefixes = [
