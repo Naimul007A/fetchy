@@ -39,7 +39,7 @@ export const Root = ({ children }) => {
                 <Toaster />
             </SidebarProvider>
             <BottomNavigation />
-            <Script async="async" data-cfasync="false" src="//pl26765172.profitableratecpm.com/e55b236cf17ff5980817944f93bec602/invoke.js"></Script>
+            <Script async="async" data-cfasync="false" src="https://pl26765172.profitableratecpm.com/e55b236cf17ff5980817944f93bec602/invoke.js"></Script>
         </RootCommon>
     )
 }
