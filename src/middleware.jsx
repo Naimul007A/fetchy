@@ -3,6 +3,7 @@ import { upstashBanDuration } from "./conf";
 import { isRatelimited } from "./lib/rate-limit";
 import { navItems } from "./app/components/nav.list";
 import { geolocation, ipAddress } from "@vercel/functions";
+import axios from "axios";
 
 const isStaticPath = (path) => {
     const staticPrefixes = [
