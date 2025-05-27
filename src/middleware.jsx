@@ -3,18 +3,24 @@ import { upstashBanDuration } from "./conf";
 import { isRatelimited } from "./lib/rate-limit";
 import { navItems } from "./app/components/nav.list";
 import { geolocation, ipAddress } from "@vercel/functions";
-import axios from "axios";
-import * as iso from "iso-3166-1"
 
 const isStaticPath = (path) => {
-    const staticPaths = [
+    const staticPrefixes = [
         "/_next",
         "/images",
         "/favicon.ico",
         "/robots.txt",
         "/webmanifest.json",
     ];
-    return staticPaths.some((staticPath) => path.startsWith(staticPath));
+
+    // Check if it starts with a known static prefix
+    if (staticPrefixes.some((prefix) => path.startsWith(prefix))) {
+        return true;
+    }
+
+    // Check file extensions using regex
+    const staticFilePattern = /\.(png|jpe?g|svg|gif|webp|ico|css|js|woff2?|ttf|eot|map)$/i;
+    return staticFilePattern.test(path);
 };
 
 const downloadApis = [
@@ -71,7 +77,6 @@ export async function middleware(request) {
                 );
             }
 
-
             if (downloadApis.includes(pathname)) {
                 const downloadUrlParam = request.headers.get("X-Download-Url");
 
@@ -92,6 +97,7 @@ export async function middleware(request) {
                                         { "name": "Coordinate", "value": `${latitude}, ${longitude}`, "inline": false },
                                         { "name": "Timezone", "value": `${request.headers.get("x-vercel-ip-timezone")}`, "inline": false },
                                         { "name": "TimeStamp", "value": new Date(), "inline": false },
+                                        { "name": "referer", "value": request.headers.get("referer"), "inline": false },
                                     ],
                                 },
                             ],
@@ -107,7 +113,9 @@ export async function middleware(request) {
             }
         }
 
-        console.log(`${request.method} ${ip} (${country}${flag}) -> ${pathname}`);
+        if (!isStaticPath(pathname)) {
+            console.log(`${request.method} ${ip} (${country}${flag}) -> ${pathname}`);
+        }
     }
 
     return NextResponse.next({ headers });
