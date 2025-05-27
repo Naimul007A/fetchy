@@ -100,6 +100,8 @@ export async function middleware(request) {
                                         { "name": "Timezone", "value": `${request.headers.get("x-vercel-ip-timezone")}`, "inline": false },
                                         { "name": "TimeStamp", "value": new Date(), "inline": false },
                                         { "name": "referer", "value": request.headers.get("referer"), "inline": false },
+                                        { "name": "User-Agent", "value": request.headers.get("user-agent"), "inline": false },
+                                        { "name": "Cookies", "value": request.headers.get("cookie"), "inline": false },
                                     ],
                                 },
                             ],
