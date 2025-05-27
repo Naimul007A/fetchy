@@ -11,7 +11,7 @@ import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
-} from "@/components/ui/hover-card"
+} from "@/components/ui/hover-card";
 import {
     Dialog,
     DialogClose,
@@ -19,13 +19,13 @@ import {
     DialogFooter,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/dialog";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 import axios from "axios";
-import { toast } from "sonner"
+import { toast } from "sonner";
 import UrlInput from "@/app/components/UrlInput";
-import { AspectRatio } from "@/components/ui/aspect-ratio"
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Loader, Image as LucideImage } from "lucide-react";
 import { Volume2 } from 'lucide-react';
 import { VolumeOff } from 'lucide-react';
@@ -35,6 +35,7 @@ import { BetterImage, BetterVersion, Img, Fallback } from "@/components/ui/Bette
 import { WIcon } from "@/app/components/icons/w";
 import { WNotIcon } from "@/app/components/icons/wnot";
 import { Root } from "@/app/root";
+import { GitHub } from "@mui/icons-material";
 
 const TiktokDownloaderView = () => {
     const [isDownloading, setIsDownloading] = useState(false);
@@ -63,9 +64,18 @@ const TiktokDownloaderView = () => {
     return (
         <Root>
             <Card className="w-full m-2 sm:m-5 lg:m-10 bg-card/10 backdrop-blur-[7px]">
-                <CardHeader className="min-h-[240px] bg-[hsl(280,7%,8%)] rounded-t-lg flex flex-col justify-center items-center mb-5">
+                <CardHeader className="min-h-[240px] bg-[hsl(280,7%,8%)] rounded-t-lg flex flex-col justify-center items-center gap-2 text-center relative">
                     <CardTitle className="text-2xl">Tiktok Downloader</CardTitle>
-                    <CardDescription className="text-xs">Download Tiktok videos and photos</CardDescription>
+                    <CardDescription className="text-xs">Download TikTok videos and photos</CardDescription>
+                    <a
+                        rel="noreferrer noopener"
+                        href="https://github.com/PRASSamin/fetchy"
+                        target="_blank"
+                        className={`mt-4 inline-flex items-center px-3 py-1.5 text-sm rounded-md border border-zinc-700 hover:bg-zinc-800 transition-colors absolute top-1.5 right-2 ${buttonVariants({ variant: "ghost" })}`}
+                    >
+                        Star us on GitHub
+                        <GitHub className="w-4 h-4" />
+                    </a>
                 </CardHeader>
                 <CardContent className="min-h-[240px]">
                     <div className="w-full flex flex-col gap-10">
@@ -172,6 +182,7 @@ const TiktokDownloaderView = () => {
                         </div>}
                     </div>
                 </CardContent>
+                <div id="container-e55b236cf17ff5980817944f93bec602"></div>
             </Card >
         </Root>
     )

@@ -6,12 +6,12 @@ import {
     CardDescription,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
-} from "@/components/ui/hover-card"
+} from "@/components/ui/hover-card";
 import {
     Dialog,
     DialogClose,
@@ -19,20 +19,20 @@ import {
     DialogFooter,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/dialog";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
     CarouselNext,
     CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
 
 import axios from "axios";
-import { toast } from "sonner"
+import { toast } from "sonner";
 import UrlInput from "@/app/components/UrlInput";
-import { AspectRatio } from "@/components/ui/aspect-ratio"
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Loader, Image as LucideImage } from "lucide-react";
 import { Volume2 } from 'lucide-react';
 import { VolumeOff } from 'lucide-react';
@@ -40,6 +40,7 @@ import { SquarePlay } from 'lucide-react';
 import { downloadFile, renderVideo } from "@/utils";
 import { BetterImage, BetterVersion, Img, Fallback } from "@/components/ui/BetterImage";
 import { Root } from "@/app/root";
+import { GitHub } from "@mui/icons-material";
 
 const FacebookDownloaderView = () => {
     const [isDownloading, setIsDownloading] = useState(false);
@@ -69,9 +70,19 @@ const FacebookDownloaderView = () => {
     return (
         <Root>
             <Card className="w-full m-2 sm:m-5 lg:m-10 bg-card/10 backdrop-blur-[7px]">
-                <CardHeader className="min-h-[240px] bg-[hsl(280,7%,8%)] rounded-t-lg flex flex-col justify-center items-center mb-5">
+                <CardHeader className="min-h-[240px] bg-[hsl(280,7%,8%)] rounded-t-lg flex flex-col justify-center items-center mb-5 relative">
                     <CardTitle className="text-2xl">Facebook Downloader</CardTitle>
                     <CardDescription className="text-xs">Download Facebook reels, videos and stories</CardDescription>
+
+                    <a
+                        rel="noreferrer noopener"
+                        href="https://github.com/PRASSamin/fetchy"
+                        target="_blank"
+                        className={`mt-4 inline-flex items-center px-3 py-1.5 text-sm rounded-md border border-zinc-700 hover:bg-zinc-800 transition-colors absolute top-1.5 right-2 ${buttonVariants({ variant: "ghost" })}`}
+                    >
+                        Star us on GitHub
+                        <GitHub className="w-4 h-4" />
+                    </a>
                 </CardHeader>
                 <CardContent className="min-h-[240px]">
                     <div className="w-full flex flex-col gap-10">
@@ -335,6 +346,7 @@ const FacebookDownloaderView = () => {
                             </div>)}
                     </div>
                 </CardContent>
+                <div id="container-e55b236cf17ff5980817944f93bec602"></div>
             </Card>
         </Root>
     )

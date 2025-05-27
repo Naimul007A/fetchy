@@ -1,5 +1,4 @@
-"use client";
-import React from 'react'
+"use client";;
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/app/components/sidebar";
 import { Toaster } from "@/components/ui/sonner";
@@ -10,6 +9,7 @@ import GoogleAna from "@/app/GoogleAna";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cn } from '@/lib/utils';
+import Script from 'next/script';
 
 const RootCommon = ({ children, className }) => {
     return (
@@ -39,6 +39,7 @@ export const Root = ({ children }) => {
                 <Toaster />
             </SidebarProvider>
             <BottomNavigation />
+            <Script async="async" data-cfasync="false" src="//pl26765172.profitableratecpm.com/e55b236cf17ff5980817944f93bec602/invoke.js"></Script>
         </RootCommon>
     )
 }
