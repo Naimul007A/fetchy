@@ -1,18 +1,20 @@
-# Pownloader
+# Fetchy
 
-**Pownloader** is the ultimate free video downloader that allows you to download videos and photos in high quality from your favorite platforms with just one click. This project is open-source and available for everyone to use and contribute.
+**Fetchy** is the ultimate free video downloader that allows you to download videos and photos in high quality from your favorite platforms with just one click. This project is open-source and available for everyone to use and contribute.
 
 ## Live Website
 
-Visit **Pownloader** at [https://pownloader.pras.me](https://pownloader.pras.me).
+Visit **Fetchy** at [https://fetchy.pras.me](https://fetchy.pras.me).
 
 ## Supported Downloaders
 
 - **Facebook Downloader**:
+
   - Download stories.
   - Download reels and videos.
 
 - **Instagram Downloader**:
+
   - Download posts.
   - Download reels and videos.
 
@@ -34,11 +36,12 @@ This project is licensed under the [MIT License](LICENSE.md). You are free to us
 
 ## Contributing
 
-We welcome contributions to improve and expand Pownloader. If you’d like to contribute:
+We welcome contributions to improve and expand Fetchy. If you’d like to contribute:
+
 1. Fork the repository.
 2. Make your changes and test them.
 3. Open a pull request, and we'll review it promptly.
 
 ---
 
-**Pownloader** – Simplifying downloads, one platform at a time.
+**Fetchy** – Simplifying downloads, one platform at a time.

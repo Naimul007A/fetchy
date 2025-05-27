@@ -57,7 +57,7 @@ export async function middleware(request) {
     }
 
     if (process.env.NEXT_STAGE === "production") {
-        if (request.headers.get("host") !== "pownloader.pras.me") {
+        if (request.headers.get("host") !== "fetchy.pras.me" && request.headers.get("host") !== "pownloader.pras.me") {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 

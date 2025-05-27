@@ -24,3 +24,12 @@ The first version of **Pownloader** is now live! Download videos and photos in h
   - Download music.
   - Download videos.
   - Download slideshows.
+
+
+## [Version 2.1.0] | 2025/05/27
+
+### Changes:
+
+- Changed the branding of the project from **Pownloader** to **Fetchy**.
+
+

@@ -35,7 +35,7 @@ export default function Navigation({ className }) {
                                     src={"/logo.png"}
                                     width={100}
                                     height={100}
-                                    alt="pownloader"
+                                    alt="fetchy"
                                     className="h-full w-auto"
                                 />
                             </Link>
@@ -77,7 +77,7 @@ export default function Navigation({ className }) {
                                 >
                                     <Link
                                         rel="noreferrer noopener"
-                                        href="https://github.com/PRASSamin/pownloader"
+                                        href="https://github.com/PRASSamin/fetchy"
                                         target="_blank"
                                         className={`border ${buttonVariants({ variant: "ghost" })}`}
                                     >

@@ -11,5 +11,5 @@ InstagramDownloaderPage.displayName = "InstagramDownloaderPage";
 export async function generateMetadata() {
     const headersList = await headers();
     const url = new URL(headersList.get("x-current-url"));
-    return metatag('Instagram Downloader | Pownloader', url, 'index, follow');
+    return metatag('Instagram Downloader | Fetchy', url, 'index, follow');
 }

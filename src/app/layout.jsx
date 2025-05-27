@@ -15,9 +15,9 @@ export const viewport = {
   themeColor: "#09090b",
 };
 
-const title = "Pownloader - Ultimate Video Downloader";
+const title = "Fetchy - Ultimate Video Downloader";
 const description =
-  "Pownloader - The ultimate free video downloader for everyone. Download high-quality videos and photos from Instagram, Facebook, and TikTok with one click. Free, easy, and efficient!";
+  "Fetchy - The ultimate free video downloader for everyone. Download high-quality videos and photos from Instagram, Facebook, and TikTok with one click. Free, easy, and efficient!";
 
 export const metadata = {
   icons: {
@@ -37,12 +37,12 @@ export const metadata = {
     ],
   },
   manifest: "/site.webmanifest",
-  publisher: "Pownloader",
+  publisher: "Fetchy",
   verification: {
     google: "1Hibq62KV62bSjoXtQEEWNH7oArNJYkycmuyJ2yOaW4",
   },
   appleWebApp: {
-    title: "Pownloader",
+    title: "Fetchy",
   },
   title: title,
   description: description,
@@ -62,7 +62,7 @@ export const metadata = {
     description: description,
     image: {
       "@type": "ImageObject",
-      url: "https://pownloader.pras.me/favicon.svg",
+      url: "https://fetchy.pras.me/favicon.svg",
       width: 1200,
       height: 630,
     },

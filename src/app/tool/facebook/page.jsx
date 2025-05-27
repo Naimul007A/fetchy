@@ -11,5 +11,5 @@ FacebookDownloaderPage.displayName = "FacebookDownloaderPage";
 export async function generateMetadata() {
     const headersList = await headers();
     const url = new URL(headersList.get("x-current-url"));
-    return metatag('Facebook Downloader | Pownloader', url, 'index, follow');
+    return metatag('Facebook Downloader | Fetchy', url, 'index, follow');
 }

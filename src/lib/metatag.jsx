@@ -1,9 +1,9 @@
 export const metatag = (pageTitle, pageUrl, robots, keywords = []) => {
-    const fav = "https://pownloader.pras.me/logo.svg";
+    const fav = "https://fetchy.pras.me/logo.svg";
 
     const fixedKeywords = [
         "PRAS",
-        "Pownloader",
+        "Fetchy",
         "Video Downloader",
         "Free Video Downloader",
         "Download Video",

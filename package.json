@@ -1,17 +1,17 @@
 {
-  "name": "pownloader",
-  "version": "2.0.3",
+  "name": "fetchy",
+  "version": "2.1.0",
   "private": true,
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/PRASSamin/Pownloader"
+    "url": "https://github.com/PRASSamin/Fetchy"
   },
   "author": "PRASSamin <prassamin@gmail.com> (https://pras.me)",
-  "description": "Pownloader is the ultimate free video downloader that allows you to download videos and photos in high quality from your favorite platforms with just one click. This project is open-source and available for everyone to use and contribute.",
+  "description": "Fetchy is the ultimate free video downloader that allows you to download videos and photos in high quality from your favorite platforms with just one click. This project is open-source and available for everyone to use and contribute.",
   "keywords": [
     "PRAS",
-    "Pownloader",
+    "Fetchy",
     "Video Downloader",
     "Free Video Downloader",
     "Download Video",
@@ -35,9 +35,9 @@
     "Free Downloader"
   ],
   "bugs": {
-    "url": "https://github.com/PRASSamin/Pownloader/issues"
+    "url": "https://github.com/PRASSamin/Fetchy/issues"
   },
-  "homepage": "https://pownloader.pras.me/",
+  "homepage": "https://fetchy.pras.me/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

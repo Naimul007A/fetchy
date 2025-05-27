@@ -8,10 +8,10 @@ import Galaxy from "./galaxy";
 
 const HeroSection = () => {
     useEffect(() => {
-        let startY = 0; // Initial touch position on Y-axis
+        let startY = 0;
 
         const handleWheel = (e) => {
-            e.preventDefault(); // Prevent default scrolling behavior
+            e.preventDefault();
 
             const scrollDirection = e.deltaY > 0 ? "down" : "up"; // Detect scroll direction
             const scrollHeight = window.innerHeight - 57; // Set custom scroll height (100vh - 57px)
@@ -77,7 +77,7 @@ const HeroSection = () => {
                     <main className="text-5xl md:text-6xl font-bold">
                         <h1 className="inline">
                             <span className="inline bg-gradient-to-r from-[#7837d1] to-[#cba6ff] text-transparent bg-clip-text">
-                                Pownloader,
+                                Fetchy,
                             </span>{" "}
                             The Ultimate Free Video Downloader for Everyone
                         </h1>
@@ -92,7 +92,7 @@ const HeroSection = () => {
                     </Button>
                     <a
                         rel="noreferrer noopener"
-                        href="https://github.com/PRASSamin/pownloader"
+                        href="https://github.com/PRASSamin/fetchy"
                         target="_blank"
                         className={`w-full md:w-1/3 ${buttonVariants({
                             variant: "outline",
