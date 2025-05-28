@@ -4,26 +4,10 @@ import { isRatelimited } from "./lib/rate-limit";
 import { navItems } from "./app/components/nav.list";
 import { geolocation, ipAddress } from "@vercel/functions";
 import axios from "axios";
-import * as iso from "iso-3166-1";
-
-const isStaticPath = (path) => {
-    const staticPrefixes = [
-        "/_next",
-        "/images",
-        "/favicon.ico",
-        "/robots.txt",
-        "/webmanifest.json",
-    ];
-
-    // Check if it starts with a known static prefix
-    if (staticPrefixes.some((prefix) => path.startsWith(prefix))) {
-        return true;
-    }
-
-    // Check file extensions using regex
-    const staticFilePattern = /\.(png|jpe?g|svg|gif|webp|ico|css|js|woff2?|ttf|eot|map)$/i;
-    return staticFilePattern.test(path);
-};
+import { COLLAB_OPPORTUNITIES, collabMessage } from "./middleware/collab";
+import { BANNED_SCRAPPERS } from "./middleware/ban";
+import { isStaticPath } from "./middleware/isStatic";
+import { Discord } from "./middleware/discord";
 
 const downloadApis = [
     "/api/video/tiktok",
@@ -31,12 +15,11 @@ const downloadApis = [
     "/api/video/instagram",
 ]
 
-const DISCORD_WEBHOOK_URL = process.env.NEXT_DISCORD_WEBHOOK_URL;
-
 export async function middleware(request) {
     const { pathname } = request.nextUrl;
     const ip = ipAddress(request);
-    const { country, flag, latitude, longitude } = geolocation(request);
+    const { country, flag } = geolocation(request);
+    const discord = new Discord(request)
 
     if (request.method === "OPTIONS") {
         return NextResponse.next();
@@ -45,6 +28,15 @@ export async function middleware(request) {
     const headers = new Headers(request.headers);
     headers.set("x-current-url", request.nextUrl.href);
     headers.set("x-current-path", pathname);
+
+    if (COLLAB_OPPORTUNITIES.includes(request.headers.get("x-requested-with"))) {
+        return NextResponse.json({ ...collabMessage() }, { status: 401 });
+    }
+
+    if (BANNED_SCRAPPERS.includes(request.headers.get("x-requested-with"))) {
+        return NextResponse.json({ error: "Your scraper is currently banned from using our API." }, { status: 401 });
+    }
+
 
     const tools = navItems()
         .filter((item) => item.title.toLowerCase() === "tools")
@@ -80,30 +72,12 @@ export async function middleware(request) {
             }
 
             if (downloadApis.includes(pathname)) {
-                const downloadUrlParam = request.headers.get("X-Download-Url");
-
-                // Send request info to Discord
-                if (DISCORD_WEBHOOK_URL) {
+                if (discord.WEBHOOK_URL) {
                     await axios.post(
-                        DISCORD_WEBHOOK_URL,
+                        discord.WEBHOOK_URL,
                         {
                             embeds: [
-                                {
-                                    title: "New Request",
-                                    "color": 5242879,
-                                    "fields": [
-                                        { "name": "Page", "value": `${pathname} (${request.method})`, "inline": false },
-                                        { "name": "Download Url", "value": downloadUrlParam, "inline": false },
-                                        { "name": "IP", "value": ip, "inline": false },
-                                        { "name": "Country", "value": `${iso.whereCountry(country)?.country || country} ${flag}`, "inline": false },
-                                        { "name": "Coordinate", "value": `${latitude}, ${longitude}`, "inline": false },
-                                        { "name": "Timezone", "value": `${request.headers.get("x-vercel-ip-timezone")}`, "inline": false },
-                                        { "name": "TimeStamp", "value": new Date(), "inline": false },
-                                        { "name": "referer", "value": request.headers.get("referer"), "inline": false },
-                                        { "name": "User-Agent", "value": request.headers.get("user-agent"), "inline": false },
-                                        { "name": "Cookies", "value": request.headers.get("cookie"), "inline": false },
-                                    ],
-                                },
+                                discord.payload(),
                             ],
                         },
                         {
