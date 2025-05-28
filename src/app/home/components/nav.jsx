@@ -3,7 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { GitHub } from "@mui/icons-material";
 import Image from "next/image";
 import { Fragment } from "react";
-import Link from "next/link";
+import { Link } from "@/app/components/link";
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -11,7 +11,7 @@ import {
     NavigationMenuLink,
     NavigationMenuList,
     NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
+} from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { navItems } from "@/app/components/nav.list";
 import { toast } from "sonner";

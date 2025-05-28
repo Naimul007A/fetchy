@@ -102,7 +102,14 @@ export const fetchFromFbGraphQL = async (type, contentId, timeout = 0) => {
 
   const responseJson = response.data;
 
-  if (!responseJson || Object.keys(responseJson).length === 0 && Object.keys(responseJson.data).length === 0 && !responseJson.data?.video) return null;
+  const isProcessable =
+    responseJson ||
+    (responseJson?.data && Object.keys(responseJson.data).length > 0) ||
+    (responseJson?.data?.video && Object.keys(responseJson.data.video).length > 0);
+
+  if (!isProcessable) {
+    return null;
+  }
 
   if (type === "video") {
     return formatGraphqlVideoJson(responseJson);

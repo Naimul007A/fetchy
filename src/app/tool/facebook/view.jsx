@@ -1,4 +1,4 @@
-"use client";
+"use client";;
 import { useState } from "react";
 import {
     Card,
@@ -66,7 +66,7 @@ const FacebookDownloaderView = () => {
             setData(response.data.data);
         } catch (err) {
             if (err.response?.status === 401) {
-                toast.error("Invalid API Credentials, please refresh the page", {
+                toast.error("Session expired, please refresh the page", {
                     action: {
                         label: "Refresh",
                         onClick: () => {
@@ -86,7 +86,6 @@ const FacebookDownloaderView = () => {
                 <CardHeader className="min-h-[240px] bg-[hsl(280,7%,8%)] rounded-t-lg flex flex-col justify-center items-center mb-5 relative">
                     <CardTitle className="text-2xl">Facebook Downloader</CardTitle>
                     <CardDescription className="text-xs">Download Facebook reels, videos and stories</CardDescription>
-
                     <a
                         rel="noreferrer noopener"
                         href="https://github.com/PRASSamin/fetchy"

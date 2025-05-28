@@ -1,71 +1,14 @@
-"use client";
-import { useEffect } from "react";
+"use client";;
 import { buttonVariants } from "@/components/ui/button";
 import { GitHub } from "@mui/icons-material";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Link } from "@/app/components/link";
 import Galaxy from "./galaxy";
 
 const HeroSection = () => {
-    useEffect(() => {
-        let isScrolling = false;
-        let startY = 0;
-
-        const scrollHeight = window.innerHeight - 57;
-
-        const scrollToNextSection = (direction) => {
-            if (isScrolling) return;
-            isScrolling = true;
-
-            const currentScroll = window.scrollY;
-            const newScroll =
-                direction === "down"
-                    ? Math.ceil(currentScroll / scrollHeight) * scrollHeight + scrollHeight
-                    : Math.floor(currentScroll / scrollHeight) * scrollHeight - scrollHeight;
-
-            window.scrollTo({
-                top: newScroll,
-                behavior: "smooth",
-            });
-
-            // Add a delay to prevent multiple scrolls
-            setTimeout(() => {
-                isScrolling = false;
-            }, 1000); // Adjust duration based on scroll speed
-        };
-
-        const handleWheel = (e) => {
-            e.preventDefault();
-            const direction = e.deltaY > 0 ? "down" : "up";
-            scrollToNextSection(direction);
-        };
-
-        const handleTouchStart = (e) => {
-            startY = e.touches[0].clientY;
-        };
-
-        const handleTouchMove = (e) => {
-            e.preventDefault();
-            const currentY = e.touches[0].clientY;
-            const direction = startY > currentY ? "down" : "up";
-            scrollToNextSection(direction);
-        };
-
-        window.addEventListener("wheel", handleWheel, { passive: false });
-        window.addEventListener("touchstart", handleTouchStart, { passive: false });
-        window.addEventListener("touchmove", handleTouchMove, { passive: false });
-
-        return () => {
-            window.removeEventListener("wheel", handleWheel);
-            window.removeEventListener("touchstart", handleTouchStart);
-            window.removeEventListener("touchmove", handleTouchMove);
-        };
-    }, []);
-
-
     return (
         <section className="container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10 mx-auto">
-            <div className="text-center lg:text-start space-y-6 h-[calc(100vh-10rem-57px)] md:h-[calc(100vh-16rem-57px)] flex flex-col justify-between md:justify-start">
+            <div className="text-center lg:text-start space-y-6 h-[calc(100vh-10rem-57px)] md:h-[calc(100vh-16rem-57px)] flex flex-col justify-between md:justify-evenly">
                 <div className="flex flex-col space-y-6">
                     <main className="text-5xl md:text-6xl font-bold">
                         <h1 className="inline">

@@ -1,6 +1,6 @@
 "use client";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/useRouter";
 
 export function Support() {
     const router = useRouter()
@@ -12,7 +12,7 @@ export function Support() {
         },
         {
             platfrom: "Facebook",
-            features: "Posts, Stories, Reels, Videos",
+            features: "Stories, Reels, Videos",
             href: "/tool/facebook"
         },
         {
@@ -25,7 +25,7 @@ export function Support() {
     return (
         <section
             id="support-platforms"
-            className="container px-2 md:px-0 mx-auto py-5"
+            className="container px-2 md:px-0 mx-auto pt-20 pb-20"
         >
             <div className="flex flex-col">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">

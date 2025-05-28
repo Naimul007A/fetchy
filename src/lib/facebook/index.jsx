@@ -4,16 +4,16 @@ import axios from "axios";
 
 const isRedirectorUrl = (url) => {
     const redirectorPatterns = [
-        /https?:\/\/(?:(?:l\.facebook\.com|fb\.watch|(?:www\.)?facebook\.com\/(?:l\.php|share\/v\/\w+\/))[^\s]*)/
+        /https?:\/\/(?:(?:l\.facebook\.com|fb\.watch|(?:www\.)?facebook\.com\/(?:l\.php|share\/[^/]+\/\S*))[^\s]*)/
     ];
     return redirectorPatterns.some((pattern) => pattern.test(url));
 };
 
-export const resolveRedirectUrl = async (url) => {
+export const resolveRedirectUrl = async (url, headers) => {
     try {
         const response = await axios.get(url, {
             maxRedirects: 0,
-            headers: {
+            headers: headers || {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
                 Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
                 "Accept-Language": "en-US,en;q=0.8",
@@ -43,12 +43,18 @@ export const resolveRedirectUrl = async (url) => {
 export const getContentFbId = (url) => {
     const videoRegex = /\/(?:videos|reel|watch)(?:\/?)(?:\?v=)?(\d+)/;
     const storyRegex = /stories\/(\d+)/;
+    const postRegex = /\/posts\/(pfbid[^/?]+)/i;
 
     let contentId;
 
     if (!url) {
         throw new BadRequest("Facebook URL was not provided");
     }
+
+    // Check for post URLs first
+    const postCheck = url.match(postRegex);
+    if (postCheck)
+        throw new BadRequest("We currently don't support extracting content from Facebook posts. This feature will be available soon.")
 
     const videoCheck = url.match(videoRegex);
     if (videoCheck) {
@@ -74,11 +80,8 @@ export const getContentFbId = (url) => {
 export const fetchContentJson = async (url, timeout) => {
     try {
         const isRedirector = isRedirectorUrl(url);
-        let orgUrl
+        let orgUrl = url;
         if (isRedirector) {
-            // throw new BadRequest(
-            //     "Apologies, we currently don't support redirector links. However, you can still download your content! Simply open the link in your browser, allow it to redirect you to the original URL, copy that URL, and paste it here again. It should work perfectly!"
-            // );
             orgUrl = await resolveRedirectUrl(url)
         }
 

@@ -57,7 +57,7 @@ const InstagramDownloaderView = () => {
             setData(response.data.data);
         } catch (err) {
             if (err.response?.status === 401) {
-                toast.error("Invalid API Credentials, please refresh the page", {
+                toast.error("Session expired, please refresh the page", {
                     action: {
                         label: "Refresh",
                         onClick: () => {

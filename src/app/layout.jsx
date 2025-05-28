@@ -1,5 +1,8 @@
 import "./globals.css";
 import { Russo_One } from "next/font/google";
+import 'nprogress/nprogress.css';
+import { Progress } from "./components/progress";
+import { Suspense } from "react";
 
 const russo = Russo_One({
   weight: "400",
@@ -73,6 +76,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <Suspense fallback={null}>
+        <Progress />
+      </Suspense>
       {children}
     </html>
   );

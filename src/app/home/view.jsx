@@ -22,6 +22,15 @@ export default function Home() {
 
   return (
     <HomeRoot>
+      <style>
+        {
+          `
+          body {
+          overflow: auto !important;
+          }
+        `
+        }
+      </style>
       {isLoading ? (
         <div className="flex items-center justify-center h-screen w-full pt-3 pb-8 bg-background">
           <Image width={100} height={100} src="/logo.png" className="w-20 preloader" alt="preloader" />
@@ -35,7 +44,7 @@ export default function Home() {
           )}
           <HeroSection />
           <FAQ />
-          <section className="min-h-[calc(100vh-57px)] pb-[56px] md:pb-0 flex flex-col justify-between">
+          <section className="pb-[56px] md:pb-0 flex flex-col justify-between">
             <Support />
             <Footer />
           </section>

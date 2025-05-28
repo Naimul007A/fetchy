@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'next/link'
+import {Link} from "@/app/components/link";
 import { Instagram, Facebook, Twitter, GitHub, LinkedIn } from '@mui/icons-material'
 import { GmailIcon as Gmail } from '@/app/components/icons/gmail'
 
