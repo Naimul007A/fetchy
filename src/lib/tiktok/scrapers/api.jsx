@@ -11,7 +11,9 @@ export const fetchTiktokContent = async (url, timeout = 0) => {
         try {
             const response = await SSSTik(url)
             return formatSSSTikJson(response.result, url);
-        } catch (e) { }
+        } catch (e) {
+            return null;
+        }
     } else {
         try {
             const api = new URL(_tiktokVideoFetchApiByPRAS);

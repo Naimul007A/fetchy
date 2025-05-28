@@ -5,7 +5,7 @@ export const getTiktokContentFileName = (type, title, ext) => {
 }
 
 export const extractUsername = (url) => {
-    const regex = /(?:https?:\/\/)?(?:www\.)?tiktok\.com\/@([^\/?#]+)/;
+    const regex = /(?:https?:\/\/)?(?:www\.)?tiktok\.com\/@([^/?#]+)/;
     const match = url.match(regex);
-    return match ? match[1] : null; 
-  }
+    return match ? match[1] : null;
+}

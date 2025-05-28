@@ -4,6 +4,7 @@ import { _PRASCdnServeitApi, _tiktokProfileFetchApiByPRAS } from "@/constants";
 import { _generateRandomId } from "@/lib/facebook/scrapers/formaters";
 import { keyToDeleteInOwner } from "./extra/keyToRemove";
 import imageSize from "image-size";
+import { BadRequest } from "@/lib/exceptions";
 
 export const formatTiktokDataJson = async (data) => {
     data.owner.username = data.owner.uniqueId;

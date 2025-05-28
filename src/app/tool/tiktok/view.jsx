@@ -102,7 +102,7 @@ const TiktokDownloaderView = () => {
 
                                     {/* Avatar and Text */}
                                     <div className="absolute top-2 left-2 flex items-center gap-1 p-2 overflow-hidden w-full">
-                                        <a href={data?.owner?.profile_url} target="_blank">
+                                        <a href={data?.owner?.profile_url} target="_blank" rel="noopener noreferrer">
                                             <BetterImage
                                                 className="rounded-full w-8 h-8 border border-white"
                                                 alt={data?.owner?.name}
@@ -111,7 +111,7 @@ const TiktokDownloaderView = () => {
                                                 height={150}
                                             />
                                         </a>
-                                        <a className="truncate" href={data?.owner?.profile_url} target="_blank">
+                                        <a className="truncate" href={data?.owner?.profile_url} target="_blank" rel="noopener noreferrer">
                                             <p className="text-xs font-bold text-white truncate">{data?.owner?.username}</p>
                                         </a>
                                     </div>

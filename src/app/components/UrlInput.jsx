@@ -1,9 +1,9 @@
 "use client";
-import { Fragment, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Clipboard } from 'lucide-react'
-import { Loader } from 'lucide-react'
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Clipboard } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import { toast } from 'sonner';
 
 const UrlInput = ({ allowedDomains, onFetch }) => {
@@ -14,7 +14,8 @@ const UrlInput = ({ allowedDomains, onFetch }) => {
         try {
             const text = await navigator.clipboard.readText();
             setUrl(text);
-        } catch (error) {
+        } catch (err) {
+            console.error(err);
             toast.error("Failed to paste from clipboard");
         }
     };
