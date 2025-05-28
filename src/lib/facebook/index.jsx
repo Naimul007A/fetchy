@@ -4,7 +4,7 @@ import axios from "axios";
 
 const isRedirectorUrl = (url) => {
     const redirectorPatterns = [
-        /https?:\/\/(?:l\.facebook\.com|fb\.watch|facebook\.com\/l\.php)[^\s]*/
+        /https?:\/\/(?:(?:l\.facebook\.com|fb\.watch|(?:www\.)?facebook\.com\/(?:l\.php|share\/v\/\w+\/))[^\s]*)/
     ];
     return redirectorPatterns.some((pattern) => pattern.test(url));
 };
@@ -19,7 +19,8 @@ export const resolveRedirectUrl = async (url) => {
                 "Accept-Language": "en-US,en;q=0.8",
                 cookie: "datr=YL6OZ9N5-1Lklte7br433knu; sb=YL6OZ4dJAzSXgjX7oX9o4K2F; wd=775x834; ps_l=1; ps_n=1",
                 Host: "www.facebook.com",
-                "Alt-Used": "www.facebook.com"
+                "Alt-Used": "www.facebook.com",
+                referrer: "https://www.facebook.com/",
 
             },
             validateStatus: (status) => status >= 200 && status < 400
@@ -73,14 +74,15 @@ export const getContentFbId = (url) => {
 export const fetchContentJson = async (url, timeout) => {
     try {
         const isRedirector = isRedirectorUrl(url);
-
+        let orgUrl
         if (isRedirector) {
-            throw new BadRequest(
-                "Apologies, we currently don't support redirector links. However, you can still download your content! Simply open the link in your browser, allow it to redirect you to the original URL, copy that URL, and paste it here again. It should work perfectly!"
-            );
+            // throw new BadRequest(
+            //     "Apologies, we currently don't support redirector links. However, you can still download your content! Simply open the link in your browser, allow it to redirect you to the original URL, copy that URL, and paste it here again. It should work perfectly!"
+            // );
+            orgUrl = await resolveRedirectUrl(url)
         }
-        
-        const urlDet = getContentFbId(url);
+
+        const urlDet = getContentFbId(orgUrl);
 
         const contentJson = await fetchFromFbGraphQL(
             urlDet.type,
