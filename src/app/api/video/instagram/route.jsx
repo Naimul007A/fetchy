@@ -6,6 +6,8 @@ import { SuccessResponse } from "@/utils";
 import { enableInstagram } from "@/conf";
 import { handleError } from "../helper";
 
+import bycrypt from "bcryptjs";
+
 export async function POST(request) {
     if (!enableInstagram) {
         return NextResponse.json(
@@ -17,6 +19,23 @@ export async function POST(request) {
     try {
         const body = await request.json();
         const { url } = body;
+        const api_hash = request.cookies.get("d_session")?.value;
+
+        if (!api_hash) {
+            return NextResponse.json(
+                { error: "Invalid Request" },
+                { status: 401 }
+            );
+        }
+
+        const isValidHash = await bycrypt.compare(process.env.NEXT_API_KEY, api_hash);
+
+        if (!isValidHash) {
+            return NextResponse.json(
+                { error: "Invalid Request" },
+                { status: 401 }
+            );
+        }
 
         if (/\/stories|highlights\//.test(url)) {
             return NextResponse.json(

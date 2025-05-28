@@ -24,7 +24,7 @@ export async function POST(request) {
             }
         );
 
-        const data = cdnResponse.data; 
+        const data = cdnResponse.data;
 
         return NextResponse.json(data, {
             headers: {

@@ -64,7 +64,7 @@ const TiktokDownloaderView = () => {
     return (
         <Root>
             <Card className="w-full m-2 sm:m-5 lg:m-10 bg-card/10 backdrop-blur-[7px]">
-                <CardHeader className="min-h-[240px] bg-[hsl(280,7%,8%)] rounded-t-lg flex flex-col justify-center items-center gap-2 text-center relative">
+                <CardHeader className="min-h-[240px] mb-5 bg-[hsl(280,7%,8%)] rounded-t-lg flex flex-col justify-center items-center gap-2 text-center relative">
                     <CardTitle className="text-2xl">Tiktok Downloader</CardTitle>
                     <CardDescription className="text-xs">Download TikTok videos and photos</CardDescription>
                     <a

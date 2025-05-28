@@ -1,4 +1,4 @@
-"use client";
+"use client";;
 import { useState } from "react";
 import {
     Card,
@@ -48,7 +48,7 @@ const InstagramDownloaderView = () => {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'X-Download-Url': url
+                        'X-Download-Url': url,
                     }
                 }
             );
@@ -102,7 +102,7 @@ const InstagramDownloaderView = () => {
 
                                     {/* Avatar and Text */}
                                     <div className="absolute top-2 left-2 flex items-center gap-1 p-2 overflow-hidden w-full">
-                                        <a href={data?.owner?.profile_url} target="_blank">
+                                        <a href={data?.owner?.profile_url} target="_blank" rel="noopener noreferrer">
                                             <BetterImage
                                                 className="rounded-full !w-8 !h-8 border border-white"
                                                 width={150}
@@ -111,7 +111,7 @@ const InstagramDownloaderView = () => {
                                                 src={data?.owner?.profile_pic}
                                             />
                                         </a>
-                                        <a className="truncate" href={data?.owner?.profile_url} target="_blank">
+                                        <a className="truncate" href={data?.owner?.profile_url} target="_blank" rel="noopener noreferrer">
                                             <p className="text-xs font-bold text-white truncate">{data?.owner?.username}</p>
                                         </a>
                                     </div>

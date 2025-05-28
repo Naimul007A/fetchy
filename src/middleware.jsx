@@ -122,7 +122,25 @@ export async function middleware(request) {
         }
     }
 
-    return NextResponse.next({ headers });
+    const response = NextResponse.next({ headers });
+
+    if (pathname.startsWith("/tool")) {
+        const resp = await axios.get(new URL("/bycrypt/hash", request.nextUrl.origin), {
+            headers: {
+                "string": process.env.NEXT_API_KEY,
+                "salt": "10"
+            }
+        })
+        response.cookies.set("d_session", resp.data.hash, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            path: "/",
+            maxAge: 60,
+        });
+    }
+
+    return response
 }
 
 export const config = {

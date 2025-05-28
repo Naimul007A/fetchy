@@ -1,4 +1,4 @@
-import InstagramDownloaderView from "./view"
+import InstagramDownloaderView from "./view";
 import { metatag } from "@/lib/metatag";
 import { headers } from "next/headers";
 
