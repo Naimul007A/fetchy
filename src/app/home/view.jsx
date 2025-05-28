@@ -5,10 +5,11 @@ import Navigation from "./components/nav";
 import Footer from "./components/footer";
 import HeroSection from "./components/hero";
 import FAQ from "./components/faq";
-import BottomNavigation from "../components/bottomNav"
+import BottomNavigation from "../components/bottomNav";
 
 import { HomeRoot } from "../root";
 import Image from "next/image";
+import { Support } from "./components/support";
 
 export default function Home() {
   const [isLoading, setLoading] = React.useState(true);
@@ -33,8 +34,9 @@ export default function Home() {
             <BottomNavigation />
           )}
           <HeroSection />
+          <FAQ />
           <section className="min-h-[calc(100vh-57px)] pb-[56px] md:pb-0 flex flex-col justify-between">
-            <FAQ />
+            <Support />
             <Footer />
           </section>
         </CursorProvider>

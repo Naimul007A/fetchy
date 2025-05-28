@@ -8,66 +8,59 @@ import Galaxy from "./galaxy";
 
 const HeroSection = () => {
     useEffect(() => {
+        let isScrolling = false;
         let startY = 0;
+
+        const scrollHeight = window.innerHeight - 57;
+
+        const scrollToNextSection = (direction) => {
+            if (isScrolling) return;
+            isScrolling = true;
+
+            const currentScroll = window.scrollY;
+            const newScroll =
+                direction === "down"
+                    ? Math.ceil(currentScroll / scrollHeight) * scrollHeight + scrollHeight
+                    : Math.floor(currentScroll / scrollHeight) * scrollHeight - scrollHeight;
+
+            window.scrollTo({
+                top: newScroll,
+                behavior: "smooth",
+            });
+
+            // Add a delay to prevent multiple scrolls
+            setTimeout(() => {
+                isScrolling = false;
+            }, 1000); // Adjust duration based on scroll speed
+        };
 
         const handleWheel = (e) => {
             e.preventDefault();
-
-            const scrollDirection = e.deltaY > 0 ? "down" : "up"; // Detect scroll direction
-            const scrollHeight = window.innerHeight - 57; // Set custom scroll height (100vh - 57px)
-            const currentScroll = window.scrollY; // Get current scroll position
-
-            if (scrollDirection === "down") {
-                window.scrollTo({
-                    top: Math.ceil(currentScroll / scrollHeight) * scrollHeight + scrollHeight,
-                    behavior: "smooth",
-                });
-            } else {
-                window.scrollTo({
-                    top: Math.floor(currentScroll / scrollHeight) * scrollHeight - scrollHeight,
-                    behavior: "smooth",
-                });
-            }
+            const direction = e.deltaY > 0 ? "down" : "up";
+            scrollToNextSection(direction);
         };
 
         const handleTouchStart = (e) => {
-            startY = e.touches[0].clientY; // Record the initial touch position
+            startY = e.touches[0].clientY;
         };
 
         const handleTouchMove = (e) => {
-            e.preventDefault(); // Prevent default touch behavior
-
-            const currentY = e.touches[0].clientY; // Current touch position on Y-axis
-            const scrollHeight = window.innerHeight - 57; // Set custom scroll height
-            const currentScroll = window.scrollY; // Get current scroll position
-            const scrollDirection = startY > currentY ? "down" : "up"; // Detect scroll direction
-
-            if (scrollDirection === "down") {
-                window.scrollTo({
-                    top: Math.ceil(currentScroll / scrollHeight) * scrollHeight + scrollHeight,
-                    behavior: "smooth",
-                });
-            } else {
-                window.scrollTo({
-                    top: Math.floor(currentScroll / scrollHeight) * scrollHeight - scrollHeight,
-                    behavior: "smooth",
-                });
-            }
+            e.preventDefault();
+            const currentY = e.touches[0].clientY;
+            const direction = startY > currentY ? "down" : "up";
+            scrollToNextSection(direction);
         };
 
-        // Add event listeners for both wheel (PC) and touch (mobile)
         window.addEventListener("wheel", handleWheel, { passive: false });
         window.addEventListener("touchstart", handleTouchStart, { passive: false });
         window.addEventListener("touchmove", handleTouchMove, { passive: false });
 
         return () => {
-            // Cleanup event listeners
             window.removeEventListener("wheel", handleWheel);
             window.removeEventListener("touchstart", handleTouchStart);
             window.removeEventListener("touchmove", handleTouchMove);
         };
     }, []);
-
 
 
     return (
@@ -79,11 +72,12 @@ const HeroSection = () => {
                             <span className="inline bg-gradient-to-r from-[#7837d1] to-[#cba6ff] text-transparent bg-clip-text">
                                 Fetchy,
                             </span>{" "}
-                            The Ultimate Free Video Downloader for Everyone
+                            Download Anything, Anywhere, Anytime.
                         </h1>
                     </main>
                     <p className="text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0">
-                        Download videos and photos in high quality from your favorite platforms with just one click.
+                        Fetchy isn’t just another free video downloader. It’s your all-in-one tool to save everything from Instagram, Facebook, and TikTok — no watermarks, no fluff, just speed and simplicity.
+                        Whether it’s a reel, post, photo, or even a Facebook story, Fetchy’s got your back. Many other tools miss the mark — Fetchy hits it dead center.
                     </p>
                 </div>
                 <div className="space-y-4 md:space-y-0 md:space-x-4 px-2 md:px-0">

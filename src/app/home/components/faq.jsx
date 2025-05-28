@@ -8,32 +8,40 @@ import {
 const FAQ = () => {
     const FAQList = [
         {
-            question: "How do I download a video?",
-            answer: "To download a video, first select the desired platform from the toolbox (e.g. Instagram). Then, paste the video link into the input field and click the <strong>Download</strong> button.",
+            question: "What makes Fetchy better than other video downloaders?",
+            answer: "Most downloaders are super basic — they choke on Facebook stories or Instagram carousels. Fetchy handles Instagram reels, multi-photo posts, TikTok slideshows, and even Facebook stories like a champ. Lightweight, fast, and built with real love.",
             value: "item-1",
         },
         {
-            question: "Which platforms are supported?",
-            answer: "We currently support downloading from <strong>Instagram</strong>, <strong>Facebook</strong>, and <strong>TikTok</strong>.",
+            question: "Can I use Fetchy as a Facebook Story Downloader?",
+            answer: "Hell yes! Fetchy isn't just another downloader — it *actually* supports Facebook story downloads, including those that most tools can't touch. Just paste the story link and let Fetchy work its magic.",
             value: "item-2",
         },
         {
-            question: "Is this service free to use?",
-            answer: "Yes, our service is completely free to use with no hidden charges.",
+            question: "Can I download private or expired stories?",
+            answer: "Nah, we play fair. Fetchy only works with public and active content. No creepy stuff. We respect user privacy and platform rules.",
             value: "item-3",
         },
         {
-            question: "How can I report a bug?",
-            answer: "If you encounter a bug, you can report it by creating an issue on our <strong>GitHub</strong> repository.",
+            question: "Is it free? Will there be annoying ads?",
+            answer: "100% free. No subscriptions, no popups from hell. Just one clean banner ad to keep the server lights on — your UX stays smooth as silk.",
             value: "item-4",
         },
+        {
+            question: "Is it legal to download videos from Instagram, Facebook, or TikTok?",
+            answer: "It depends how you use it. Fetchy is meant for personal use only — like saving your own content or public stuff you have permission to grab. Always respect creators and terms of service.",
+            value: "item-5",
+        },
+        {
+            question: "Why don’t you charge for this?",
+            answer: "Fetchy’s a passion project — built for learning, sharing, and helping people. We believe in giving back. But hey, if you vibe with it, <a href='https://github.com/PRASSamin/fetchy' target='_blank' rel='noreferrer noopener'><strong>drop a star on GitHub 💖</strong></a>",
+            value: "item-6",
+        },
     ];
-
-
     return (
         <section
             id="faq"
-            className="container px-2 md:px-0 mx-auto py-5"
+            className="container px-2 md:px-0 mx-auto py-5 h-[calc(100vh-57px)]"
         >
             <div className="flex flex-col">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
