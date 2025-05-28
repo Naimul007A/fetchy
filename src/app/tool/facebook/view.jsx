@@ -41,12 +41,14 @@ import { downloadFile, renderVideo } from "@/utils";
 import { BetterImage, BetterVersion, Img, Fallback } from "@/components/ui/BetterImage";
 import { Root } from "@/app/root";
 import { GitHub } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
 const FacebookDownloaderView = () => {
     const [isDownloading, setIsDownloading] = useState(false);
     const [isRendering, setIsRendering] = useState(false);
     const [data, setData] = useState(null);
     const [currentStory, setCurrentStory] = useState(0);
+    const router = useRouter();
 
     const fetchVideoData = async (url) => {
         try {
@@ -63,6 +65,17 @@ const FacebookDownloaderView = () => {
             );
             setData(response.data.data);
         } catch (err) {
+            if (err.response?.status === 401) {
+                toast.error("Invalid API Credentials, please refresh the page", {
+                    action: {
+                        label: "Refresh",
+                        onClick: () => {
+                            router.refresh()
+                        }
+                    }
+                });
+                return;
+            }
             toast.error(err.response?.data?.error || "An error occurred");
         }
     };

@@ -20,7 +20,7 @@ export async function POST(request) {
 
         if (!api_hash) {
             return NextResponse.json(
-                { error: "Invalid Request" },
+                { error: "Invalid API Credentials" },
                 { status: 401 }
             );
         }
@@ -29,7 +29,7 @@ export async function POST(request) {
 
         if (!isValidHash) {
             return NextResponse.json(
-                { error: "Invalid Request" },
+                { error: "Invalid API Credentials" },
                 { status: 401 }
             );
         }

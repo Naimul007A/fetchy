@@ -34,10 +34,12 @@ import { downloadFile } from "@/utils";
 import { BetterImage, BetterVersion, Img, Fallback } from "@/components/ui/BetterImage";
 import { Root } from "@/app/root";
 import { GitHub } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
 const InstagramDownloaderView = () => {
     const [isDownloading, setIsDownloading] = useState(false);
     const [data, setData] = useState(null);
+    const router = useRouter();
 
     const fetchVideoData = async (url) => {
         try {
@@ -54,6 +56,17 @@ const InstagramDownloaderView = () => {
             );
             setData(response.data.data);
         } catch (err) {
+            if (err.response?.status === 401) {
+                toast.error("Invalid API Credentials, please refresh the page", {
+                    action: {
+                        label: "Refresh",
+                        onClick: () => {
+                            router.refresh()
+                        }
+                    }
+                });
+                return;
+            }
             toast.error(err.response?.data?.error || "An error occurred");
         }
     };

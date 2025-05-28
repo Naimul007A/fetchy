@@ -36,10 +36,12 @@ import { WIcon } from "@/app/components/icons/w";
 import { WNotIcon } from "@/app/components/icons/wnot";
 import { Root } from "@/app/root";
 import { GitHub } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
 const TiktokDownloaderView = () => {
     const [isDownloading, setIsDownloading] = useState(false);
     const [data, setData] = useState(null);
+    const router = useRouter();
 
     const fetchVideoData = async (url) => {
         try {
@@ -57,6 +59,17 @@ const TiktokDownloaderView = () => {
 
             setData(response.data.data);
         } catch (err) {
+            if (err.response?.status === 401) {
+                toast.error("Invalid API Credentials, please refresh the page", {
+                    action: {
+                        label: "Refresh",
+                        onClick: () => {
+                            router.refresh()
+                        }
+                    }
+                });
+                return;
+            }
             toast.error(err.response?.data?.error || "An error occurred");
         }
     };
