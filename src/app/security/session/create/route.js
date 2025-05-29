@@ -13,6 +13,7 @@ export async function POST(req) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  console.log(ipAddress(req), req.headers.get("x-forwarded-for"));
   const token = manager.createToken({
     ip: ipAddress(req) || req.headers.get("x-forwarded-for"),
     userAgent: req.headers.get("x-user-agent"),
