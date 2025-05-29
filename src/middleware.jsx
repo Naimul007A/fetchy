@@ -94,6 +94,7 @@ export async function middleware(request) {
                 headers: {
                     ...Object.fromEntries(request.headers.entries()),
                     "X-User-Agent": request.headers.get("user-agent")
+                    , "x-user-ip": ip
                 }
             }
         );
