@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 2.1.2] | 2025/05/30
+
+### Changes:
+
+- Optimized UI & UX.
+- Added Minimal ads.
+- Introduced new security layer on API.
+
+## [Version 2.1.0] | 2025/05/27
+
+### Changes:
+
+- Changed the branding of the project from **Pownloader** to **Fetchy**.
+
 ## [Version 2.0.1] | 2024/12/24
 
 ### Initial Release
@@ -24,12 +38,3 @@ The first version of **Pownloader** is now live! Download videos and photos in h
   - Download music.
   - Download videos.
   - Download slideshows.
-
-
-## [Version 2.1.0] | 2025/05/27
-
-### Changes:
-
-- Changed the branding of the project from **Pownloader** to **Fetchy**.
-
-
