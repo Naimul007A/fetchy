@@ -61,7 +61,9 @@ const TiktokDownloaderView = () => {
         } catch (err) {
             if (err.response?.status === 401) {
                 toast.error("Session expired, please refresh the page", {
+                    dismissible: false,
                     action: {
+                        duration: 20000,
                         label: "Refresh",
                         onClick: () => {
                             router.refresh()

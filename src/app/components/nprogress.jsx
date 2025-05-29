@@ -3,6 +3,7 @@ import "nprogress/nprogress.css";
 
 NProgress.configure({ showSpinner: false });
 NProgress.setColor = (color) => {
+    if (typeof document === "undefined") return;
     const style = document.createElement('style')
     style.textContent = `
   #nprogress .bar {

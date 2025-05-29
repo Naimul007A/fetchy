@@ -6,7 +6,7 @@ export const getPostId = (url) => {
     /^https:\/\/(?:www\.)?instagram\.com\/p\/([a-zA-Z0-9_-]+)\/?/;
   const reelRegex =
     /^https:\/\/(?:www\.)?instagram\.com\/reels|reel?\/([a-zA-Z0-9_-]+)\/?/;
-    
+
   let postId;
 
   if (!url) {
@@ -33,6 +33,10 @@ export const getPostId = (url) => {
 export const fetchPostJson = async (
   url, timeout
 ) => {
+  if (/\/stories|highlights\//.test(url)) {
+    throw new BadRequest("Downloading stories and highlights is not supported yet", 400);
+  }
+
   const postId = getPostId(url);
 
   const apiJson = await fetchFromGraphQL(postId, timeout);

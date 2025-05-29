@@ -16,3 +16,5 @@ export const requestsWindow = "1 m"; //  5 requests allowed every 1 min
 // Ban configs
 export const upstashBanEnabled = true;
 export const upstashBanDuration = 1800; // 30 minutes;
+
+export const downloadSessionTTL = 120; // 2 minutes

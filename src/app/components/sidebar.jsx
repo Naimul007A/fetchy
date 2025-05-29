@@ -20,7 +20,7 @@ import {
 import React, { Fragment } from "react";
 import Image from "next/image";
 import { ExpandMore } from "@mui/icons-material";
-import {Link} from "@/app/components/link";
+import { Link } from "@/app/components/link";
 import { Loader } from "lucide-react";
 import { navItems } from "./nav.list";
 import { toast } from "sonner";

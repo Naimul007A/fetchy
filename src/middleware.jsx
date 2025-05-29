@@ -7,19 +7,13 @@ import axios from "axios";
 import { COLLAB_OPPORTUNITIES, collabMessage } from "./middleware/collab";
 import { BANNED_SCRAPPERS } from "./middleware/ban";
 import { isStaticPath } from "./middleware/isStatic";
-import { Discord } from "./middleware/discord";
-
-const downloadApis = [
-    "/api/video/tiktok",
-    "/api/video/facebook",
-    "/api/video/instagram",
-]
+import { TokenManager } from "./lib/security";
 
 export async function middleware(request) {
     const { pathname } = request.nextUrl;
     const ip = ipAddress(request);
     const { country, flag } = geolocation(request);
-    const discord = new Discord(request)
+    const securityManager = new TokenManager()
 
     if (request.method === "OPTIONS") {
         return NextResponse.next();
@@ -50,10 +44,10 @@ export async function middleware(request) {
         return NextResponse.redirect(new URL("/", request.url));
     }
 
-    if (process.env.NEXT_STAGE === "production") {
-        if (request.headers.get("host") !== "fetchy.pras.me" && request.headers.get("host") !== "pownloader.pras.me") {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
+    if (process.env.NEXT_STAGE !== "production") {
+        // if (request.headers.get("host") !== "fetchy.pras.me" && request.headers.get("host") !== "pownloader.pras.me") {
+        //     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        // }
 
         if (isStaticPath(pathname)) {
             return NextResponse.next({ headers });
@@ -71,23 +65,17 @@ export async function middleware(request) {
                 );
             }
 
-            if (downloadApis.includes(pathname)) {
-                if (discord.WEBHOOK_URL) {
-                    await axios.post(
-                        discord.WEBHOOK_URL,
-                        {
-                            embeds: [
-                                discord.payload(),
-                            ],
-                        },
-                        {
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                        }
-                    )
-                        .catch((err) => console.error("Failed to send Discord webhook:", err));
+            const session = request.cookies.get("d_session")?.value;
+            if (session) {
+                try {
+                    if (!securityManager.isTokenValid(session)) {
+                        return NextResponse.json({ error: "Session expired" }, { status: 401 });
+                    }
+                } catch (err) {
+                    return NextResponse.json({ error: "Invalid session format" }, { status: 401 });
                 }
+            } else {
+                return NextResponse.json({ error: "Invalid session" }, { status: 401 });
             }
         }
 
@@ -99,13 +87,18 @@ export async function middleware(request) {
     const response = NextResponse.next({ headers });
 
     if (pathname.startsWith("/tool")) {
-        const resp = await axios.get(new URL("/bycrypt/hash", request.nextUrl.origin), {
-            headers: {
-                "string": process.env.NEXT_API_KEY,
-                "salt": "10"
+        const resp = await axios.post(
+            new URL("/security/session/create", request.nextUrl.origin),
+            { key: process.env.NEXT_API_KEY },
+            {
+                headers: {
+                    ...Object.fromEntries(request.headers.entries()),
+                    "X-User-Agent": request.headers.get("user-agent")
+                }
             }
-        })
-        response.cookies.set("d_session", resp.data.hash, {
+        );
+
+        response.cookies.set("d_session", resp.data.token, {
             httpOnly: true,
             secure: true,
             sameSite: "strict",

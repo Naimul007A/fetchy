@@ -58,6 +58,8 @@ const InstagramDownloaderView = () => {
         } catch (err) {
             if (err.response?.status === 401) {
                 toast.error("Session expired, please refresh the page", {
+                    dismissible: false,
+                    duration: 20000,
                     action: {
                         label: "Refresh",
                         onClick: () => {

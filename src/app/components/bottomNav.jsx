@@ -5,9 +5,9 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Home, Package, PackageOpen } from "lucide-react";
 import { useSpring, animated } from "@react-spring/web";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/hooks/useRouter";
 import { navItems } from "./nav.list";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 const darkTheme = createTheme({
   palette: {
