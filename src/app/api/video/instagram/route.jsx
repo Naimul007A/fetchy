@@ -50,6 +50,7 @@ export async function POST(request) {
         return NextResponse.json(response.body, { status: response.status });
     }
     finally {
+        console.log(response)
         postExec(request, response).catch((err) => console.error("Failed to execute postExec:", err));
     }
 }

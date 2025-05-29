@@ -55,9 +55,7 @@ export class TokenManager {
     [key: string]: unknown;
   }): boolean {
     try {
-      console.log(token, this.key, currentIp, currentUserAgent);
       const payload = jwt.verify(token, this.key) as TokenPayload;
-      console.log(payload);
 
       const currentHash = this.hash({
         ip: currentIp,

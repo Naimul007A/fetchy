@@ -35,8 +35,8 @@ export async function serializeRequest(req: NextRequest, res: NextResponse) {
     url: req.url,
     timestamp: Date.now(),
     response: {
-      status: res.status,
-      result: res.body,
+      status: res?.status,
+      result: res?.body,
     },
   };
 }
@@ -75,7 +75,7 @@ export class Discord {
 
     const pl = {
       title: "New Request",
-      color: this.response.status >= 400 ? 16711680 : 5242879,
+      color: this.response?.status >= 400 ? 16711680 : 5242879,
       fields: [
         {
           name: "Page",
@@ -84,11 +84,15 @@ export class Discord {
         },
         {
           name: "Status",
-          value: this.response.status,
+          value: this.response?.status || "N/A",
           inline: false,
         },
-        { name: "Download Url", value: downloadUrlParam, inline: false },
-        { name: "IP", value: ip, inline: false },
+        {
+          name: "Download Url",
+          value: downloadUrlParam || "N/A",
+          inline: false,
+        },
+        { name: "IP", value: ip || "N/A", inline: false },
         { name: "TimeStamp", value: new Date(), inline: false },
         {
           name: "Referer",
