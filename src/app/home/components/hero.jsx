@@ -8,7 +8,7 @@ import Galaxy from "./galaxy";
 const HeroSection = () => {
     return (
         <section className="w-[calc(100vw-2rem)] sm:container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10 mx-auto">
-            <div className="min-h-[calc(100vh-10rem-57px)] md:min-h-[calc(100vh-16rem-57px)] flex flex-col justify-evenly">
+            <div className="min-h-[calc(100vh-10rem-57px)] md:min-h-[calc(100vh-16rem-57px)] flex flex-col justify-evenly gap-10 modern:gap-0">
                 <div className="flex flex-col space-y-6">
                     <div className="text-3xl modern:text-5xl md:text-6xl font-bold flex">
                         <h1 className="inline text-center lg:text-left">
@@ -23,7 +23,7 @@ const HeroSection = () => {
                         Whether it’s a reel, post, photo, or even a Facebook story, Fetchy’s got your back. Many other tools miss the mark — Fetchy hits it dead center.
                     </p>
                 </div>
-                <div className="gap-4 md:gap-4 px-2 md:px-0 flex flex-col md:flex-row lg:justify-start justify-center">
+                <div className="gap-2 md:gap-4 px-2 md:px-0 flex flex-col md:flex-row lg:justify-start justify-center">
                     <Button asChild className="w-full md:w-1/3">
                         <Link href="/tools">Get Started</Link>
                     </Button>
