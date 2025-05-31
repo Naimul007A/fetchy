@@ -6,6 +6,7 @@ import Galaxy from "./galaxy";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSpring } from "@react-spring/web";
+import Link from "next/link";
 
 
 const HeroSection = () => {
@@ -41,11 +42,13 @@ const HeroSection = () => {
                     </p>
                 </div>
                 <div className="gap-2 md:gap-4 px-2 md:px-0 flex flex-col md:flex-row lg:justify-start justify-center">
-                    <div className="w-full md:w-1/3 relative">
-                        <Button onClick={() => setIsChoiceOpen(!isChoiceOpen)} className="w-full md:w-1/3">
-                            Get Started
-                        </Button> {/* TODO: */}
-                        {/* {isChoiceOpen && <animated.div
+                    {/* <div className="w-full md:w-1/3 relative"> */}
+                    <Button
+                        // onClick={() => setIsChoiceOpen(!isChoiceOpen)} 
+                        className="w-full md:w-1/3">
+                        <Link href="/tools"> Get Started</Link>
+                    </Button> {/* TODO: */}
+                    {/* {isChoiceOpen && <animated.div
                             className="absolute -top-[450%] left-1/2 bg-[#202124] border w-full h-[100%] border-[#46464d] p-5 z-[1400] flex gap-3 flex-wrap justify-start items-start overflow-y-auto"
                             style={{
                                 ...popupStyle,
@@ -73,7 +76,7 @@ const HeroSection = () => {
                                 </button>
                             ))}
                         </animated.div>} */}
-                    </div>
+                    {/* </div> */}
                     <a
                         rel="noreferrer noopener"
                         href="https://github.com/PRASSamin/fetchy"
