@@ -6,7 +6,7 @@ export function handleError(error) {
         const response = ErrorResponse(error.message);
         return {
             body: response,
-            status: error.status
+            status: error.code
         }
     } else {
         const response = ErrorResponse(error.message);

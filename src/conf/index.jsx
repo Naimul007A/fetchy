@@ -18,3 +18,5 @@ export const upstashBanEnabled = true;
 export const upstashBanDuration = 1800; // 30 minutes;
 
 export const downloadSessionTTL = 120; // 2 minutes
+
+export const sendToDiscordOnDevPhase = true;

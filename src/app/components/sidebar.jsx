@@ -28,6 +28,7 @@ import { toast } from "sonner";
 export function AppSidebar() {
   const [isLoading, setLoading] = React.useState(true);
   const items = navItems();
+
   React.useEffect(() => {
     setTimeout(() => {
       setLoading(false)
@@ -68,7 +69,7 @@ export function AppSidebar() {
                             <SidebarMenuSub>
                               {item.subItems.map((subItem, subIndex) => (
                                 <SidebarMenuSubItem key={subIndex}>
-                                  <SidebarMenuSubButton asChild>
+                                  <SidebarMenuSubButton asChild className={location && location.pathname === subItem.url ? "bg-muted" : ""}>
                                     <Link onClick={() => {
                                       if (!subItem.isAvailable) {
                                         toast.info("This tool is not available right now.")

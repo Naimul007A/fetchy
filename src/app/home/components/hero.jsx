@@ -2,10 +2,27 @@
 import { buttonVariants } from "@/components/ui/button";
 import { GitHub } from "@mui/icons-material";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/app/components/link";
 import Galaxy from "./galaxy";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSpring } from "@react-spring/web";
+
 
 const HeroSection = () => {
+    const router = useRouter()
+    const [isChoiceOpen, setIsChoiceOpen] = useState(false)
+
+    const popupStyle = useSpring({
+        transform: isChoiceOpen
+            ? "scale(1) translateY(0%)"
+            : "scale(0.1) translateY(50%)",
+        opacity: isChoiceOpen ? 1 : 0,
+        width: isChoiceOpen ? "95%" : "0%",
+        height: isChoiceOpen ? "100%" : "0%",
+        borderRadius: "10px",
+        config: { tension: 300, friction: 20 },
+    });
+
     return (
         <section className="w-[calc(100vw-2rem)] sm:container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10 mx-auto">
             <div className="min-h-[calc(100vh-10rem-57px)] md:min-h-[calc(100vh-16rem-57px)] flex flex-col justify-evenly gap-10 modern:gap-0">
@@ -24,9 +41,39 @@ const HeroSection = () => {
                     </p>
                 </div>
                 <div className="gap-2 md:gap-4 px-2 md:px-0 flex flex-col md:flex-row lg:justify-start justify-center">
-                    <Button asChild className="w-full md:w-1/3">
-                        <Link href="/tools">Get Started</Link>
-                    </Button>
+                    <div className="w-full md:w-1/3 relative">
+                        <Button onClick={() => setIsChoiceOpen(!isChoiceOpen)} className="w-full md:w-1/3">
+                            Get Started
+                        </Button> {/* TODO: */}
+                        {/* {isChoiceOpen && <animated.div
+                            className="absolute -top-[450%] left-1/2 bg-[#202124] border w-full h-[100%] border-[#46464d] p-5 z-[1400] flex gap-3 flex-wrap justify-start items-start overflow-y-auto"
+                            style={{
+                                ...popupStyle,
+                                transform: "translateX(-50%)",
+                                transformOrigin: "center bottom",
+                            }}
+                        >
+                            {tools().map((tool, index) => (
+                                <button
+                                    key={index}
+                                    disabled={!tool.isAvailable}
+                                    onClick={() => {
+                                        if (!tool.isAvailable) {
+                                            toast.info("This tool is not available right now.");
+                                            return
+                                        }
+                                        router.push(tool.url);
+                                        setIsChoiceOpen(false);
+                                    }}
+                                    className={`w-24 h-24 border border-[#37373d] bg-card/30 hover:bg-card/50 flex flex-col items-center justify-center gap-2 rounded-md cursor-pointer transition-all duration-200 ${tool.isAvailable ? "" : "opacity-50"} relative group overflow-hidden ${location && location.pathname === tool.url ? "bg-card/60" : ""}`}
+                                >
+                                    {<tool.icon />}
+                                    <span style={{ fontSize: "0.8rem", fontWeight: "bold" }}>{tool.title}</span>
+                                    {tool.isNew || tool.isHot && <span className={`text-xs ${tool.isNew ? "bg-purple-700/50" : "bg-orange-700/50"} font-black w-full h-1 absolute bottom-0 left-0 flex items-center justify-center group-hover:h-4 transition-all duration-300`}><span className="opacity-0 group-hover:opacity-100 transition-all duration-300 uppercase text-xs">{tool.isNew ? "new" : "hot"}</span></span>}
+                                </button>
+                            ))}
+                        </animated.div>} */}
+                    </div>
                     <a
                         rel="noreferrer noopener"
                         href="https://github.com/PRASSamin/fetchy"

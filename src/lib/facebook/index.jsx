@@ -1,43 +1,6 @@
 import { BadRequest } from "@/lib/exceptions";
 import { fetchFromFbGraphQL } from "./scrapers/graphql";
-import axios from "axios";
-
-const isRedirectorUrl = (url) => {
-    const redirectorPatterns = [
-        /https?:\/\/(?:(?:l\.facebook\.com|fb\.watch|(?:www\.)?facebook\.com\/(?:l\.php|share\/[^/]+\/\S*))[^\s]*)/
-    ];
-    return redirectorPatterns.some((pattern) => pattern.test(url));
-};
-
-export const resolveRedirectUrl = async (url, headers) => {
-    try {
-        const response = await axios.get(url, {
-            maxRedirects: 0,
-            headers: headers || {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-                Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                "Accept-Language": "en-US,en;q=0.8",
-                cookie: "datr=YL6OZ9N5-1Lklte7br433knu; sb=YL6OZ4dJAzSXgjX7oX9o4K2F; wd=775x834; ps_l=1; ps_n=1",
-                Host: "www.facebook.com",
-                "Alt-Used": "www.facebook.com",
-                referrer: "https://www.facebook.com/",
-
-            },
-            validateStatus: (status) => status >= 200 && status < 400
-        });
-
-        if (response.headers.location) {
-            return response.headers.location;
-        }
-        return url;
-    } catch (error) {
-        if (error.response && error.response.headers.location) {
-            return error.response.headers.location;
-        }
-        console.error("Failed to resolve redirect URL:", (error.response.headers));
-        throw new BadRequest("Failed to resolve redirect URL");
-    }
-};
+import { isRedirectorUrl, resolveRedirectUrl } from "../utils";
 
 // Extract Facebook content ID from URL
 export const getContentFbId = (url) => {
@@ -77,12 +40,28 @@ export const getContentFbId = (url) => {
     return null;
 };
 
-export const fetchContentJson = async (url, timeout) => {
+export const fetchFBContentJson = async (url, timeout) => {
     try {
-        const isRedirector = isRedirectorUrl(url);
+        const isRedirector = isRedirectorUrl({
+            regex: [
+                /https?:\/\/(?:(?:l\.facebook\.com|fb\.watch|(?:www\.)?facebook\.com\/(?:l\.php|share\/[^/]+\/\S*))[^\s]*)/
+            ], url
+        });
         let orgUrl = url;
         if (isRedirector) {
-            orgUrl = await resolveRedirectUrl(url)
+            orgUrl = await resolveRedirectUrl({
+                url, headers: {
+                    "User-Agent":
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+                    Accept:
+                        "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                    "Accept-Language": "en-US,en;q=0.8",
+                    cookie:
+                        "datr=YL6OZ9N5-1Lklte7br433knu; sb=YL6OZ4dJAzSXgjX7oX9o4K2F; wd=775x834; ps_l=1; ps_n=1",
+                    Host: "www.facebook.com",
+                    referrer: "https://www.facebook.com/",
+                }
+            })
         }
 
         const urlDet = getContentFbId(orgUrl);

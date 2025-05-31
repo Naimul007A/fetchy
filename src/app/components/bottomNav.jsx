@@ -116,10 +116,11 @@ export default function BottomNavigation() {
                 router.push(tool.url);
                 setShowPopup(false);
               }}
-              className="w-24 h-24 border border-[#37373d] bg-card/30 hover:bg-card/50 flex flex-col items-center justify-center gap-2 rounded-md cursor-pointer transition-all duration-200"
+              className={`w-24 h-24 border border-[#37373d] bg-card/30 hover:bg-card/50 flex flex-col items-center justify-center gap-2 rounded-md cursor-pointer transition-all duration-200 ${tool.isAvailable ? "" : "opacity-50"} relative group overflow-hidden ${location && location.pathname === tool.url ? "bg-card/60" : ""}`}
             >
               {<tool.icon />}
               <span style={{ fontSize: "0.8rem", fontWeight: "bold" }}>{tool.title}</span>
+              {tool.isNew || tool.isHot && <span className={`text-xs ${tool.isNew ? "bg-purple-700/50" : "bg-orange-700/50"} font-black w-full h-1 absolute bottom-0 left-0 flex items-center justify-center group-hover:h-4 transition-all duration-300`}><span className="opacity-0 group-hover:opacity-100 transition-all duration-300 uppercase text-xs">{tool.isNew ? "new" : "hot"}</span></span>}
             </button>
           ))}
         </animated.div>

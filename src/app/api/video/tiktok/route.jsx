@@ -1,50 +1,52 @@
 import { NextResponse } from "next/server";
 import { fetchTiktokContentJson } from "@/lib/tiktok";
 import { SuccessResponse } from "@/utils";
-import { enableTiktok } from "@/conf";
 import { postExec } from "../postExec";
 import { handleError } from "../helper";
 import { TokenManager } from "@/lib/security";
 import { ipAddress } from "@vercel/functions";
+import { enableTiktok } from "@/conf";
+import { Exception } from "@/lib/exceptions";
 
 const manager = new TokenManager();
 
 export async function POST(request) {
-    if (!enableTiktok) {
-        return NextResponse.json(
-            { error: "Tiktok downloading server currently unavailable" },
-            { status: 403 }
-        );
-    }
     let response;
 
     try {
+        if (!enableTiktok) {
+            return NextResponse.json(
+                { error: "Tiktok downloading server currently unavailable" },
+                { status: 403 }
+            );
+        }
+
         const clonedRequest = request.clone();
         const body = await clonedRequest.json();
         const { url } = body;
+
         const session = request.cookies.get("d_session")?.value;
+        const ip = (ipAddress(request) || request.headers.get("x-forwarded-for")?.split(',')[0])?.trim();
+        const userAgent = request.headers.get("user-agent");
 
-        if (!session) {
-            response = handleError(new Error("Invalid API Credentials", { status: 401 }))
-            return NextResponse.json(response.body.error, { status: response.status });
+        if (!session || !manager.verifyToken({ token: session, ip, userAgent })) {
+            return NextResponse.json({ error: "Invalid API Credentials" }, { status: 403 });
         }
 
-        const isValid = manager.verifyToken({ token: session, ip: ipAddress(request) || request.headers.get("x-forwarded-for"), userAgent: request.headers.get("user-agent") })
+        const json = await fetchTiktokContentJson(url, 15000).catch((err) => {
+            response = handleError(err);
+            throw new Exception(response.body.error, response.status);
+        });
 
-        if (!isValid) {
-            response = handleError(new Error("Invalid API Credentials", { status: 401 }))
-            return NextResponse.json(response.body.error, { status: response.status });
-        }
-
-        const postJson = await fetchTiktokContentJson(url);
-        const data = SuccessResponse(postJson);
+        const data = SuccessResponse(json);
         response = { body: data, status: 200 }
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
-        response = handleError(error)
+        response = handleError(error);
         return NextResponse.json(response.body, { status: response.status });
-    }
-    finally {
-        postExec(request, response).catch((err) => console.error("Failed to execute postExec:", err));
+    } finally {
+        postExec(request, response).catch((err) =>
+            console.error("Failed to execute postExec:", err)
+        );
     }
 }

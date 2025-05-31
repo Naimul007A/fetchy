@@ -1,26 +1,10 @@
 "use client";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useRouter } from "@/hooks/useRouter";
+import { tools } from "@/app/components/tool.list";
 
 export function Support() {
     const router = useRouter()
-    const features = [
-        {
-            platfrom: "Instagram",
-            features: "Reels, Posts, Photos, Carousels",
-            href: "/tool/instagram"
-        },
-        {
-            platfrom: "Facebook",
-            features: "Stories, Reels, Videos",
-            href: "/tool/facebook"
-        },
-        {
-            platfrom: "TikTok",
-            features: "Videos, Slideshows, Music",
-            href: "/tool/tiktok"
-        },
-    ]
 
     return (
         <section
@@ -41,10 +25,10 @@ export function Support() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {features.map((feature) => (
-                            <TableRow onClick={() => router.push(feature.href)} className="bg-muted/30 cursor-pointer" key={feature.platfrom}>
-                                <TableCell className="font-medium">{feature.platfrom}</TableCell>
-                                <TableCell>{feature.features}</TableCell>
+                        {tools().map((tool) => (
+                            <TableRow onClick={() => router.push(tool.url)} className="bg-muted/30 cursor-pointer" key={tool.title}>
+                                <TableCell className="font-medium">{tool.title} {tool.isHot && <span className="text-xs bg-orange-600 text-white px-2 py-0.5 rounded-full font-mono font-bold italic text-center">hot</span>}</TableCell>
+                                <TableCell>{tool.feature.join(", ")}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

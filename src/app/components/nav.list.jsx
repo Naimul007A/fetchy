@@ -1,7 +1,6 @@
 import { Home } from "lucide-react";
 import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
-import { Instagram, Facebook } from "@mui/icons-material";
-import { TiktokIcon as Tiktok } from "./icons/tiktok";
+import { tools } from "./tool.list";
 
 export const navItems = () => {
   return [
@@ -14,32 +13,7 @@ export const navItems = () => {
     {
       title: "Tools",
       icon: HomeRepairServiceIcon,
-      subItems: [
-        {
-          title: "Instagram",
-          icon: Instagram,
-          url: "/tool/instagram",
-          description: "Download Instagram videos, reels, and photos.",
-          isAvailable: true,
-          isNew: false
-        },
-        {
-          title: "Facebook",
-          icon: Facebook,
-          url: "/tool/facebook",
-          description: "Download Facebook videos, reels, and stories",
-          isAvailable: true,
-          isNew: false
-        },
-        {
-          title: "Tiktok",
-          icon: Tiktok,
-          url: "/tool/tiktok",
-          description: "Download Tiktok videos, slideshows and music.",
-          isAvailable: true,
-          isNew: false
-        }
-      ],
+      subItems: tools(),
     },
   ];
 }

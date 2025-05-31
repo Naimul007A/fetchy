@@ -1,5 +1,6 @@
 import { BadRequest } from "@/lib/exceptions";
 import { fetchFromGraphQL } from "./scrapers/graphql";
+import { isRedirectorUrl, resolveRedirectUrl } from "../utils";
 
 export const getPostId = (url) => {
   const postRegex =
@@ -10,7 +11,7 @@ export const getPostId = (url) => {
   let postId;
 
   if (!url) {
-    throw new BadRequest("Instagram URL was not provided");
+    throw new BadRequest("Instagram URL was not provided", 400);
   }
 
   const postCheck = url.match(postRegex);
@@ -24,20 +25,42 @@ export const getPostId = (url) => {
   }
 
   if (!postId) {
-    throw new BadRequest("Instagram post/reel ID was not found");
+    throw new BadRequest("Instagram post/reel ID was not found", 400);
   }
 
   return postId;
 };
 
-export const fetchPostJson = async (
+export const fetchInstaContentJson = async (
   url, timeout
 ) => {
   if (/\/stories|highlights\//.test(url)) {
     throw new BadRequest("Downloading stories and highlights is not supported yet", 400);
   }
 
-  const postId = getPostId(url);
+  const isRedirector = isRedirectorUrl({
+    regex: [
+      /^https?:\/\/(www\.)?instagram\.com\/share\/[a-zA-Z0-9_-]+\/?$/
+    ],
+    url
+  });
+
+  let orgUrl = url;
+  if (isRedirector) {
+    orgUrl = await resolveRedirectUrl({
+      url, headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.8",
+        Host: "www.instagram.com",
+        referrer: "https://www.instagram.com/",
+      }
+    })
+  }
+
+  const postId = getPostId(orgUrl);
 
   const apiJson = await fetchFromGraphQL(postId, timeout);
   if (apiJson) return apiJson;
