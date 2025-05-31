@@ -39,7 +39,8 @@ export const Root = ({ children }) => {
                 <Toaster />
             </SidebarProvider>
             <BottomNavigation />
-            <Script type='text/javascript' src='//stinklistedtobacco.com/d0/7b/28/d07b28b3691bcf72dff435e793eaa941.js'></Script>
+
+            {/* <Script type='text/javascript' src='//stinklistedtobacco.com/d0/7b/28/d07b28b3691bcf72dff435e793eaa941.js'></Script> */}
             <Script async="async" data-cfasync="false" src="//stinklistedtobacco.com/e55b236cf17ff5980817944f93bec602/invoke.js"></Script>
         </RootCommon>
     )
