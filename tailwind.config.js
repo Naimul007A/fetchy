@@ -8,6 +8,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        modern: { min: "400px" },
+        old: { max: "399px" },
+      },
       fontFamily: {
         russo: ['"Russo One"', "sans-serif"],
       },

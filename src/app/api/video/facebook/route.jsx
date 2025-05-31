@@ -26,18 +26,15 @@ export async function POST(request) {
         const session = request.cookies.get("d_session")?.value;
 
         if (!session) {
-            return NextResponse.json(
-                { error: "Invalid API Credentials" },
-                { status: 401 }
-            );
+            response = handleError(new Error("Invalid API Credentials", { status: 401 }))
+            return NextResponse.json(response.body.error, { status: response.status });
         }
+
         const isValid = manager.verifyToken({ token: session, ip: ipAddress(request) || request.headers.get("x-forwarded-for"), userAgent: request.headers.get("user-agent") })
 
         if (!isValid) {
-            return NextResponse.json(
-                { error: "Invalid API Credentials" },
-                { status: 401 }
-            );
+            response = handleError(new Error("Invalid API Credentials", { status: 401 }))
+            return NextResponse.json(response.body.error, { status: response.status });
         }
 
         const postJson = await fetchContentJson(url);

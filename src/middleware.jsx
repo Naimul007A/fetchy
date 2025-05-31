@@ -44,10 +44,10 @@ export async function middleware(request) {
         return NextResponse.redirect(new URL("/", request.url));
     }
 
-    if (process.env.NEXT_STAGE !== "production") {
-        // if (request.headers.get("host") !== "fetchy.pras.me" && request.headers.get("host") !== "pownloader.pras.me") {
-        //     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        // }
+    if (process.env.NEXT_STAGE === "production") { 
+        if (request.headers.get("host") !== "fetchy.pras.me" && request.headers.get("host") !== "pownloader.pras.me") {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
 
         if (isStaticPath(pathname)) {
             return NextResponse.next({ headers });

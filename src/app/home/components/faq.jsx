@@ -61,10 +61,10 @@ const FAQ = () => {
                             key={value}
                             value={value}
                         >
-                            <AccordionTrigger className="text-left">
+                            <AccordionTrigger className="text-left modern:text-md text-sm">
                                 {question}
                             </AccordionTrigger>
-                            <AccordionContent>
+                            <AccordionContent className="modern:text-md text-sm">
                                 <p dangerouslySetInnerHTML={{ __html: answer }} />
                             </AccordionContent>
                         </AccordionItem>
