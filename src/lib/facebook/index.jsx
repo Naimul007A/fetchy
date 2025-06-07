@@ -1,9 +1,32 @@
 import { BadRequest } from "@/lib/exceptions";
 import { fetchFromFbGraphQL } from "./scrapers/graphql";
-import { isRedirectorUrl, resolveRedirectUrl } from "../utils";
+import { resolveRedirectUrl } from "../utils";
+import { UserAgent } from "@/constants";
+
+export function extractFacebookRedirectedUrl(fullUrl) {
+    try {
+        const parsedUrl = new URL(fullUrl);
+        const nextParam = parsedUrl.searchParams.get('next');
+
+        if (nextParam) {
+            const decodedNext = decodeURIComponent(nextParam);
+
+            // Check if it's a Facebook story URL
+            const isStory = /facebook\.com\/stories\/\d+/.test(decodedNext);
+
+            if (isStory) {
+                return decodedNext;
+            }
+        }
+
+        return fullUrl;
+    } catch (err) {
+        return fullUrl;
+    }
+}
 
 // Extract Facebook content ID from URL
-export const getContentFbId = (url) => {
+export const getContentFbId = ({ url, html }) => {
     const videoRegex = /\/(?:videos|reel|watch)(?:\/?)(?:\?v=)?(\d+)/;
     const storyRegex = /stories\/(\d+)/;
     const postRegex = /\/posts\/(pfbid[^/?]+)/i;
@@ -19,6 +42,7 @@ export const getContentFbId = (url) => {
     if (postCheck)
         throw new BadRequest("We currently don't support extracting content from Facebook posts. This feature will be available soon.")
 
+    // video handler
     const videoCheck = url.match(videoRegex);
     if (videoCheck) {
         contentId = videoCheck.at(-1);
@@ -28,6 +52,7 @@ export const getContentFbId = (url) => {
         };
     }
 
+    // story handler
     const storyCheck = url.match(storyRegex);
     if (storyCheck) {
         contentId = storyCheck.at(-1);
@@ -37,34 +62,36 @@ export const getContentFbId = (url) => {
         };
     }
 
-    return null;
-};
+    // group content handler
+    if (html) {
+        const match = html.match(/"permalink_url":"([^"]+)"/);
+        if (match) {
+            const permalink = decodeURIComponent(match[1].replace(/\\u0025/g, "%")).replace(/\\/g, '');
+            return getContentFbId({ url: permalink });
+        }
+    }
+
+    throw new BadRequest("Content not found or private.", 404);
+}
 
 export const fetchFBContentJson = async (url, timeout) => {
     try {
-        const isRedirector = isRedirectorUrl({
-            regex: [
-                /https?:\/\/(?:(?:l\.facebook\.com|fb\.watch|(?:www\.)?facebook\.com\/(?:l\.php|share\/[^/]+\/\S*))[^\s]*)/
-            ], url
-        });
-        let orgUrl = url;
-        if (isRedirector) {
-            orgUrl = await resolveRedirectUrl({
-                url, headers: {
-                    "User-Agent":
-                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-                    Accept:
-                        "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                    "Accept-Language": "en-US,en;q=0.8",
-                    cookie:
-                        "datr=YL6OZ9N5-1Lklte7br433knu; sb=YL6OZ4dJAzSXgjX7oX9o4K2F; wd=775x834; ps_l=1; ps_n=1",
-                    Host: "www.facebook.com",
-                    referrer: "https://www.facebook.com/",
-                }
-            })
-        }
+        const { url: resolvedUrl, html } = await resolveRedirectUrl({
+            url, headers: {
+                "User-Agent":
+                    UserAgent,
+                Accept:
+                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                "Accept-Language": "en-US,en;q=0.8",
+                cookie:
+                    "datr=YL6OZ9N5-1Lklte7br433knu; sb=YL6OZ4dJAzSXgjX7oX9o4K2F; wd=775x834; ps_l=1; ps_n=1",
+                Host: "www.facebook.com",
+                referrer: "https://www.facebook.com/",
+            }
+        })
 
-        const urlDet = getContentFbId(orgUrl);
+        const orgUrl = extractFacebookRedirectedUrl(resolvedUrl);
+        const urlDet = getContentFbId({ url: orgUrl, html });
 
         const contentJson = await fetchFromFbGraphQL(
             urlDet.type,
@@ -74,7 +101,7 @@ export const fetchFBContentJson = async (url, timeout) => {
 
         if (contentJson) return contentJson;
 
-        throw new BadRequest("Video link for this post is not public.", 401);
+        throw new BadRequest("Content not found or private.", 404);
     } catch (error) {
         throw new BadRequest(
             error.message || "An error occurred while fetching content"

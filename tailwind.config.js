@@ -1,16 +1,35 @@
+import fluid, { extract, fontSize } from "fluid-tailwind";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: {
+    files: [
+      "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+      "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+      "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    ],
+    extract,
+  },
   theme: {
     extend: {
       screens: {
+        "old-sm": { min: "300px" },
+        "old-lg": { min: "350px" },
         modern: { min: "400px" },
+        "s-450": { min: "450px" },
+        "s-500": { min: "500px" },
+        "s-550": { min: "550px" },
         old: { max: "399px" },
+
+        sm: "40rem",
+        md: "48rem",
+        lg: "64rem",
+        xl: "80rem",
+        "2xl": "96rem",
+      },
+      fontSize: {
+        ...fontSize,
       },
       fontFamily: {
         russo: ['"Russo One"', "sans-serif"],
@@ -204,5 +223,5 @@ module.exports = {
     },
   },
   safelist: ["animate-orbit1", "animate-orbit2", "animate-orbit3"],
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), fluid()],
 };

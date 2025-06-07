@@ -33,7 +33,7 @@ export async function POST(request) {
         const userAgent = request.headers.get("user-agent");
 
         if (!session || !manager.verifyToken({ token: session, ip, userAgent })) {
-            return NextResponse.json({ error: "Invalid API Credentials" }, { status: 403 });
+            return NextResponse.json({ error: "Invalid API Credentials" }, { status: 401 });
         }
 
         const json = await fetchInstaContentJson(url, 15000).catch((err) => {

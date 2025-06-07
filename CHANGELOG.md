@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 2.2.0] | 2025/06/07
+
+### Changes:
+
+- Enhanced UI & UX.
+- Refactored and optimized TikTok downloader for improved performance.
+- Resolved bugs and improved overall stability.
+
 ## [Version 2.1.2] | 2025/05/30
 
 ### Changes:

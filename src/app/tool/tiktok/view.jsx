@@ -1,4 +1,4 @@
-"use client";
+"use client";;
 import { useState } from "react";
 import {
     Card,
@@ -26,7 +26,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import UrlInput from "@/app/components/UrlInput";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Loader, Image as LucideImage } from "lucide-react";
+import { AlertTriangle, Loader, Image as LucideImage } from "lucide-react";
 import { Volume2 } from 'lucide-react';
 import { VolumeOff } from 'lucide-react';
 import { SquarePlay } from 'lucide-react';
@@ -37,6 +37,7 @@ import { WNotIcon } from "@/app/components/icons/wnot";
 import { Root } from "@/app/root";
 import { GitHub } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
+import { enableTiktok } from "@/conf";
 
 const TiktokDownloaderView = () => {
     const [isDownloading, setIsDownloading] = useState(false);
@@ -78,7 +79,7 @@ const TiktokDownloaderView = () => {
 
     return (
         <Root>
-            <Card className="w-full m-2 sm:m-5 lg:m-10 bg-card/10 backdrop-blur-[7px]">
+            <Card className={`w-full m-2 sm:m-5 lg:m-10 bg-card/10 backdrop-blur-[7px] ${enableTiktok ? "min-h-[calc(100vh-16px)] sm:min-h-[calc(100vh-40px)] lg:min-h-[calc(100vh-80px)]" : "min-h-auto"}`}>
                 <CardHeader className="min-h-[240px] mb-5 bg-[hsl(280,7%,8%)] rounded-t-lg flex flex-col justify-center items-center gap-2 text-center relative">
                     <CardTitle className="text-2xl">Tiktok Downloader</CardTitle>
                     <CardDescription className="text-xs">Download TikTok videos and photos</CardDescription>
@@ -92,8 +93,12 @@ const TiktokDownloaderView = () => {
                         <GitHub className="w-4 h-4" />
                     </a>
                 </CardHeader>
-                <CardContent className="min-h-[240px]">
-                    <div className="w-full flex flex-col gap-10">
+                <CardContent className={`flex ${enableTiktok ? "min-h-[240px]" : "min-h-auto"}`}>
+                    {!enableTiktok ? <div className="w-full h-full flex flex-col items-center justify-center space-y-4 p-6 bg-zinc-900/30 rounded-lg border border-dashed border-zinc-700">
+                        <AlertTriangle className="w-10 h-10 text-yellow-400" />
+                        <p className="text-center text-base font-medium text-zinc-200">TikTok Downloader Currently Unavailable</p>
+                        <p className="text-center text-sm text-zinc-400 max-w-md">We&apos;re experiencing issues with our TikTok downloading service. Please try again later or check back soon.</p>
+                    </div> : <div className="w-full flex flex-col gap-10">
                         <div className="w-full xl:w-1/2 xl:self-center">
                             <UrlInput
                                 allowedDomains={["tiktok.com", "vm.tiktok.com", "vt.tiktok.com"]}
@@ -117,17 +122,17 @@ const TiktokDownloaderView = () => {
 
                                     {/* Avatar and Text */}
                                     <div className="absolute top-2 left-2 flex items-center gap-1 p-2 overflow-hidden w-full">
-                                        <a href={data?.owner?.profile_url} target="_blank" rel="noopener noreferrer">
+                                        <a href={data?.author?.profile_url} target="_blank" rel="noopener noreferrer">
                                             <BetterImage
                                                 className="rounded-full w-8 h-8 border border-white"
-                                                alt={data?.owner?.name}
-                                                src={data?.owner?.profile_pic}
+                                                alt={data?.author?.name}
+                                                src={data?.author?.avatar}
                                                 width={150}
                                                 height={150}
                                             />
                                         </a>
-                                        <a className="truncate" href={data?.owner?.profile_url} target="_blank" rel="noopener noreferrer">
-                                            <p className="text-xs font-bold text-white truncate">{data?.owner?.username}</p>
+                                        <a className="truncate" href={data?.author?.profile_url} target="_blank" rel="noopener noreferrer">
+                                            <p className="text-xs font-bold text-white truncate">{data?.author?.username}</p>
                                         </a>
                                     </div>
                                 </AspectRatio>
@@ -150,30 +155,27 @@ const TiktokDownloaderView = () => {
                                                             </div>
                                                         </DialogTrigger>
                                                     </HoverCardTrigger>
-                                                    <DialogContent className="sm:max-w-md p-2 z-[1500] flex flex-col items-center justify-center">
-                                                        <DialogTitle className="w-full flex flex-row items-center gap-2 justify-end">
-                                                            <Button onClick={() => downloadFile(resource?.baseURL, resource?.filename, resource?.type, setIsDownloading)} variant="default" size="sm">{isDownloading ? <Loader className="animate-spin" size={20} /> : "Download"}</Button>
-                                                            <DialogClose asChild>
-                                                                <Button variant="outline" size="sm" className="!mt-0 border-muted">Close</Button>
-                                                            </DialogClose>
-                                                        </DialogTitle>
+                                                    <DialogContent className="sm:max-w-md p-2 z-[1500] flex flex-col items-center justify-start max-h-[95vh] gap-2">                                                        <DialogTitle className="w-full flex flex-row items-center gap-2 justify-end">
+                                                        <Button onClick={() => downloadFile(resource?.baseURL, resource?.filename, resource?.type, setIsDownloading)} variant="default" size="sm">{isDownloading ? <Loader className="animate-spin" size={20} /> : "Download"}</Button>
+                                                        <DialogClose asChild>
+                                                            <Button variant="outline" size="sm" className="!mt-0 border-muted">Close</Button>
+                                                        </DialogClose>
+                                                    </DialogTitle>
                                                         <DialogFooter
-                                                            className={`flex items-center justify-center`}>
-                                                            <div className="w-full h-full flex justify-center items-center">
-                                                                {resource?.type === "image" ?
-                                                                    <BetterVersion>
-                                                                        <Img
-                                                                            priority
-                                                                            src={resource?.baseURL}
-                                                                            width={resource?.width}
-                                                                            height={resource?.height}
-                                                                            alt={resource?.id}></Img>
-                                                                        <Fallback className="min-h-[300px]" />
-                                                                    </BetterVersion>
-                                                                    :
-                                                                    <video controls src={resource?.baseURL} width={resource?.width} height={resource?.height} alt={resource?.id}></video>
-                                                                }
-                                                            </div>
+                                                            className={`flex h-full items-center justify-center w-full overflow-hidden`}>
+                                                            {resource?.type === "image" ?
+                                                                <BetterVersion>
+                                                                    <Img
+                                                                        priority
+                                                                        src={resource?.baseURL}
+                                                                        width={resource?.width}
+                                                                        height={resource?.height}
+                                                                        alt={resource?.id}></Img>
+                                                                    <Fallback className="min-h-[300px] max-h-full" />
+                                                                </BetterVersion>
+                                                                : resource?.type === "video" ?
+                                                                    <video controls src={resource?.baseURL} width={resource?.width} height={resource?.height} alt={resource?.id}></video> : <audio controls src={resource?.baseURL} className="rounded w-full mt-10"></audio>
+                                                            }
                                                         </DialogFooter>
                                                     </DialogContent>
                                                 </Dialog>
@@ -195,7 +197,7 @@ const TiktokDownloaderView = () => {
                                 </div>
                             </div>
                         </div>}
-                    </div>
+                    </div>}
                 </CardContent>
                 <div id="container-e55b236cf17ff5980817944f93bec602"></div>
             </Card >

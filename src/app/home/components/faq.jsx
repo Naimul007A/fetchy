@@ -41,7 +41,7 @@ const FAQ = () => {
     return (
         <section
             id="faq"
-            className="container px-2 md:px-0 mx-auto"
+            className="max-w-[calc(100vw-1rem)] modern:max-w-[calc(100vw-2rem)] container mx-auto"
         >
             <div className="flex flex-col">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">

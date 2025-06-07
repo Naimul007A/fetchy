@@ -31,6 +31,9 @@ export async function middleware(request) {
         return NextResponse.json({ error: "Your scraper is currently banned from using our API." }, { status: 401 });
     }
 
+    if (pathname === "/github") {
+        return NextResponse.redirect(new URL("https://github.com/PRASSamin/fetchy", request.url));
+    }
 
     const tools = navItems()
         .filter((item) => item.title.toLowerCase() === "tools")
@@ -44,7 +47,7 @@ export async function middleware(request) {
         return NextResponse.redirect(new URL("/", request.url));
     }
 
-    if (process.env.NEXT_STAGE === "production") { 
+    if (process.env.NEXT_STAGE === "production") {
         if (request.headers.get("host") !== "fetchy.pras.me" && request.headers.get("host") !== "pownloader.pras.me") {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }

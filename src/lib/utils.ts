@@ -26,7 +26,7 @@ export const resolveRedirectUrl = async ({
   url: string;
   headers?: Record<string, string>;
   maxHops?: number;
-}): Promise<string> => {
+}): Promise<{ url: string; html: string }> => {
   let currentUrl = url;
   let hopCount = 0;
 
@@ -48,7 +48,7 @@ export const resolveRedirectUrl = async ({
           : new URL(response.headers.location, currentUrl).toString();
         hopCount++;
       } else {
-        return currentUrl;
+        return { url: currentUrl, html: response.data };
       }
     } catch (error: any) {
       if (error.response && error.response.headers?.location) {
@@ -58,7 +58,7 @@ export const resolveRedirectUrl = async ({
         hopCount++;
       } else {
         console.error("Failed to resolve redirect URL:", error);
-        throw new BadRequest("Failed to resolve redirect URL");
+        throw new BadRequest(`Failed to resolve redirect URL`);
       }
     }
   }

@@ -10,6 +10,7 @@ import BottomNavigation from "../components/bottomNav";
 import { HomeRoot } from "../root";
 import Image from "next/image";
 import { Support } from "./components/support";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function Home() {
   const [isLoading, setLoading] = React.useState(true);
@@ -22,6 +23,7 @@ export default function Home() {
 
   return (
     <HomeRoot>
+      <Toaster />
       <style>
         {
           `
@@ -42,12 +44,12 @@ export default function Home() {
           ) : (
             <BottomNavigation />
           )}
-          <HeroSection />
-          <FAQ />
-          <section className="pb-[56px] md:pb-0 flex flex-col justify-between">
+          <main className="min-h-[calc(100vh-48px-env(safe-area-inset-bottom)-60px)]">
+            <HeroSection />
+            <FAQ />
             <Support />
-            <Footer />
-          </section>
+          </main>
+          <Footer />
         </CursorProvider>
       )}
     </HomeRoot>

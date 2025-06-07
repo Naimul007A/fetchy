@@ -1,9 +1,11 @@
 // Tiktok Configurations
-export const enableTiktok = false;
+export const enableTiktok = true;
 // Instagram Configurations
 export const enableInstagram = true;
 // Facebook Configurations
 export const enableFacebook = true;
+// Youtube Configurations
+export const enableYoutube = false;
 
 // Upstash configs
 export const upstashUrl = process.env.NEXT_UPSTASH_REDIS_REST_URL ?? "";
@@ -19,4 +21,4 @@ export const upstashBanDuration = 1800; // 30 minutes;
 
 export const downloadSessionTTL = 120; // 2 minutes
 
-export const sendToDiscordOnDevPhase = true;
+export const sendToDiscordOnDevPhase = false;

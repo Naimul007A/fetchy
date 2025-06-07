@@ -15,6 +15,10 @@ export default function sitemap() {
         {
             url: 'https://fetchy.pras.me/tool/instagram',
             lastModified: new Date(),
-        }
+        },
+        {
+            url: 'https://fetchy.pras.me/tool/youtube',
+            lastModified: new Date(),
+        },
     ]
 }

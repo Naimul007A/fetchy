@@ -97,7 +97,6 @@ export const fetchFromFbGraphQL = async (type, contentId, timeout = 0) => {
   if (response.statusText === "error") return null;
 
   const contentType = response.headers["content-type"];
-
   if (contentType !== 'text/html; charset="utf-8"') return null;
 
   const responseJson = response.data;
@@ -113,7 +112,9 @@ export const fetchFromFbGraphQL = async (type, contentId, timeout = 0) => {
 
   if (type === "video") {
     return formatGraphqlVideoJson(responseJson);
-  } else {
-    return formatGraphqlStoryJson(responseJson);
+  } else if (type === "story") {
+    const formatedJson = formatGraphqlStoryJson(responseJson);
+    if (!formatedJson?.owner || formatedJson?.stories?.length === 0) return null;
+    return formatedJson;
   }
 };

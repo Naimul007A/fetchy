@@ -1,6 +1,7 @@
 import { BadRequest } from "@/lib/exceptions";
-import { getIGVideoFileName, getIGImageFileName } from "./helpers";
+import { getIGVideoFileName, getIGImageFileName, getIGAudioFileName } from "./helpers";
 import { _generateRandomId } from "@/lib/facebook/scrapers/formaters";
+import { DOMParser } from 'xmldom';
 
 export const formatGraphqlJson = async (postJson) => {
   const data = postJson.data.xdt_shortcode_media;
@@ -67,7 +68,6 @@ export const formatGraphqlJson = async (postJson) => {
     return PostJson;
   }
 
-
   const filename = getIGVideoFileName(data.id);
   const videoUrl = data.video_url;
   const { width, height } = data.dimensions;
@@ -97,6 +97,53 @@ export const formatGraphqlJson = async (postJson) => {
       },
     ]
   };
+
+  if (data.dash_info?.video_dash_manifest) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(data.dash_info.video_dash_manifest, 'application/xml');
+    const AdaptationSet = doc.getElementsByTagName('AdaptationSet');
+
+    for (let i = 0; i < AdaptationSet.length; i++) {
+      const adp = AdaptationSet[i];
+      const rep = adp.getElementsByTagName('Representation')
+
+      for (let j = 0; j < rep.length; j++) {
+        const baseURL = rep[j].getElementsByTagName('BaseURL')[0]?.textContent;
+        if (!baseURL) continue;
+
+        const width = rep[j].getAttribute('width');
+        const height = rep[j].getAttribute('height');
+        const mimeType = rep[j].getAttribute('mimeType');
+        const quality = rep[j].getAttribute('FBQualityLabel') || rep[j].getAttribute('FBQualityClass') || `${width}p`;
+        const type = (adp.getAttribute('contentType'))
+
+        if (type === "video") {
+          videoJson.resources.push({
+            id: `${rep[j].getAttribute('id')}`,
+            mime_type: mimeType,
+            filename: getIGVideoFileName(rep[j].getAttribute('id')),
+            type: 'video',
+            quality: quality,
+            has_audio: false,
+            width: width,
+            height: height,
+            baseURL: baseURL,
+            thumbnail: thumbnailUrl,
+          })
+        }
+        else if (type === "audio") {
+          videoJson.resources.push({
+            id: `${rep[j].getAttribute('id')}`,
+            mime_type: 'audio/mp3',
+            filename: getIGAudioFileName(rep[j].getAttribute('id')),
+            type: 'audio',
+            bitrate: '128kbps',
+            baseURL: baseURL,
+          })
+        }
+      }
+    }
+  }
 
   return videoJson;
 };

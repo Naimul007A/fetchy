@@ -1,11 +1,10 @@
-import React from 'react'
-import {Link} from "@/app/components/link";
-import { Instagram, Facebook, Twitter, GitHub, LinkedIn } from '@mui/icons-material'
-import { GmailIcon as Gmail } from '@/app/components/icons/gmail'
+import { Link } from "@/app/components/link";
+import { Instagram, Facebook, Twitter, GitHub, LinkedIn } from '@mui/icons-material';
+import { GmailIcon as Gmail } from '@/app/components/icons/gmail';
 
 const Footer = () => {
     return (
-        <footer className={`z-40 pb-5 md:pb-0 md:border-t md:border-[#333] md:bg-background`}>
+        <footer className={`z-40 pb-16 md:pb-0 md:border-t md:border-[#333] md:bg-background`}>
             <div className={`container mx-auto px-1.5 md:px-0 py-[10px]`}>
                 <div className=" flex flex-col md:flex-row gap-2 md:gap-0 items-center justify-between">
                     <div className="social flex items-center justify-center gap-4 text-gray-500">

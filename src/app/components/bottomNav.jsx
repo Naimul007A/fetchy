@@ -1,10 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BottomNavigation as MuiBottomNavigation } from "@mui/material";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Home, Package, PackageOpen } from "lucide-react";
-import { useSpring, animated } from "@react-spring/web";
+import { animated, useTransition } from "@react-spring/web";
 import { useRouter } from "@/hooks/useRouter";
 import { navItems } from "./nav.list";
 import { toast } from "sonner";
@@ -28,6 +28,8 @@ export default function BottomNavigation() {
   );
   const [showPopup, setShowPopup] = useState(false);
   const router = useRouter();
+  const toolboxRef = useRef(null);
+  const toolboxTriggerRef = useRef(null);
 
   const tools = navItems().filter((item) => item.title.toLowerCase() === "tools").flatMap((item) => item.subItems);
 
@@ -37,14 +39,25 @@ export default function BottomNavigation() {
   }, [])
 
 
-  const popupStyle = useSpring({
-    transform: showPopup
-      ? "scale(1) translateY(0%)"
-      : "scale(0.1) translateY(50%)",
-    opacity: showPopup ? 1 : 0,
-    width: showPopup ? "95%" : "0%",
-    height: showPopup ? "70%" : "0%",
-    borderRadius: "10px",
+  const transitions = useTransition(showPopup, {
+    from: {
+      transform: "scale(0.1) translateY(50%) translateX(-50%)",
+      opacity: 0,
+      width: "0%",
+      height: "0%",
+    },
+    enter: {
+      transform: "scale(1) translateY(0%) translateX(-50%)",
+      opacity: 1,
+      width: "95%",
+      height: "70%",
+    },
+    leave: {
+      transform: "scale(0.1) translateY(50%) translateX(-50%)",
+      opacity: 0,
+      width: "0%",
+      height: "0%",
+    },
     config: { tension: 300, friction: 20 },
   });
 
@@ -63,6 +76,39 @@ export default function BottomNavigation() {
     }
 
   };
+
+  useEffect(() => {
+    if (!showPopup) return;
+
+    const handleClickOutside = (e) => {
+      if (toolboxRef.current && (!toolboxRef.current.contains(e.target) && !toolboxTriggerRef.current.contains(e.target))) {
+        setShowPopup(false);
+        setValue(window.location.pathname.includes("tool") ? 1 : 0)
+      }
+    };
+
+    const handleWindowScroll = (e) => {
+      const popup = toolboxRef.current;
+      if (!popup) return;
+
+      const isPopupScrolling = e.target === popup || popup.contains(e.target);
+
+      if (!isPopupScrolling) {
+        setShowPopup(false);
+        setValue(window.location.pathname.includes("tool") ? 1 : 0)
+      }
+    };
+
+    window.addEventListener("wheel", handleWindowScroll, { passive: true });
+    window.addEventListener("touchmove", handleWindowScroll, { passive: true });
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("wheel", handleWindowScroll);
+      window.removeEventListener("touchmove", handleWindowScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPopup]);
 
 
   return (
@@ -88,6 +134,7 @@ export default function BottomNavigation() {
           aria-label="Home"
         />
         <BottomNavigationAction
+          ref={toolboxTriggerRef}
           label="Toolbox"
           icon={showPopup ? <PackageOpen /> : <Package />}
           sx={{ color: "inherit" }}
@@ -95,35 +142,60 @@ export default function BottomNavigation() {
         />
       </MuiBottomNavigation>
 
-      {value === 1 && (
-        <animated.div
-          className="fixed bottom-[70px] left-1/2 bg-[#202124] border border-[#46464d] p-5 z-[1400] flex gap-3 flex-wrap justify-start items-start overflow-y-auto"
-          style={{
-            ...popupStyle,
-            transform: "translateX(-50%)",
-            transformOrigin: "center bottom",
-          }}
-        >
-          {tools.map((tool, index) => (
-            <button
-              key={index}
-              disabled={!tool.isAvailable}
-              onClick={() => {
-                if (!tool.isAvailable) {
-                  toast.info("This tool is not available right now.");
-                  return
-                }
-                router.push(tool.url);
-                setShowPopup(false);
-              }}
-              className={`w-24 h-24 border border-[#37373d] bg-card/30 hover:bg-card/50 flex flex-col items-center justify-center gap-2 rounded-md cursor-pointer transition-all duration-200 ${tool.isAvailable ? "" : "opacity-50"} relative group overflow-hidden ${location && location.pathname === tool.url ? "bg-card/60" : ""}`}
-            >
-              {<tool.icon />}
-              <span style={{ fontSize: "0.8rem", fontWeight: "bold" }}>{tool.title}</span>
-              {tool.isNew || tool.isHot && <span className={`text-xs ${tool.isNew ? "bg-purple-700/50" : "bg-orange-700/50"} font-black w-full h-1 absolute bottom-0 left-0 flex items-center justify-center group-hover:h-4 transition-all duration-300`}><span className="opacity-0 group-hover:opacity-100 transition-all duration-300 uppercase text-xs">{tool.isNew ? "new" : "hot"}</span></span>}
-            </button>
-          ))}
-        </animated.div>
+      {transitions((style, item) =>
+        item ? (
+          <animated.div
+            ref={toolboxRef}
+            className="fixed bottom-[65px] modern:bottom-[70px] left-1/2 z-[1400] transform rounded-2xl p-5 w-[95%] shadow-2xl border border-white/10 backdrop-blur-lg bg-white/10 text-white overflow-y-auto flex flex-wrap gap-3 justify-start content-start max-h-[70vh] max-w-[calc(100vw-1rem)] modern:max-w-[calc(100vw-2rem)] sm:max-w-[80vw] show-scrollbar"
+            style={{
+              ...style,
+              transformOrigin: "center bottom",
+            }}
+          >
+            {tools.map((tool, index) => {
+              const isComing = tool.isAvailable === "coming";
+              const isDisabled = !tool.isAvailable || isComing;
+
+              return (
+                <div
+                  key={index}
+                  onClick={() => {
+                    if (isDisabled) {
+                      toast.info("This tool is not available right now.");
+                      return;
+                    }
+                    router.push(tool.url);
+                    setShowPopup(false);
+                  }}
+                  className={`
+              relative w-[90px] h-[90px] sm:w-[100px] sm:h-[100px] rounded-xl flex flex-col items-center justify-center text-center p-2 gap-2
+              border border-white/10 backdrop-blur-md bg-white/5 hover:bg-white/15 transition-all duration-200
+              ${isDisabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:scale-105"}
+            `}
+                >
+                  <tool.icon className="text-white text-xl" />
+                  <span className="text-xs font-semibold leading-tight">{tool.title}</span>
+
+                  {(tool.isNew || tool.isHot) && (
+                    <div className={`
+                absolute top-1 right-1 text-[10px] px-1 py-0.5 rounded-full font-bold uppercase
+                ${tool.isNew ? "bg-purple-600/80" : ""}
+                ${tool.isHot ? "bg-orange-500/80" : ""}
+              `}>
+                      {tool.isNew ? "NEW" : "HOT"}
+                    </div>
+                  )}
+
+                  {isDisabled && (
+                    <div className="absolute inset-0 bg-black/40 rounded-xl flex items-center justify-center text-xs text-white font-semibold opacity-0 hover:opacity-100 transition-all duration-300 select-none">
+                      {isComing ? "Coming Soon" : "Not Available"}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </animated.div>
+        ) : null
       )}
     </ThemeProvider>
   );

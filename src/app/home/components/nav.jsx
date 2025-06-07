@@ -15,10 +15,11 @@ import {
 import { cn } from "@/lib/utils";
 import { navItems } from "@/app/components/nav.list";
 import { toast } from "sonner";
-
+import { useRouter } from "@/hooks/useRouter";
 
 export default function Navigation({ className }) {
     const tools = navItems().filter((item) => item.title.toLowerCase() === "tools").flatMap((item) => item.subItems);
+    const router = useRouter();
 
     return (
         <Fragment>
@@ -48,25 +49,42 @@ export default function Navigation({ className }) {
                                     <NavigationMenuTrigger>Tools</NavigationMenuTrigger>
                                     <NavigationMenuContent>
                                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                            {tools.map((tool, index) => (
-                                                <NavigationMenuLink key={index} asChild>
-                                                    <Link
+                                            {tools.map((tool, index) => {
+                                                const isComing = tool.isAvailable === "coming";
+                                                const isDisabled = !tool.isAvailable || isComing;
+
+                                                return (
+                                                    <NavigationMenuLink key={index}
                                                         onClick={() => {
-                                                            if (!tool.isAvailable) {
-                                                                toast.info("This tool is not available right now.")
+                                                            if (isDisabled) {
+                                                                toast.info("This tool is not available right now.");
+                                                                return;
                                                             }
+                                                            router.push(tool.url);
                                                         }}
-                                                        href={tool.isAvailable ? tool.url : "#"}
                                                         className={
-                                                            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground relative"}
+                                                            `block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors ${isDisabled ? "" : "hover:bg-accent hover:text-accent-foreground"} focus:bg-accent focus:text-accent-foreground relative`}
                                                     >
-                                                        <div className="text-sm font-medium leading-none">{tool.title}{tool.isNew && <span className="ml-1 text-[10px] bg-purple-700 font-black px-1.5 py-1 absolute top-1 rounded-full">new</span>}</div>
+                                                        <div className="text-sm font-medium leading-none relative">
+                                                            {tool.title}
+                                                            {(tool.isHot || tool.isNew) && (
+                                                                <span
+                                                                    className={`ml-1 text-[10px] font-black px-1.5 py-0.5 absolute top-0 rounded-full ${tool.isHot ? "bg-orange-600" : "bg-purple-700"
+                                                                        }`}
+                                                                >
+                                                                    {tool.isHot ? "hot" : "new"}
+                                                                </span>
+                                                            )}
+                                                        </div>
                                                         <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                                                             {tool.description}
                                                         </p>
-                                                    </Link>
-                                                </NavigationMenuLink>
-                                            ))}
+                                                        {isDisabled && <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/50 z-10 !m-0 rounded-md font-mono">
+                                                            <span className="text-white">{isComing ? "Coming Soon" : "Not Available"}</span>
+                                                        </div>}
+                                                    </NavigationMenuLink>
+                                                )
+                                            })}
                                         </ul>
                                     </NavigationMenuContent>
                                 </NavigationMenuItem>
@@ -89,12 +107,6 @@ export default function Navigation({ className }) {
                         </div>
                     </NavigationMenuList>
                 </NavigationMenu>
-
-
-
-
-
-
             </header>
         </Fragment >
     );

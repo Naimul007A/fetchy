@@ -44,6 +44,9 @@
   }
   body {
     @apply bg-background text-foreground;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
   img {
     @apply select-none;
@@ -58,10 +61,34 @@
     -o-user-select: none;
   }
 
+  .container {
+    @apply !w-screen sm:!max-w-[40rem] md:!max-w-[48rem] lg:!max-w-[64rem] xl:!max-w-[80rem] 2xl:!max-w-[96rem];
+  }
+
   ::-webkit-scrollbar {
     display: none;
   }
 
+  .show-scrollbar {
+    scrollbar-width: auto;
+    -ms-overflow-style: auto;
+  }
+
+  .show-scrollbar::-webkit-scrollbar:vertical,
+  .show-scrollbar::-webkit-scrollbar-track:vertical {
+    @apply !block !w-1.5 !cursor-pointer bg-white/5 rounded;
+  }
+
+  .show-scrollbar::-webkit-scrollbar:horizontal,
+  .show-scrollbar::-webkit-scrollbar-track:horizontal {
+    @apply !block !h-1.5 !cursor-pointer bg-white/5 rounded;
+  }
+
+  .show-scrollbar::-webkit-scrollbar-thumb {
+    @apply !bg-white/30 !rounded-full !cursor-pointer hover:!bg-white/50 transition-all duration-200;
+  }
+
+  
   .scaleUp {
     -webkit-animation: scaleUp 1s infinite;
     animation: scaleUp 1s infinite;

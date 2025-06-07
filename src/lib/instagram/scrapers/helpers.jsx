@@ -7,6 +7,9 @@ export const getIGVideoFileName = (id) =>
 export const getIGImageFileName = (id) =>
   getTimedFilename(`PRAS_IG_IMG_${id}`, "jpg");
 
+export const getIGAudioFileName = (id) =>
+  getTimedFilename(`PRAS_IG_AUD_${id}`, "mp3");
+
 export const handleScraperError = (error) => {
   console.log("Scraper error:", error.message);
   if (error.message.includes("status code 404")) {

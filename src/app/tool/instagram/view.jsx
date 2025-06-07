@@ -26,7 +26,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import UrlInput from "@/app/components/UrlInput";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Loader, Image as LucideImage } from "lucide-react";
+import { AlertTriangle, Loader, Image as LucideImage } from "lucide-react";
 import { Volume2 } from 'lucide-react';
 import { VolumeOff } from 'lucide-react';
 import { SquarePlay } from 'lucide-react';
@@ -35,6 +35,7 @@ import { BetterImage, BetterVersion, Img, Fallback } from "@/components/ui/Bette
 import { Root } from "@/app/root";
 import { GitHub } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
+import { enableInstagram } from "@/conf";
 
 const InstagramDownloaderView = () => {
     const [isDownloading, setIsDownloading] = useState(false);
@@ -76,7 +77,7 @@ const InstagramDownloaderView = () => {
 
     return (
         <Root>
-            <Card className="w-full m-2 sm:m-5 lg:m-10 bg-card/10 backdrop-blur-[7px]">
+            <Card className={`w-full m-2 sm:m-5 lg:m-10 bg-card/10 backdrop-blur-[7px] ${enableInstagram ? "min-h-[calc(100vh-16px)] sm:min-h-[calc(100vh-40px)] lg:min-h-[calc(100vh-80px)]" : "min-h-auto"}`}>
 
                 <CardHeader className="min-h-[240px] bg-[hsl(280,7%,8%)] rounded-t-lg flex flex-col justify-center items-center mb-5 relative">
                     <CardTitle className="text-2xl">Instagram Downloader</CardTitle>
@@ -92,8 +93,12 @@ const InstagramDownloaderView = () => {
                         <GitHub className="w-4 h-4" />
                     </a>
                 </CardHeader>
-                <CardContent className="min-h-[240px]">
-                    <div className="w-full flex flex-col gap-10">
+                <CardContent className={`${enableInstagram ? "min-h-[240px] " : "min-h-auto"}`}>
+                    {!enableInstagram ? <div className="w-full h-full flex flex-col items-center justify-center space-y-4 p-6 bg-zinc-900/30 rounded-lg border border-dashed border-zinc-700">
+                        <AlertTriangle className="w-10 h-10 text-yellow-400" />
+                        <p className="text-center text-base font-medium text-zinc-200">Instagram Downloader Currently Unavailable</p>
+                        <p className="text-center text-sm text-zinc-400 max-w-md">We&apos;re experiencing issues with our Instagram downloading service. Please try again later or check back soon.</p>
+                    </div> : <div className="w-full flex flex-col gap-10">
                         <div className="w-full xl:w-1/2 xl:self-center">
                             <UrlInput
                                 allowedDomains={["instagram.com"]}
@@ -143,46 +148,46 @@ const InstagramDownloaderView = () => {
                                                         <DialogTrigger asChild>
                                                             <div className="bg-background/40 rounded-lg max-w-28 w-28 h-28 border-muted border hover:bg-muted/50 hover:border-muted-foreground hover:-translate-y-1 transition-all cursor-pointer flex flex-col items-center justify-center gap-3">
                                                                 <div className="flex gap-2">{resource?.type === "image" ? <LucideImage className="w-5 h-5" /> : resource?.type === "video" ? <SquarePlay className="w-5 h-5" /> : null}
-                                                                    {resource?.type === "video" && resource?.has_audio ? <Volume2 className="w-5 h-5" /> : resource?.type === "video" && !resource?.has_audio && <VolumeOff className="w-5 h-5" />}
+                                                                    {resource?.type === "video" && resource?.has_audio ? <Volume2 className="w-5 h-5" /> : resource?.type === "video" && !resource?.has_audio ? <VolumeOff className="w-5 h-5" /> : resource?.type === "audio" ? <Volume2 className="w-5 h-5" /> : null}
                                                                 </div>
-                                                                <p className="text-sm font-bold select-none">{resource?.quality ? resource.quality : `${resource.width}x${resource.height}`}</p>
+                                                                <p className="text-sm font-bold select-none">{resource?.quality ? resource?.quality : resource?.width && resource?.height ? `${resource.width}x${resource.height}` : resource?.bitrate}</p>
                                                             </div>
                                                         </DialogTrigger>
                                                     </HoverCardTrigger>
-                                                    <DialogContent className="sm:max-w-md p-2 z-[1500] flex flex-col items-center justify-center">
+                                                    <DialogContent className="sm:max-w-md p-2 z-[1500] flex flex-col items-center justify-center max-h-[95vh] gap-2">
                                                         <DialogTitle className="w-full flex flex-row items-center gap-2 justify-end">
                                                             <Button onClick={() => downloadFile(resource?.baseURL, resource?.filename, resource?.type, setIsDownloading)} variant="default" size="sm">{isDownloading ? <Loader className="animate-spin" size={20} /> : "Download"}</Button>
                                                             <DialogClose asChild>
                                                                 <Button variant="outline" size="sm" className="!mt-0 border-muted">Close</Button>
                                                             </DialogClose>
                                                         </DialogTitle>
-                                                        <DialogFooter className="flex items-center justify-center">
-                                                            <div className="w-full h-full flex justify-center items-center">
-                                                                {resource?.type === "image" ?
-                                                                    <BetterVersion>
-                                                                        <Img
-                                                                            priority
-                                                                            src={resource?.baseURL}
-                                                                            width={resource?.width}
-                                                                            height={resource?.height}
-                                                                            alt={resource?.id}></Img>
-                                                                        <Fallback className="min-h-[300px]" />
-                                                                    </BetterVersion>
+                                                        <DialogFooter className="flex w-full h-full overflow-hidden items-center justify-center">
+                                                            {resource?.type === "image" ?
+                                                                <BetterVersion>
+                                                                    <Img
+                                                                        priority
+                                                                        src={resource?.baseURL}
+                                                                        width={resource?.width}
+                                                                        height={resource?.height}
+                                                                        alt={resource?.id}></Img>
+                                                                    <Fallback className="min-h-[300px] max-h-full" />
+                                                                </BetterVersion>
+                                                                : resource?.type === "audio" ?
+                                                                    <audio controls src={resource?.baseURL} width={resource?.width} height={resource?.height} alt={resource?.id} className="rounded w-full mt-10"></audio>
                                                                     :
                                                                     <video controls src={resource?.baseURL} width={resource?.width} height={resource?.height} alt={resource?.id}></video>
-                                                                }
-                                                            </div>
+                                                            }
                                                         </DialogFooter>
                                                     </DialogContent>
                                                 </Dialog>
                                                 <HoverCardContent className="w-40 h-40 p-0 relative flex items-center justify-center">
-                                                    <BetterImage
+                                                    {resource?.type === "audio" ? <Volume2 /> : <BetterImage
                                                         priority
                                                         fill
                                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                                         className="p-3 object-cover object-center rounded-lg"
                                                         src={resource?.thumbnail}
-                                                        alt={resource?.id}></BetterImage>
+                                                        alt={resource?.id}></BetterImage>}
                                                 </HoverCardContent>
                                             </HoverCard>
                                         )
@@ -190,7 +195,7 @@ const InstagramDownloaderView = () => {
                                 </div>
                             </div>
                         </div>}
-                    </div>
+                    </div>}
                 </CardContent>
                 <div id="container-e55b236cf17ff5980817944f93bec602"></div>
             </Card>
