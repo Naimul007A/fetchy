@@ -1,8 +1,8 @@
 import { geolocation, ipAddress } from "@vercel/functions";
-import Redis from "ioredis";
 import * as iso from "iso-3166-1";
 import { nanoid } from "nanoid";
 import { NextRequest, NextResponse } from "next/server";
+import { getRedis } from "./redis";
 
 export async function serializeRequest(req: NextRequest, res: NextResponse) {
   const headers = Object.fromEntries(req.headers.entries());
@@ -58,7 +58,7 @@ export class Discord {
     const ip =
       ipAddress(this.request) || this.request.headers.get("x-forwarded-for");
     const { country, flag } = geolocation(this.request);
-    const redis = new Redis(process.env.NEXT_REDIS_URL);
+    const redis = getRedis();
 
     const body = await serializeRequest(this.request, this.response);
 
