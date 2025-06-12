@@ -3,30 +3,23 @@ import type { NextResponse, NextRequest } from "next/server";
 import { Discord } from "@/lib/discord";
 import { sendToDiscord } from "@/conf";
 
-export const postExec = async (
-  request: NextRequest,
-  response: NextResponse
-) => {
-  const { pathname } = request.nextUrl;
+export const postExec = (request: NextRequest, response: NextResponse) => {
+  if (!request.nextUrl.pathname.startsWith("/api/video")) return;
+
   const discord = new Discord(request, response);
 
-  if (pathname.startsWith("/api/video")) {
-    const payload = await discord.payload();
-
-    if (discord.WEBHOOK_URL && sendToDiscord) {
-      void axios
-        .post(
+  void (async () => {
+    try {
+      const payload = await discord.payload();
+      if (discord.WEBHOOK_URL && sendToDiscord) {
+        await axios.post(
           discord.WEBHOOK_URL,
-          {
-            embeds: [payload],
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .catch((err) => console.error("Failed to send Discord webhook:", err));
+          { embeds: [payload] },
+          { headers: { "Content-Type": "application/json" } }
+        );
+      }
+    } catch (err) {
+      console.error("PostExec failed:", err);
     }
-  }
+  })();
 };

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { TokenManager } from "@/lib/security";
-import { ipAddress } from "@vercel/functions";
 import { downloadSessionTTL } from "@/conf";
 
 export async function POST(req) {

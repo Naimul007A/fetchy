@@ -66,13 +66,12 @@ export class Discord {
     const ttl = 60 * 30; // 30 minutes
 
     try {
-      if (this.response?.status >= 400) {
-        await redis.set(`req:P${id}`, JSON.stringify(body));
-      } else {
-        await redis.set(`req:T${id}`, JSON.stringify(body), "EX", ttl);
-      }
-    } catch (error) {
-      console.error("Failed to cache", error);
+      const op =
+        this.response?.status >= 400
+          ? redis.set(`req:P${id}`, JSON.stringify(body))
+          : redis.set(`req:T${id}`, JSON.stringify(body), "EX", ttl);
+
+      op.catch((err) => console.error("Redis set error:", err));
     } finally {
       redis.disconnect();
     }
