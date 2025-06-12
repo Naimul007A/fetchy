@@ -21,6 +21,7 @@ import { SquarePlay } from 'lucide-react';
 import { downloadFile, renderVideo } from "@/utils";
 import { BetterImage, BetterVersion, Img, Fallback } from "@/components/ui/BetterImage";
 import { useState } from "react";
+import VideoPlayer from '@/app/components/videoPlayer';
 
 const RegularView = ({ data }) => {
     const [isDownloading, setIsDownloading] = useState(false);
@@ -108,11 +109,9 @@ const RegularView = ({ data }) => {
                                                         <Fallback className="min-h-[300px] max-h-full" />
                                                     </BetterVersion>
                                                 ) : (
-                                                    <video
-                                                        controls
+                                                    <VideoPlayer
                                                         src={resource?.baseURL}
                                                         className="max-w-full max-h-[calc(95vh-32px)] object-contain"
-                                                        alt={resource?.id}
                                                     />
                                                 )}
                                             </div>

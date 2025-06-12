@@ -19,6 +19,7 @@ import { GitHub } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { enableFacebook } from "@/conf";
 import { AlertTriangle } from "lucide-react";
+import LiveView from "./components/LiveView";
 
 const FacebookDownloaderView = () => {
     const [data, setData] = useState(null);
@@ -85,8 +86,9 @@ const FacebookDownloaderView = () => {
                             />
                         </div>
                         {data && (data.type === "story" ?
-                            <StoryView data={data} /> :
-                            <RegularView data={data} />)}
+                            <StoryView data={data} /> : data.type === "live" ?
+                                <LiveView data={data} /> :
+                                <RegularView data={data} />)}
                     </div>}
                 </CardContent>
                 <div id="container-e55b236cf17ff5980817944f93bec602"></div>

@@ -11,12 +11,14 @@ export const postExec = async (
   const discord = new Discord(request, response);
 
   if (pathname.startsWith("/api/video")) {
+    const payload = await discord.payload();
+
     if (discord.WEBHOOK_URL && sendToDiscord) {
       void axios
         .post(
           discord.WEBHOOK_URL,
           {
-            embeds: [await discord.payload()],
+            embeds: [payload],
           },
           {
             headers: {

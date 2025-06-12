@@ -18,10 +18,11 @@ export const formatGraphqlVideoJson = (data) => {
 
   responseData = [d1, JSON.parse(d2[0])];
 
+  const isLive = responseData.at(0).data?.video?.is_live_streaming
+  
   const videoUrls = parseDashManifest(
-    responseData.at(0).data?.video?.dash_manifest, responseData.at(0).data?.video?.preferred_thumbnail?.image?.uri
+    responseData.at(0).data?.video?.dash_manifest, responseData.at(0).data?.video?.preferred_thumbnail?.image?.uri, isLive
   );
-
 
   const owner = responseData.at(-1)?.data?.tahoe_sidepane_renderer?.video
     ?.creation_story?.comet_sections?.actor_photo?.story?.actors?.[0] || {};
@@ -51,7 +52,7 @@ export const formatGraphqlVideoJson = (data) => {
   const contentInfo = {
     id: videoData.id || null,
     owner: Object.keys(owner).length ? owner : null,
-    type: "video",
+    type: isLive ? "live" : "video",
     title: sidePaneData?.message?.story?.message?.text || null,
     source_url: videoData.url || null,
     thumbnail: videoData?.preferred_thumbnail?.image?.uri || null,
@@ -164,7 +165,7 @@ export const formatGraphqlStoryJson = (data) => {
           });
         }
 
-        if (media?.videoDeliveryLegacyFields?.browser_native_sd_url) {
+        if (media?.videoDeliveryLegacyFields?.browser_native_hd_url) {
           resources.push({
             id: _generateRandomId(),
             filename: getFbContentFileName("VID", "HD", "mp4"),

@@ -15,7 +15,7 @@ export const handleScraperError = (error) => {
   }
 };
 
-export const parseDashManifest = (dashManifest, thumbnail = null) => {
+export const parseDashManifest = (dashManifest, thumbnail = null, isLive = false) => {
   if (!dashManifest) {
     return [];
   }
@@ -26,15 +26,19 @@ export const parseDashManifest = (dashManifest, thumbnail = null) => {
   // Extract all Representation elements
   const representations = xmlDoc.getElementsByTagName('Representation');
 
+  const urlFieldKey = isLive ? "FBRepresentationMPDURL" : "BaseURL";
+
   // Map the representations to an array of objects
   const videoInfoList = Array.from(representations).map(rep => {
     const mime_type = rep.getAttribute('mimeType');
     const id = rep.getAttribute('id');
     const bandwidth = rep.getAttribute('bandwidth');
-    const baseURL = rep.getElementsByTagName('BaseURL')[0]?.textContent || '';
+    const baseURL = rep.getElementsByTagName(urlFieldKey)[0]?.textContent || '';
+
     const codecs = rep.getAttribute('codecs');
 
     if (mime_type.includes('audio')) {
+      if (isLive) return
       const bitrate = '128kbps';
       return {
         id,
@@ -70,5 +74,5 @@ export const parseDashManifest = (dashManifest, thumbnail = null) => {
     };
   });
 
-  return videoInfoList;
+  return videoInfoList.filter((i) => i);
 }

@@ -66,7 +66,11 @@ export class Discord {
     const ttl = 60 * 30; // 30 minutes
 
     try {
-      await redis.set(`req:${id}`, JSON.stringify(body), "EX", ttl);
+      if (this.response?.status >= 400) {
+        await redis.set(`req:P${id}`, JSON.stringify(body));
+      } else {
+        await redis.set(`req:T${id}`, JSON.stringify(body), "EX", ttl);
+      }
     } catch {
       console.error("Failed to cache");
     } finally {
@@ -101,7 +105,9 @@ export class Discord {
         },
         {
           name: "Request Details",
-          value: `[View Request](${this.request.nextUrl.origin}/request/${id})`,
+          value: `[View Request](${this.request.nextUrl.origin}/request/${
+            this.response?.status >= 400 ? `P${id}` : `T${id}`
+          })`,
           inline: false,
         },
       ],

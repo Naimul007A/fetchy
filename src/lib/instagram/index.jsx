@@ -6,7 +6,7 @@ export const getPostId = (url) => {
   const postRegex =
     /^https:\/\/(?:www\.)?instagram\.com\/p\/([a-zA-Z0-9_-]+)\/?/;
   const reelRegex =
-    /^https:\/\/(?:www\.)?instagram\.com\/reels|reel?\/([a-zA-Z0-9_-]+)\/?/;
+    /^https:\/\/(?:www\.)?instagram\.com\/(?:reels|reel)\/([a-zA-Z0-9_-]+)\/?/;
 
   let postId;
 

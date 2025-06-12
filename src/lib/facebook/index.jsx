@@ -25,6 +25,8 @@ export function extractFacebookRedirectedUrl(fullUrl) {
     }
 }
 
+const facebookVideoIdStoredKeys = ["story_fbid"]
+
 // Extract Facebook content ID from URL
 export const getContentFbId = ({ url, html }) => {
     const videoRegex = /\/(?:videos|reel|watch)(?:\/?)(?:\?v=)?(\d+)/;
@@ -68,6 +70,26 @@ export const getContentFbId = ({ url, html }) => {
         if (match) {
             const permalink = decodeURIComponent(match[1].replace(/\\u0025/g, "%")).replace(/\\/g, '');
             return getContentFbId({ url: permalink });
+        }
+    }
+
+    // special case for video
+    for (const key of facebookVideoIdStoredKeys) {
+        const newUrl = new URL(url);
+        const match = newUrl.searchParams.get(key);
+
+        if (match) {
+            return {
+                type: "video",
+                contentId: match,
+            };
+        }
+
+        const nextUrl = newUrl.searchParams.get("next");
+        if (nextUrl) {
+            return getContentFbId({
+                url: decodeURIComponent(nextUrl),
+            });
         }
     }
 

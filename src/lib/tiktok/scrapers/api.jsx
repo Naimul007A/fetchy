@@ -7,7 +7,6 @@ export const fetchTiktokContent = async (url, timeout = 0) => {
     if (!url) return null;
     try {
         const api = new URL(_tiktokContentFetchApiByPRAS);
-        console.log(api)
         const response = await axios.get(`${_tiktokContentFetchApiByPRAS}${url}`, {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36',

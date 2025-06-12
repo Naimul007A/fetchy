@@ -2,6 +2,7 @@ import querystring from "querystring";
 import { formatGraphqlVideoJson, formatGraphqlStoryJson } from "./formaters";
 import { HttpRequest } from "@/utils";
 import { handleScraperError } from "./helpers";
+import { writeFileSync } from "fs";
 
 const encodeVideoRequestData = (contentId) => {
   const requestData = {
@@ -100,7 +101,7 @@ export const fetchFromFbGraphQL = async (type, contentId, timeout = 0) => {
   if (contentType !== 'text/html; charset="utf-8"') return null;
 
   const responseJson = response.data;
-
+  // writeFileSync("response2.json", (responseJson));
   const isProcessable =
     responseJson ||
     (responseJson?.data && Object.keys(responseJson.data).length > 0) ||

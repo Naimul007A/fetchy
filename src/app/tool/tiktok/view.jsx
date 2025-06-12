@@ -38,6 +38,7 @@ import { Root } from "@/app/root";
 import { GitHub } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { enableTiktok } from "@/conf";
+import VideoPlayer from '@/app/components/videoPlayer';
 
 const TiktokDownloaderView = () => {
     const [isDownloading, setIsDownloading] = useState(false);
@@ -174,7 +175,7 @@ const TiktokDownloaderView = () => {
                                                                     <Fallback className="min-h-[300px] max-h-full" />
                                                                 </BetterVersion>
                                                                 : resource?.type === "video" ?
-                                                                    <video controls src={resource?.baseURL} width={resource?.width} height={resource?.height} alt={resource?.id}></video> : <audio controls src={resource?.baseURL} className="rounded w-full mt-10"></audio>
+                                                                    <VideoPlayer controls src={resource?.baseURL}></VideoPlayer> : <audio controls src={resource?.baseURL} className="rounded w-full mt-10"></audio>
                                                             }
                                                         </DialogFooter>
                                                     </DialogContent>

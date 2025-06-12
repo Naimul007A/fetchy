@@ -19,7 +19,7 @@ export async function POST(request) {
             {
                 headers: {
                     "Content-Type": "application/json",
-                    "Access-Key": process.env.NEXT_CDN_API_KEY,
+                    "X-API-KEY": process.env.NEXT_CDN_API_KEY,
                 },
             }
         );

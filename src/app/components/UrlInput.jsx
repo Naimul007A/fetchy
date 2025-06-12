@@ -52,7 +52,7 @@ const UrlInput = ({ allowedDomains, onFetch }) => {
         <div className="flex flex-col gap-3 items-start">
             <div className='w-full flex flex-col gap-1'>
                 <p className="text-sm font-bold">Enter your URL</p>
-                <div className="relative w-full"> <Input onChange={(e) => setUrl(e.target.value)} value={url} className={`bg-black border-2 border-purple-800 py-5 outline-none placeholder:text-zinc-500`} placeholder="https://..."></Input>
+                <div className="relative w-full"> <Input onChange={(e) => setUrl(e.target.value)} value={url} className={`bg-black border-2 border-purple-800 py-5 focus-visible:ring-0 placeholder:text-zinc-500`} placeholder="https://..."></Input>
                     <Button
                         onClick={handlePaste}
                         variant="ghost"
@@ -63,6 +63,7 @@ const UrlInput = ({ allowedDomains, onFetch }) => {
                 size="lg"
                 className="self-center"
                 onClick={haandleOnclick}
+                disabled={isFetching}
                 variant="secondary">{
                     isFetching ? <Loader className="animate-spin" size={20} /> : "Download"
                 }</Button>

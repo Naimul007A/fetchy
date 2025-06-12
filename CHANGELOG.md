@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 2.2.1] | 2025/06/12
+
+### Added
+
+- **Error Logger Vault**
+  - Introduced a comprehensive admin dashboard for monitoring and managing system errors
+
+### Fixed
+
+- Enhanced Facebook API endpoint compatibility with live video URLs
+- Improved Instagram API endpoint to support both `/reels/` and `/reel/` URL formats
+- Improved error handling for malformed API requests
+
+### Changed
+
+- Optimized database queries in the error logging system for improved performance
+- Updated project license from MIT to Business Source License 1.1
+
 ## [Version 2.2.0] | 2025/06/07
 
 ### Changes:

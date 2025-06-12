@@ -36,6 +36,7 @@ import { Root } from "@/app/root";
 import { GitHub } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { enableInstagram } from "@/conf";
+import VideoPlayer from '@/app/components/videoPlayer';
 
 const InstagramDownloaderView = () => {
     const [isDownloading, setIsDownloading] = useState(false);
@@ -175,7 +176,7 @@ const InstagramDownloaderView = () => {
                                                                 : resource?.type === "audio" ?
                                                                     <audio controls src={resource?.baseURL} width={resource?.width} height={resource?.height} alt={resource?.id} className="rounded w-full mt-10"></audio>
                                                                     :
-                                                                    <video controls src={resource?.baseURL} width={resource?.width} height={resource?.height} alt={resource?.id}></video>
+                                                                    <VideoPlayer src={resource?.baseURL} ></VideoPlayer>
                                                             }
                                                         </DialogFooter>
                                                     </DialogContent>
