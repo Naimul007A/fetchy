@@ -21,16 +21,17 @@ import {
 } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";
 import { bulkDelete, bulkSolve, normalDelete, normalUpdate } from "./utils";
+import { Data } from "../[id]/page";
 
 const ErrorRequestsVaultView = ({
   values,
 }: {
-  values: Array<{ value: string; key: string }>;
+  values: Array<{ value: Data; key: string }>;
 }) => {
   const [localValues, setLocalValues] = useState(
     values.map((item) => ({
       ...item,
-      solved: JSON.parse(item.value)?.solved || false,
+      solved: item.value?.solved || false,
       selected: false,
     }))
   );
@@ -246,7 +247,7 @@ const ErrorRequestsVaultView = ({
             </TableHeader>
             <TableBody>
               {filteredValues.map(({ value, key, solved, selected }) => {
-                const data = JSON.parse(value);
+                const data = value;
                 const ip =
                   data.headers?.["x-real-ip"] ||
                   data.headers?.["x-forwarded-for"];

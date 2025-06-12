@@ -1,6 +1,6 @@
 import { Instagram, Facebook, YouTube } from "@mui/icons-material";
 import { TiktokIcon as Tiktok } from "./icons/tiktok";
-import { enableFacebook, enableInstagram, enableTiktok } from "@/conf";
+import { ENABLE_FACEBOOK, ENABLE_INSTAGRAM, ENABLE_TIKTOK } from "@/conf";
 
 export const tools = () => {
     return [
@@ -11,7 +11,7 @@ export const tools = () => {
             url: "/tool/instagram",
             description: "Download Instagram videos, reels, and photos.",
             feature: ["Videos", "Reels", "Photos", "Carousels"],
-            isAvailable: enableInstagram,
+            isAvailable: ENABLE_INSTAGRAM,
             isNew: false
         },
         {
@@ -21,7 +21,7 @@ export const tools = () => {
             url: "/tool/facebook",
             description: "Download Facebook videos, reels, and stories",
             feature: ["Videos", "Reels", "Stories"],
-            isAvailable: enableFacebook,
+            isAvailable: ENABLE_FACEBOOK,
             isNew: false
         },
         {
@@ -32,7 +32,7 @@ export const tools = () => {
             description: "Download Tiktok videos, slideshows and music.",
             feature: ["Videos", "Slideshows", "Music"],
             coming: ["Playlists", "Collections"],
-            isAvailable: enableTiktok,
+            isAvailable: ENABLE_TIKTOK,
             isNew: true
         },
         {

@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { NextResponse, NextRequest } from "next/server";
 import { Discord } from "@/lib/discord";
-import { sendToDiscord } from "@/conf";
+import { SEND_TO_DISCORD } from "@/conf";
 
 export const postExec = (request: NextRequest, response: NextResponse) => {
   if (!request.nextUrl.pathname.startsWith("/api/video")) return;
@@ -11,7 +11,7 @@ export const postExec = (request: NextRequest, response: NextResponse) => {
   void (async () => {
     try {
       const payload = await discord.payload();
-      if (discord.WEBHOOK_URL && sendToDiscord) {
+      if (discord.WEBHOOK_URL && SEND_TO_DISCORD) {
         await axios.post(
           discord.WEBHOOK_URL,
           { embeds: [payload] },

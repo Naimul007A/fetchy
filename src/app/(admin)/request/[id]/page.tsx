@@ -1,7 +1,12 @@
-import Valkey from "ioredis";
 import RequestDetailsView from "./view";
+import { redis } from "@/lib/redis";
 
-const redis = new Valkey(process.env.NEXT_REDIS_URL);
+export type Data = Record<string, any> & {
+  body: Record<string, any>;
+  headers: Record<string, any>;
+  cookies: Record<string, any>;
+  response: Record<string, any>;
+};
 
 export default async function RequestDetails({
   params,
@@ -9,7 +14,7 @@ export default async function RequestDetails({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const raw = await redis.get(`req:${id}`);
+  const data: Data = await redis.get(`req:${id}`);
 
-  return <RequestDetailsView raw={raw} id={id} />;
+  return <RequestDetailsView data={data} id={id} />;
 }

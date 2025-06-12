@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 2.2.2] | 2025/06/13
+
+### Changes
+
+**Architectural Improvements**
+
+- Project Restructuring
+  - Implemented Next.js advanced directory structure to enhance code organization and maintainability
+  - Optimized project layout following modern React best practices
+
+**Performance & Infrastructure**
+
+- Rate Limiting
+
+  - Removed custom rate limiting implementation in favor of Vercel's native rate limiting solution.
+
+- Caching System
+  - Migrated from traditional Redis to Upstash's HTTP-based Redis solution
+  - Improved compatibility with serverless environments
+  - Enhanced logging performance and reliability and latency.
+
 ## [Version 2.2.1] | 2025/06/12
 
 ### Added

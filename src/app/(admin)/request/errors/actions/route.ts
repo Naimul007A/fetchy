@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import Valkey from "ioredis";
 import { Readable } from "stream";
-
-const redis = new Valkey(process.env.NEXT_REDIS_URL);
+import { redis } from "@/lib/redis";
 
 export async function DELETE(req: NextRequest) {
   const { keys } = await req.json();
@@ -51,12 +49,9 @@ export async function PUT(req: NextRequest) {
     try {
       for (let i = 0; i < keyArray.length; i++) {
         const key = keyArray[i];
-        const oldData = await redis.get(key);
-        const oldDataJson = oldData ? JSON.parse(oldData) : {};
-        const newDataJson = { ...oldDataJson, ...data };
-        const newDataString = JSON.stringify(newDataJson);
+        const oldData: Record<string, any> = await redis.get(key);
 
-        await redis.set(key, newDataString);
+        await redis.set(key, { ...oldData, ...data });
 
         stream.push(
           `data: ${JSON.stringify({
@@ -68,7 +63,6 @@ export async function PUT(req: NextRequest) {
           })}\n\n`
         );
 
-        // Small delay to allow the client to process the event
         await new Promise((resolve) => setTimeout(resolve, 10));
       }
 
@@ -87,7 +81,8 @@ export async function PUT(req: NextRequest) {
         })}\n\n`
       );
     } finally {
-      stream.push(null); // End the stream
+      // End
+      stream.push(null);
     }
   })();
 

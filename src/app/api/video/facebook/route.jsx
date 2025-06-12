@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { SuccessResponse } from "@/utils";
-import { enableFacebook } from "@/conf";
+import { ENABLE_FACEBOOK } from "@/conf";
 import { postExec } from "../postExec";
 import { handleError } from "../helper";
 import { TokenManager } from "@/lib/security";
@@ -16,7 +16,7 @@ export async function POST(request) {
     let isExpectedError = false;
 
     try {
-        if (!enableFacebook) {
+        if (!ENABLE_FACEBOOK) {
             isExpectedError = true;
             return NextResponse.json(
                 { error: "Facebook downloading server currently unavailable" },

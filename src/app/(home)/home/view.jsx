@@ -1,13 +1,12 @@
-"use client";
+"use client";;
 import React from "react";
 import CursorProvider from "./components/cursor";
 import Navigation from "./components/nav";
 import Footer from "./components/footer";
 import HeroSection from "./components/hero";
 import FAQ from "./components/faq";
-import BottomNavigation from "../components/bottomNav";
+import BottomNavigation from "../../components/bottomNav";
 
-import { HomeRoot } from "../root";
 import Image from "next/image";
 import { Support } from "./components/support";
 import { Toaster } from "@/components/ui/sonner";
@@ -22,7 +21,7 @@ export default function Home() {
   }, []);
 
   return (
-    <HomeRoot>
+    <>
       <Toaster />
       <style>
         {
@@ -52,6 +51,6 @@ export default function Home() {
           <Footer />
         </CursorProvider>
       )}
-    </HomeRoot>
+    </>
   );
 }

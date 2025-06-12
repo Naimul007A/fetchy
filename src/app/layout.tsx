@@ -1,8 +1,7 @@
+import { cn } from "@/lib/utils";
 import "./globals.css";
 import { Russo_One } from "next/font/google";
-import 'nprogress/nprogress.css';
-import { Progress } from "./components/progress";
-import { Suspense } from "react";
+import "nprogress/nprogress.css";
 
 const russo = Russo_One({
   weight: "400",
@@ -73,13 +72,10 @@ export const metadata = {
   copyright: "© 2024 PRAS",
 };
 
-export default function RootLayout({ children }) {
+export default function DefaultRootLayout({ children }) {
   return (
     <html lang="en">
-      <Suspense fallback={null}>
-        <Progress />
-      </Suspense>
-      {children}
+      <body className={cn(`antialiased overflow-hidden bg-black font-sans`)}>{children}</body>
     </html>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { navItems } from "../../components/nav.list";
+import { navItems } from "../../../components/nav.list";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 

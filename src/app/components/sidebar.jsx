@@ -24,10 +24,12 @@ import { Link } from "@/app/components/link";
 import { Loader } from "lucide-react";
 import { navItems } from "./nav.list";
 import { toast } from "sonner";
+import { usePathname } from "next/navigation";
 
 export function AppSidebar() {
   const [isLoading, setLoading] = React.useState(true);
   const items = navItems();
+  const pathname = usePathname();
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -69,7 +71,7 @@ export function AppSidebar() {
                             <SidebarMenuSub>
                               {item.subItems.map((subItem, subIndex) => (
                                 <SidebarMenuSubItem key={subIndex}>
-                                  <SidebarMenuSubButton asChild className={location && location.pathname === subItem.url ? "bg-muted" : ""}>
+                                  <SidebarMenuSubButton data-active={subItem.url === pathname} asChild className={subItem.url === pathname ? "bg-muted" : ""}>
                                     <Link onClick={() => {
                                       if (!subItem.isAvailable) {
                                         toast.info("This tool is not available right now.")

@@ -5,7 +5,7 @@ import { postExec } from "../postExec";
 import { handleError } from "../helper";
 import { TokenManager } from "@/lib/security";
 import { ipAddress } from "@vercel/functions";
-import { enableTiktok } from "@/conf";
+import { ENABLE_TIKTOK } from "@/conf";
 import { Exception } from "@/lib/exceptions";
 
 const manager = new TokenManager();
@@ -15,7 +15,7 @@ export async function POST(request) {
     let isExpectedError = false;
 
     try {
-        if (!enableTiktok) {
+        if (!ENABLE_TIKTOK) {
             isExpectedError = true;
             return NextResponse.json(
                 { error: "Tiktok downloading server currently unavailable" },

@@ -1,4 +1,4 @@
-import Home from "./home/view"
+import Home from "./home/view";
 import { metatag } from "@/lib/metatag";
 import { headers } from "next/headers";
 

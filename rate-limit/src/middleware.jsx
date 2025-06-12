@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { upstashBanDuration } from "./conf";
+import { isRatelimited } from "./lib/rate-limit";
 import { navItems } from "./app/components/nav.list";
 import { geolocation, ipAddress } from "@vercel/functions";
 import axios from "axios";
@@ -6,6 +8,10 @@ import { COLLAB_OPPORTUNITIES, collabMessage } from "./middleware/collab";
 import { BANNED_SCRAPPERS } from "./middleware/ban";
 import { isStaticPath } from "./middleware/isStatic";
 import { TokenManager } from "./lib/security";
+
+// ================================================
+// Custom Rate Limitation Paused from 2025-06-12
+// ================================================
 
 export async function middleware(request) {
     const { pathname } = request.nextUrl;
@@ -55,6 +61,17 @@ export async function middleware(request) {
         }
 
         if (pathname.startsWith("/api")) {
+            const isLimited = await isRatelimited(request);
+            if (isLimited) {
+                const banDuration = Math.floor(upstashBanDuration / 60 / 60);
+                return NextResponse.json(
+                    {
+                        error: `Too many requests, you have been banned for ${banDuration} hours.`,
+                    },
+                    { status: 429 }
+                );
+            }
+
             const session = request.cookies.get("d_session")?.value;
             if (session) {
                 try {

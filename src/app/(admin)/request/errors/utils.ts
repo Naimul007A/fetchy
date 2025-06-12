@@ -1,8 +1,9 @@
 import axios from "axios";
 import { toast } from "sonner";
+import { Data } from "../[id]/page";
 
 type Values = {
-  value: string;
+  value: Data;
   key: string;
   solved?: boolean;
   selected?: boolean;

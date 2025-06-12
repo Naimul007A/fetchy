@@ -1,24 +1,20 @@
 // Tiktok Configurations
-export const enableTiktok = true;
+export const ENABLE_TIKTOK = true;
 // Instagram Configurations
-export const enableInstagram = true;
+export const ENABLE_INSTAGRAM = true;
 // Facebook Configurations
-export const enableFacebook = true;
+export const ENABLE_FACEBOOK = true;
 // Youtube Configurations
-export const enableYoutube = false;
+export const ENABLE_YOUTUBE = false;
 
-// Upstash configs
-export const upstashUrl = process.env.NEXT_UPSTASH_REDIS_REST_URL ?? "";
-export const upstashToken = process.env.NEXT_UPSTASH_REDIS_REST_TOKEN ?? "";
-const isUsingUpstash = process.env.NEXT_USE_UPSTASH ?? "";
-export const enableUpstash = isUsingUpstash === "true";
-// Ratelimit configs
-export const maxRequests = 30; // Max requests every requests window
-export const requestsWindow = "1 m"; //  5 requests allowed every 1 min
-// Ban configs
-export const upstashBanEnabled = true;
-export const upstashBanDuration = 1800; // 30 minutes;
 
-export const downloadSessionTTL = 120; // 2 minutes
+// LOGGER
+export const DOWNLOADER_SESSION_TTL = 120; // 2 minutes
+export const SEND_TO_DISCORD = true;
+export const LOGGER_CACHE_TTL = 60 * 10; // 10 minutes
 
-export const sendToDiscord = true;
+
+
+// Redis
+export const UPSTASH_URL = process.env.NEXT_UPSTASH_REDIS_REST_URL ?? "";
+export const UPSTASH_TOKEN = process.env.NEXT_UPSTASH_REDIS_REST_TOKEN ?? "";

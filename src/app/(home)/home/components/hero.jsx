@@ -5,7 +5,7 @@ import { animated, useTransition } from "@react-spring/web";
 import { toast } from "sonner";
 import { GitHub } from "@mui/icons-material";
 
-import { tools } from "../../components/tool.list";
+import { tools } from "../../../components/tool.list";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Galaxy from "./galaxy";
 
@@ -40,7 +40,7 @@ const HeroSection = () => {
         leave: { opacity: 0, transform: "scale(0.9)" },
         config: { tension: 250, friction: 20 },
     });
-    
+
     const
         [popupPosition, setPopupPosition] = useState({
             left: "0px",

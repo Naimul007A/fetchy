@@ -2,7 +2,8 @@ import { geolocation, ipAddress } from "@vercel/functions";
 import * as iso from "iso-3166-1";
 import { nanoid } from "nanoid";
 import { NextRequest, NextResponse } from "next/server";
-import { getRedis } from "./redis";
+import { redis } from "./redis";
+import { LOGGER_CACHE_TTL } from "@/conf";
 
 export async function serializeRequest(req: NextRequest, res: NextResponse) {
   const headers = Object.fromEntries(req.headers.entries());
@@ -58,22 +59,20 @@ export class Discord {
     const ip =
       ipAddress(this.request) || this.request.headers.get("x-forwarded-for");
     const { country, flag } = geolocation(this.request);
-    const redis = getRedis();
-
     const body = await serializeRequest(this.request, this.response);
 
     const id = nanoid(12);
-    const ttl = 60 * 30; // 30 minutes
+    const ttl = LOGGER_CACHE_TTL;
 
     try {
-      this.response?.status >= 400
-        ? redis.set(`req:P${id}`, JSON.stringify(body))
-        : redis.set(`req:T${id}`, JSON.stringify(body), "EX", ttl);
+      if (this.response?.status >= 400) {
+        await redis.set(`req:P${id}`, JSON.stringify(body));
+      } else {
+        await redis.set(`req:T${id}`, JSON.stringify(body), { ex: ttl });
+      }
     } catch (err) {
       console.error("Redis operation failed:", err);
-      throw err; // Re-throw to let the caller handle the error
-    } finally {
-      // redis.disconnect();
+      throw err;
     }
 
     const pl = {
@@ -87,7 +86,7 @@ export class Discord {
         },
         {
           name: "Status",
-          value: this.response?.status || "N/A",
+          value: this.response?.status?.toString() || "N/A",
           inline: false,
         },
         {
@@ -96,10 +95,10 @@ export class Discord {
           inline: false,
         },
         { name: "IP", value: ip || "N/A", inline: false },
-        { name: "TimeStamp", value: new Date(), inline: false },
+        { name: "TimeStamp", value: new Date().toISOString(), inline: false },
         {
           name: "Referer",
-          value: this.request.headers.get("referer"),
+          value: this.request.headers.get("referer") || "N/A",
           inline: false,
         },
         {
@@ -123,7 +122,7 @@ export class Discord {
     if (this.request.headers.get("x-requested-with")) {
       pl.fields.push({
         name: "Requested With",
-        value: this.request.headers.get("x-requested-with"),
+        value: this.request.headers.get("x-requested-with")!,
         inline: false,
       });
     }

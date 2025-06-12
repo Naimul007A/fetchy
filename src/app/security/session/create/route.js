@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { TokenManager } from "@/lib/security";
-import { downloadSessionTTL } from "@/conf";
+import { DOWNLOADER_SESSION_TTL } from "@/conf";
 
 export async function POST(req) {
   const manager = new TokenManager(
     process.env.NEXT_API_KEY,
-    downloadSessionTTL
+    DOWNLOADER_SESSION_TTL
   );
   const { key } = await req.json();
   if (!key || key !== process.env.NEXT_API_KEY) {

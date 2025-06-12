@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { fetchInstaContentJson } from "@/lib/instagram";
 import { SuccessResponse } from "@/utils";
 
-import { enableInstagram } from "@/conf";
+import { ENABLE_INSTAGRAM } from "@/conf";
 
 import { postExec } from "../postExec";
 import { handleError } from "../helper";
@@ -18,7 +18,7 @@ export async function POST(request) {
     let isExpectedError = false;
 
     try {
-        if (!enableInstagram) {
+        if (!ENABLE_INSTAGRAM) {
             isExpectedError = true;
             return NextResponse.json(
                 { error: "Instagram downloading server currently unavailable" },

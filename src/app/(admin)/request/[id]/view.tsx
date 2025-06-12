@@ -10,6 +10,7 @@ import {
 import { CookieDisplay } from "./components/CookieDisplay";
 import { JSONDisplay } from "./components/JSONDisplay";
 import Editor from "@monaco-editor/react";
+import { Data } from "./page";
 
 const isUrl = (str: string) => {
   try {
@@ -120,7 +121,7 @@ const KeyValueTable = ({
   data,
 }: {
   title: string;
-  data: Array<{ key: string; value: any }>;
+  data: Record<string, any>;
 }) => (
   <div>
     <h1 className="text-3xl font-bold tracking-tight mb-6">{title}</h1>
@@ -151,21 +152,14 @@ const KeyValueTable = ({
 );
 
 export default function RequestDetailsView({
-  raw,
+  data,
   id,
 }: {
-  raw: string;
+  data: Data;
   id: string;
 }) {
-  const {
-    body = {},
-    headers = {},
-    cookies = {},
-    response,
-    ...rest
-  } = JSON.parse(raw);
-
-  if (!raw) {
+  console.log(data);
+  if (!data) {
     return (
       <main className="w-[calc(100vw-2rem)] md:container mx-auto">
         <div className="flex flex-col items-center justify-center w-full h-screen">
@@ -185,6 +179,8 @@ export default function RequestDetailsView({
       </main>
     );
   }
+
+  const { body = {}, headers = {}, cookies = {}, response, ...rest } = data;
 
   return (
     <main className="min-h-screen w-full px-4 md:px-10 py-12 bg-[#0e0e10] text-white space-y-10">
@@ -210,8 +206,7 @@ export default function RequestDetailsView({
         <div className="p-3 rounded-sm bg-[#1e1e1e]">
           <Editor
             height={`${
-              JSON.stringify(JSON.parse(raw), null, 2).split("\n").length * 19 +
-              10
+              JSON.stringify(data, null, 2).split("\n").length * 19 + 10
             }px`}
             options={{
               wordBreak: "keepAll",
@@ -238,7 +233,7 @@ export default function RequestDetailsView({
             }}
             theme="vs-dark"
             defaultLanguage="json"
-            value={JSON.stringify(JSON.parse(raw), null, 2)}
+            value={JSON.stringify(data, null, 2)}
           />
         </div>
       </div>

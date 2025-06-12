@@ -1,11 +1,15 @@
 import "@/app/globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { Suspense } from "react";
+import CanvasBackground from "@/app/components/background";
+import GoogleAna from "@/lib/GoogleAna";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { cn } from "@/lib/utils";
 import { Progress } from "../components/progress";
+import { Suspense } from "react";
 export { metadata, viewport } from "../layout";
 
-export default function AdminLayout({
+export default function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -17,11 +21,15 @@ export default function AdminLayout({
         lang="en"
         suppressHydrationWarning={true}
       >
-        <body className={`antialiased overflow-x-hidden`}>
+        <body className={cn(`antialiased overflow-hidden bg-black font-sans`)}>
           <Suspense fallback={null}>
             <Progress />
           </Suspense>
-          <ProtectedRoute>{children}</ProtectedRoute>
+          <CanvasBackground />
+          {children}
+          <Analytics />
+          <SpeedInsights />
+          <GoogleAna />
         </body>
       </html>
     </TooltipProvider>

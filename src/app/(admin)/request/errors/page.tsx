@@ -1,11 +1,10 @@
-import Valkey from "ioredis";
+import { Data } from "../[id]/page";
 import ErrorRequestsVaultView from "./view";
+import { redis } from "@/lib/redis";
 
-const redis = new Valkey(process.env.NEXT_REDIS_URL);
-
-export default async function ErrorRequestsVault({ params }) {
+export default async function ErrorRequestsVault() {
   const keys = await redis.keys("req:P*");
-  const values = await Promise.all(
+  const values: { key: string; value: Data }[] = await Promise.all(
     keys.map(async (key) => {
       return { key: key, value: await redis.get(key) };
     })
