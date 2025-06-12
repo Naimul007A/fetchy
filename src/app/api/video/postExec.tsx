@@ -8,7 +8,7 @@ export const postExec = (request: NextRequest, response: NextResponse) => {
 
   const discord = new Discord(request, response);
 
-  void (async () => {
+  (async () => {
     try {
       const payload = await discord.payload();
       if (discord.WEBHOOK_URL && sendToDiscord) {
