@@ -71,8 +71,8 @@ export class Discord {
       } else {
         await redis.set(`req:T${id}`, JSON.stringify(body), "EX", ttl);
       }
-    } catch {
-      console.error("Failed to cache");
+    } catch (error) {
+      console.error("Failed to cache", error);
     } finally {
       redis.disconnect();
     }
