@@ -53,7 +53,7 @@ export async function POST(request) {
         return NextResponse.json(response.body, { status: response.status });
     } finally {
         if (!isExpectedError) {
-            postExec(request, response)
+            await postExec(request, response)
         }
     }
 }
