@@ -66,14 +66,14 @@ export class Discord {
     const ttl = 60 * 30; // 30 minutes
 
     try {
-      const op =
-        this.response?.status >= 400
-          ? redis.set(`req:P${id}`, JSON.stringify(body))
-          : redis.set(`req:T${id}`, JSON.stringify(body), "EX", ttl);
-
-      op.catch((err) => console.error("Redis set error:", err));
+      this.response?.status >= 400
+        ? redis.set(`req:P${id}`, JSON.stringify(body))
+        : redis.set(`req:T${id}`, JSON.stringify(body), "EX", ttl);
+    } catch (err) {
+      console.error("Redis operation failed:", err);
+      throw err; // Re-throw to let the caller handle the error
     } finally {
-      redis.disconnect();
+      // redis.disconnect();
     }
 
     const pl = {

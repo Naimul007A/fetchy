@@ -15,9 +15,11 @@ const manager = new TokenManager();
 
 export async function POST(request) {
     let response;
+    let isExpectedError = false;
 
     try {
         if (!enableInstagram) {
+            isExpectedError = true;
             return NextResponse.json(
                 { error: "Instagram downloading server currently unavailable" },
                 { status: 403 }
@@ -33,6 +35,7 @@ export async function POST(request) {
         const userAgent = request.headers.get("user-agent");
 
         if (!session || !manager.verifyToken({ token: session, ip, userAgent })) {
+            isExpectedError = true;
             return NextResponse.json({ error: "Invalid API Credentials" }, { status: 401 });
         }
 
@@ -49,8 +52,8 @@ export async function POST(request) {
         response = handleError(error);
         return NextResponse.json(response.body, { status: response.status });
     } finally {
-        postExec(request, response).catch((err) =>
-            console.error("Failed to execute postExec:", err)
-        );
+        if (!isExpectedError) {
+            postExec(request, response)
+        }
     }
 }
