@@ -32,7 +32,7 @@ Visit **Fetchy** at [https://fetchy.pras.me](https://fetchy.pras.me).
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE.md). You are free to use, modify, and distribute this project, even for commercial purposes, provided proper attribution is given.
+This project is licensed under the [Business Source License 1.1](LICENSE.md). You are free to use, modify, and distribute this project, even for commercial purposes, provided proper attribution is given.
 
 ## Contributing
 
