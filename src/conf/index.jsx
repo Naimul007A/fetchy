@@ -1,5 +1,5 @@
 // Tiktok Configurations
-export const ENABLE_TIKTOK = true;
+export const ENABLE_TIKTOK = false;
 // Instagram Configurations
 export const ENABLE_INSTAGRAM = true;
 // Facebook Configurations
