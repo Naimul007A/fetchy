@@ -21,7 +21,7 @@ export const isRedirectorUrl = ({
 export const resolveRedirectUrl = async ({
   url,
   headers,
-  maxHops = 5,
+  maxHops = 25,
 }: {
   url: string;
   headers?: Record<string, string>;

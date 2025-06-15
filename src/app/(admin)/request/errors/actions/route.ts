@@ -5,17 +5,30 @@ import { redis } from "@/lib/redis";
 export async function DELETE(req: NextRequest) {
   const { keys } = await req.json();
 
-  if (!keys) {
-    return NextResponse.json({ error: "Missing key" }, { status: 400 });
+  if (!keys || !Array.isArray(keys)) {
+    return NextResponse.json(
+      { error: "Missing or invalid keys" },
+      { status: 400 }
+    );
   }
 
+  // batch delete
+  const chunkSize = 20;
+  const keyChunks = Array.from(
+    { length: Math.ceil(keys.length / chunkSize) },
+    (_, i) => keys.slice(i * chunkSize, (i + 1) * chunkSize)
+  );
+
   try {
-    await redis.del(keys);
+    for (const chunk of keyChunks) {
+      await redis.del(...chunk);
+    }
+
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    console.error("Failed to delete key:", error);
+    console.error("Failed to delete keys:", error);
     return NextResponse.json(
-      { error: "Failed to delete key" },
+      { error: "Failed to delete keys" },
       { status: 500 }
     );
   }

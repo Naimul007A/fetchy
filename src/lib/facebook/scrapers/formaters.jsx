@@ -2,12 +2,11 @@ import { BadRequest } from "@/lib/exceptions";
 import { getFbContentFileName, parseDashManifest } from "./helpers";
 
 export const formatGraphqlVideoJson = (data) => {
-
-  if (!data) {
-    throw new BadRequest("This post does not exist");
+  if (!data || !data?.split) {
+    throw new BadRequest("The requested post is either unavailable or has privacy restrictions.");
   }
 
-  let responseData = data.split("\n");
+  let responseData = data?.split("\n");
   const d1 = JSON.parse(responseData[0]);
   const d2 = responseData.filter(
     (i) =>
@@ -19,7 +18,7 @@ export const formatGraphqlVideoJson = (data) => {
   responseData = [d1, JSON.parse(d2[0])];
 
   const isLive = responseData.at(0).data?.video?.is_live_streaming
-  
+
   const videoUrls = parseDashManifest(
     responseData.at(0).data?.video?.dash_manifest, responseData.at(0).data?.video?.preferred_thumbnail?.image?.uri, isLive
   );

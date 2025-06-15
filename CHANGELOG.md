@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Version 2.2.3] | 2025/06/15
+
+### Changes
+
+- Improved logger vault performance
+- Fixed Facebook API compatibility issues
+- Enhanced error handling
+
 ## [Version 2.2.2] | 2025/06/13
 
 ### Changes
