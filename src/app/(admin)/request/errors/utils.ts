@@ -118,7 +118,7 @@ export const bulkDelete = async (
   keys: string[],
   setAction: React.Dispatch<React.SetStateAction<string | string[] | null>>,
   setValues: React.Dispatch<React.SetStateAction<Array<Values>>>,
-  actionKey?: string,
+  actionKey?: string
 ) => {
   if (keys.length === 0) {
     toast.warning("No items selected");
@@ -148,18 +148,18 @@ export const bulkDelete = async (
   }
 };
 
-export const normalDelete = async (key: string, setAction: React.Dispatch<React.SetStateAction<string | string[] | null>>, setValues: React.Dispatch<React.SetStateAction<Array<Values>>>) => {
+export const normalDelete = async (
+  key: string,
+  setAction: React.Dispatch<React.SetStateAction<string | string[] | null>>,
+  setValues: React.Dispatch<React.SetStateAction<Array<Values>>>
+) => {
   try {
-    setAction((prev) =>
-      prev ? [...prev, `${key}del`] : [`${key}del`]
-    );
+    setAction((prev) => (prev ? [...prev, `${key}del`] : [`${key}del`]));
     await axios.delete(`${location.href}/actions`, {
-      data: { keys: key },
+      data: { keys: [key] },
     });
 
-    setValues((values) =>
-      values.filter((item) => item.key !== key)
-    );
+    setValues((values) => values.filter((item) => item.key !== key));
     toast.success(`Log(${key}) has been successfully deleted`);
   } catch (error) {
     console.error("Failed to delete item:", error);
@@ -176,7 +176,11 @@ export const normalDelete = async (key: string, setAction: React.Dispatch<React.
   }
 };
 
-export const normalUpdate = async (key: string, setAction: React.Dispatch<React.SetStateAction<string | string[] | null>>, setValues: React.Dispatch<React.SetStateAction<Array<Values>>>) => {
+export const normalUpdate = async (
+  key: string,
+  setAction: React.Dispatch<React.SetStateAction<string | string[] | null>>,
+  setValues: React.Dispatch<React.SetStateAction<Array<Values>>>
+) => {
   try {
     setAction((prev) => (prev ? [...prev, `${key}up`] : [`${key}up`]));
     await axios.put(`${location.href}/actions`, {

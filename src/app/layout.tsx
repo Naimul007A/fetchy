@@ -64,7 +64,7 @@ export const metadata = {
     description: description,
     image: {
       "@type": "ImageObject",
-      url: "https://fetchy.pras.me/favicon.svg",
+      url: "https://gofetchy.app/favicon.svg",
       width: 1200,
       height: 630,
     },

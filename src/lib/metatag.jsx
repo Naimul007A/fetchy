@@ -1,5 +1,5 @@
 export const metatag = (pageTitle, pageUrl, robots, keywords = []) => {
-    const fav = "https://fetchy.pras.me/logo.svg";
+    const fav = "https://gofetchy.app/logo.svg";
 
     const fixedKeywords = [
         "PRAS",

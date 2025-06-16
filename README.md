@@ -4,7 +4,7 @@
 
 ## Live Website
 
-Visit **Fetchy** at [https://fetchy.pras.me](https://fetchy.pras.me).
+Visit **Fetchy** at [https://gofetchy.app](https://gofetchy.app).
 
 ## Supported Downloaders
 

@@ -1,23 +1,23 @@
 export default function sitemap() {
     return [
         {
-            url: 'https://fetchy.pras.me',
+            url: 'https://gofetchy.app',
             lastModified: new Date(),
         },
         {
-            url: 'https://fetchy.pras.me/tool/tiktok',
+            url: 'https://gofetchy.app/tool/tiktok',
             lastModified: new Date(),
         },
         {
-            url: 'https://fetchy.pras.me/tool/facebook',
+            url: 'https://gofetchy.app/tool/facebook',
             lastModified: new Date(),
         },
         {
-            url: 'https://fetchy.pras.me/tool/instagram',
+            url: 'https://gofetchy.app/tool/instagram',
             lastModified: new Date(),
         },
         {
-            url: 'https://fetchy.pras.me/tool/youtube',
+            url: 'https://gofetchy.app/tool/youtube',
             lastModified: new Date(),
         },
     ]
