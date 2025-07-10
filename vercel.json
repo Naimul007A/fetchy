@@ -1,0 +1,15 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Vercel-Ip-Country", "value": "*" },
+        { "key": "X-Vercel-Ip-City", "value": "*" },
+        { "key": "X-Vercel-Ip-Latitude", "value": "*" },
+        { "key": "X-Vercel-Ip-Longitude", "value": "*" },
+        { "key": "X-Vercel-Ip-Timezone", "value": "*" },
+        { "key": "X-Vercel-Ip-Region", "value": "*" }
+      ]
+    }
+  ]
+}
