@@ -1,47 +1,11 @@
 # Fetchy
 
-**Fetchy** is the ultimate free video downloader that allows you to download videos and photos in high quality from your favorite platforms with just one click. This project is open-source and available for everyone to use and contribute.
+> ---
+>
+> **Important Update**: This version of Fetchy (v2) is no longer being maintained.
+>
+> ---
 
-## Live Website
+We've completely rewritten Fetchy in version 3 with significant improvements and new features.
 
-Visit **Fetchy** at [https://gofetchy.app](https://gofetchy.app).
-
-## Supported Downloaders
-
-- **Facebook Downloader**:
-
-  - Download stories.
-  - Download reels and videos.
-
-- **Instagram Downloader**:
-
-  - Download posts.
-  - Download reels and videos.
-
-- **TikTok Downloader**:
-  - Download music.
-  - Download videos.
-  - Download slideshows.
-
-## Built With
-
-- **Next.js**: For the website's core framework.
-- **Tailwind CSS**: For modern and responsive styling.
-- **Upstash**: For rate-limiting and backend caching.
-- **Cloudflare Workers**: For enhanced performance and scalability.
-
-## License
-
-This project is licensed under the [Business Source License 1.1](LICENSE.md). You are free to use, modify, and distribute this project, even for commercial purposes, provided proper attribution is given.
-
-## Contributing
-
-We welcome contributions to improve and expand Fetchy. If you’d like to contribute:
-
-1. Fork the repository.
-2. Make your changes and test them.
-3. Open a pull request, and we'll review it promptly.
-
----
-
-**Fetchy** – Simplifying downloads, one platform at a time.
+**Please visit**: [Fetchy v3 (Neon)](https://github.com/PRASSamin/fetchy/tree/v3-neon) for the latest version.
