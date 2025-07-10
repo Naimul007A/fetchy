@@ -14,7 +14,6 @@ export const formatGraphqlJson = async (postJson: any) => {
   if (!data) {
     throw new BadRequest("This post does not exist");
   }
-  fs.writeFileSync("post.json", JSON.stringify(data));
 
   const owner = data.owner;
   owner.profile_pic = owner.profile_pic_url;

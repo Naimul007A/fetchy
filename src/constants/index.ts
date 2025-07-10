@@ -1,4 +1,4 @@
-export const CDN_HOST_URL = "https://cdn.prassamin.workers.dev";
+export const CDN_HOST_URL = "https://cdn.gofetchy.app";
 export const TIKTOK_CONTENT_FETCH_API = `${CDN_HOST_URL}/api/tiktok/content?url=`;
 export const TIKTOK_PROFILE_FETCH_API = `${CDN_HOST_URL}/api/tiktok/profile?url=`;
 export const MERGEIT_API = `${CDN_HOST_URL}/api/mergeit`;

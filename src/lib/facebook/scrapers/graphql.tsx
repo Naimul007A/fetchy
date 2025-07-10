@@ -111,7 +111,6 @@ export const fetchFromFbGraphQL = async (
   if (type === "video") {
     return formatGraphqlVideoJson(responseJson);
   } else if (type === "story") {
-    fs.writeFileSync("graphql.json", JSON.stringify(responseJson));
     const formatedJson = formatGraphqlStoryJson(responseJson, contentId);
     if (!formatedJson?.owner || formatedJson?.stories?.length === 0)
       return null;
