@@ -3,6 +3,7 @@ import BGPattern from "./components/bg-pattern";
 import { cn, formatedTime } from "@/utils";
 import Image from "next/image";
 import { Link } from "@/components/link";
+import { fluid } from "@/utils/fluid";
 
 const truncate = (text: string, limit: number) => {
   if (!text) return "";
@@ -47,13 +48,22 @@ const BlogRootPage = () => {
                   <span className="text-fd-muted-foreground/80 text-xs font-mono">
                     {formatedTime(blog.updatedAt!)}
                   </span>
-                  <h2 className="text-2xl font-semibold text-neutral-200">
+                  <h2 className="font-semibold text-neutral-200 text-xl">
                     {blog.title}
                   </h2>
                   {blog.description && (
-                    <p className="text-fd-muted-foreground">
-                      {truncate(blog.description || "", 160)}
-                    </p>
+                   <>
+                      <p className="text-fd-muted-foreground md:hidden" style={{
+                          fontSize: "0.875rem",
+                          }}>
+                        {truncate(blog.description || "", 100)}
+                      </p>
+                      <p className="text-fd-muted-foreground hidden md:block" style={{
+                          fontSize: "0.875rem",
+                          }}>
+                        {truncate(blog.description || "", 160)}
+                      </p>
+                   </>
                   )}
                   {blog?.posted_by && blog.posted_by.length > 0 && (
                     <div className="flex flex-wrap gap-10 mt-2">

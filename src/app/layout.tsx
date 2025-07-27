@@ -106,10 +106,10 @@ export default function DefaultRootLayout({
 }) {
   return (
     <TooltipProvider>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en" suppressHydrationWarning className="dark">
         <body
           className={cn(
-            `antialiased bg-background font-sans overflow-x-hidden`
+            `antialiased bg-background font-sans !overflow-x-hidden`
           )}
         >
           <Suspense fallback={null}>

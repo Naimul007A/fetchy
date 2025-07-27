@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+### [Version 3.0.1] | 2025/07/28
+
+### Changes
+
+- UI/UX Improvements
+
 ## [Version 3.0.0 – "Neon"] | 2025/07/10
 
 ### Neon Release

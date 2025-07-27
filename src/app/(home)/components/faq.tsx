@@ -1,9 +1,5 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
+
 import { FETCHY_GITHUB } from "@/constants";
 import { fluid } from "@/utils/fluid";
 
@@ -47,10 +43,7 @@ const FAQ = () => {
     },
   ];
   return (
-    <section
-      id="faq"
-      className="bg-gradient-to-b from-background to-neutral-900"
-    >
+    <section id="faq" className="bg-background">
       <div className="max-w-[calc(100vw-1rem)] px-0 container mx-auto pb-8">
         <div className="flex flex-col">
           <div className="mb-10 text-center">
@@ -68,33 +61,25 @@ const FAQ = () => {
             </p>
           </div>
 
-          <Accordion type="single" collapsible className="w-full">
+          <Accordions type="single" collapsible className="bg-white/1">
             {FAQList.map(({ question, answer, value }) => (
-              <AccordionItem
-                className="focus-within:ring-0"
+              <Accordion
                 key={value}
+                title={question}
                 value={value}
+                style={{
+                  fontSize: fluid("0.875rem", "1rem") as string,
+                  lineHeight: fluid("1.25rem", "1.5rem") as string,
+                }}
+                className="py-2"
               >
-                <AccordionTrigger
-                  style={{
-                    fontSize: fluid("0.875rem", "1rem") as string,
-                    lineHeight: fluid("1.25rem", "1.5rem") as string,
-                  }}
-                  className="outline-none text-left cursor-pointer"
-                >
-                  {question}
-                </AccordionTrigger>
-                <AccordionContent
-                  style={{
-                    fontSize: fluid("0.875rem", "1rem") as string,
-                    lineHeight: fluid("1.25rem", "1.5rem") as string,
-                  }}
-                >
-                  <p dangerouslySetInnerHTML={{ __html: answer }} />
-                </AccordionContent>
-              </AccordionItem>
+                <p
+                  className="text-white/75"
+                  dangerouslySetInnerHTML={{ __html: answer }}
+                />
+              </Accordion>
             ))}
-          </Accordion>
+          </Accordions>
         </div>
       </div>
     </section>

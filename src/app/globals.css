@@ -12,10 +12,10 @@
   --font-montserrat: "Montserrat", "sans-serif";
   --font-manrope: "Manrope", "sans-serif";
 
-  --shadow-glow: var(--tw-ring-offset-shadow, 0 0 #0000),
-    var(--tw-ring-shadow, 0 0 #0000), 0 0 10px #fff, 0 0 20px #fff,
-    0 0 30px #fff, 0 0 40px #fff, 0 0 70px #fff, 0 0 80px #fff,
-    0 0 100px #ff1177;
+  --shadow-glow:
+    var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+    0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff, 0 0 70px #fff,
+    0 0 80px #fff, 0 0 100px #ff1177;
 
   /* 18.75rem = 300px */
   --breakpoint-old-sm: 18.75rem;
@@ -40,9 +40,10 @@
   --animate-twinkle: twinkle 5s infinite ease-in-out;
   --animate-rotate: rotate 5s infinite ease-in-out;
   --animate-snore: snore 5s infinite ease-in-out;
-  --animate-falling: tail 5s ease-in-out infinite,
-    falling 5s ease-in-out infinite;
-  --animate-preloader: slideToCenter 1s ease-in-out 1, palseTheLogo 1.5s linear infinite;
+  --animate-falling:
+    tail 5s ease-in-out infinite, falling 5s ease-in-out infinite;
+  --animate-preloader:
+    slideToCenter 1s ease-in-out 1, palseTheLogo 1.5s linear infinite;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

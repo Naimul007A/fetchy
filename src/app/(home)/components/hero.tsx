@@ -98,7 +98,7 @@ const HeroSection = () => {
         background: `radial-gradient(
                     ellipse 60% 40% at center,
                     #2a1e39 0%,
-                    #0a0a0a 80%
+                    transparent 80%
                   )`,
         height: `${window?.innerHeight - 57}px`,
       }}

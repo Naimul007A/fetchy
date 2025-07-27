@@ -8,6 +8,7 @@ import { cn } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { Callout } from "fumadocs-ui/components/callout";
 import * as Lucide from "lucide-react";
+import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 
 export const mdxComponents = {
   h1: ({ className, ...props }: React.ComponentProps<"h1">) => (
@@ -209,6 +210,8 @@ export const mdxComponents = {
     />
   ),
   Lucide,
+  Accordion,
+  Accordions,
 };
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
