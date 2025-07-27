@@ -1,3 +1,4 @@
+import TrustpilotReview from "@/components/trustpilot-review-button";
 import { fluid } from "@/utils/fluid";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
@@ -24,10 +25,6 @@ const Testimonials = () => {
     },
     {
       quote: "A project that helps us as well🫱🏻‍🫲🏼 Well done bro..",
-      from: "Facebook user",
-    },
-    {
-      quote: "Wow bro, good work",
       from: "Facebook user",
     },
   ];
@@ -76,6 +73,9 @@ const Testimonials = () => {
               </p>
             </div>
           ))}
+          <div className="w-full flex items-center justify-center">
+            <TrustpilotReview />
+          </div>
         </Masonry>
       </ResponsiveMasonry>
     </section>

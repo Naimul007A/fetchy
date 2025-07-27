@@ -22,6 +22,7 @@ import {
 } from "@/types/api/downloader";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import TrustpilotReview from "@/components/trustpilot-review-button";
 
 const FBLiveResultView = ({
   data,
@@ -116,11 +117,20 @@ const FBLiveResultView = ({
                 </AspectRatio>
               </div>
 
-              <div className="md:w-1/2 p-4">
-                <h3 className="w-full bg-neutral-800/50 border border-neutral-700/50 rounded-lg py-2 text-sm text-neutral-400 text-center select-none mb-3 ">
+              <div className="md:w-1/2 p-4 flex flex-col">
+              <h3 className="w-full bg-neutral-800/50 border border-neutral-700/50 rounded-lg py-2 text-sm text-neutral-400 text-center select-none mb-1.5 ">
                   Live Formats
                 </h3>
-                <div className="overflow-y-auto overflow-x-hidden show-scrollbar md:aspect-[9/14.6]">
+                <TrustpilotReview
+                  containerProps={{
+                    className:
+                      "z-10 w-auto overflow-hidden hover:-translate-y-0 mb-3",
+                  }}
+                  ambientGlowProps={{ className: "opacity-30" }}
+                  className="rounded-lg bg-emerald-950/50 border-emerald-500/25 hover:border-emerald-500/25 hover:bg-emerald-950/75"
+                />
+              
+                <div className="overflow-y-auto overflow-x-hidden show-scrollbar md:aspect-[9/13.5]">
                   <div className="flex flex-col gap-3">
                     {data?.resources.map(
                       (res: FacebookVideoResource, i: number) => (

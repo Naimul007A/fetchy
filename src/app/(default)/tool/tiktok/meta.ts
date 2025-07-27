@@ -10,5 +10,5 @@ export const frontmatter = {
   description: "Download Tiktok videos, slideshows and music.",
   isAvailable: ENABLE_TIKTOK,
   isNew: true,
-  updatedAt: "2025-07-07T16:06:10.175Z",
+  updatedAt: "2025-07-11T15:51:10.735Z",
 };

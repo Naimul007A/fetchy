@@ -42,7 +42,7 @@ export default function MigrationBanner() {
       </p>
       <button
         onClick={dismiss}
-        className="ml-4 text-emerald-300 hover:text-emerald-100 transition"
+        className="ml-4 text-emerald-300 hover:text-emerald-100 transition cursor-pointer"
         aria-label="Dismiss banner"
       >
         <X

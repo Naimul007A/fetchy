@@ -12,6 +12,7 @@ import Bold from "../components/bold";
 import Anchor from "../components/anchor";
 import { BSL_1_1, FETCHY_GITHUB } from "@/constants";
 import DownloaderFAQ from "../components/faq";
+import TrustpilotReview from "@/components/trustpilot-review-button";
 
 const faqs = [
   {
@@ -94,7 +95,35 @@ const faqs = [
 ];
 
 const InstagramDownloaderView = () => {
-  const [data, setData] = useState<InstagramResponse | null>(null);
+  const [data, setData] = useState<InstagramResponse | null>({
+    id: "3084958896527824892",
+    thumbnail:
+      "https://instagram.fdac157-1.fna.fbcdn.net/v/t51.2885-15/500031936_3179107332241507_4480921802696701802_n.jpg?stp=c0.210.540.540a_dst-jpg_e15_tt6&_nc_ht=instagram.fdac157-1.fna.fbcdn.net&_nc_cat=107&_nc_oc=Q6cZ2QHcFTPyURk7izNSSSv6rkEVmzlxh6lQCtaAfcmUsIGWk1-9YFEvbIpydlfuwgt3OUU&_nc_ohc=aSQzOdEYT5UQ7kNvwGVF7Uo&_nc_gid=ib7pKkcopCj7lZPjQE9_QQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AfT7Oj5lMPFwRFmQuKGF6jMKWx8bIqrdLgJJgmP6Dcoydg&oe=6876E24C&_nc_sid=10d13b",
+    owner: {
+      id: "54088954230",
+      username: "imprassamin",
+      profile_pic:
+        "https://instagram.fdac157-1.fna.fbcdn.net/v/t51.2885-19/497268903_17988688166802231_4085422978665686337_n.jpg?stp=dst-jpg_e0_s150x150_tt6&_nc_ht=instagram.fdac157-1.fna.fbcdn.net&_nc_cat=103&_nc_oc=Q6cZ2QHcFTPyURk7izNSSSv6rkEVmzlxh6lQCtaAfcmUsIGWk1-9YFEvbIpydlfuwgt3OUU&_nc_ohc=PrWCPnjx1aIQ7kNvwFtpMj7&_nc_gid=ib7pKkcopCj7lZPjQE9_QQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AfRr6tBNAGx9D8ws89fl3wcdKeVrkGuOi0N49oG6OrVFrA&oe=6876EC1C&_nc_sid=10d13b",
+      name: "Pras Samin",
+      profile_url: "https://www.instagram.com/imprassamin/",
+    },
+    resources: [
+      {
+        id: "3084958896527824892",
+        filename: "PRAS_IG_VID_3084958896527824892-1752244841.mp4",
+        type: "video",
+        mime_type: "video/mp4",
+        quality: "720p",
+        has_audio: true,
+        width: 640,
+        height: 1137,
+        baseURL:
+          "https://instagram.fdac157-1.fna.fbcdn.net/o1/v/t16/f2/m82/AQPUqDAlWGnzNMmXPgLxjvSc6Z8uidMrwp8Po2dVvqjYvaraa3h803MDBZHJsFY0TEzpHCXG6tEYa7XTqVHYjoiC4CUEWew7N78Xghk.mp4?stp=dst-mp4&efg=eyJxZV9ncm91cHMiOiJbXCJpZ193ZWJfZGVsaXZlcnlfdnRzX290ZlwiXSIsInZlbmNvZGVfdGFnIjoidnRzX3ZvZF91cmxnZW4uY2xpcHMuYzIuMTI3Mi5iYXNlbGluZSJ9&_nc_cat=110&vs=218362860808988_2680360829&_nc_vs=HBksFQIYT2lnX3hwdl9yZWVsc19wZXJtYW5lbnRfcHJvZC84NTQwOEFEN0UyNTk4NzAxNzYyQzk5REQxMjcxOUU5QV92aWRlb19kYXNoaW5pdC5tcDQVAALIARIAFQIYOnBhc3N0aHJvdWdoX2V2ZXJzdG9yZS9HT2owYWhUSlBnN0tUc29DQU1tYjFlVDE5S3NyYnFfRUFBQUYVAgLIARIAKAAYABsAFQAAJoT4juymu5tBFQIoAkMzLBdAWCiDEm6XjRgSZGFzaF9iYXNlbGluZV8xX3YxEQB1%2Fgdl5p0BAA%3D%3D&_nc_rid=242bca227c&ccb=9-4&oh=00_AfQMnG6zVETABFTwBAfGRgBze09gKWhEgNtJDZy7X5kW-w&oe=6872F8BB&_nc_sid=10d13b",
+        thumbnail:
+          "https://instagram.fdac157-1.fna.fbcdn.net/v/t51.2885-15/500031936_3179107332241507_4480921802696701802_n.jpg?stp=c0.210.540.540a_dst-jpg_e15_tt6&_nc_ht=instagram.fdac157-1.fna.fbcdn.net&_nc_cat=107&_nc_oc=Q6cZ2QHcFTPyURk7izNSSSv6rkEVmzlxh6lQCtaAfcmUsIGWk1-9YFEvbIpydlfuwgt3OUU&_nc_ohc=aSQzOdEYT5UQ7kNvwGVF7Uo&_nc_gid=ib7pKkcopCj7lZPjQE9_QQ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AfT7Oj5lMPFwRFmQuKGF6jMKWx8bIqrdLgJJgmP6Dcoydg&oe=6876E24C&_nc_sid=10d13b",
+      },
+    ],
+  });
   const [processingTime, setProcessingTime] = useState("");
 
   const transition = useTransition(data, {
@@ -124,7 +153,7 @@ const InstagramDownloaderView = () => {
       )}
 
       <div className="w-full bg-gradient-to-b from-black to-neutral-900">
-        <OpenSource className="bg-gradient-to-b from-black to-neutral-900 !w-full !max-w-full !py-16" />
+        <OpenSource className="!w-full !max-w-full !py-16" />
       </div>
 
       <section id="seo-content" className="pt-16 pb-6 bg-neutral-900">

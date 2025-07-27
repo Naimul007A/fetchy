@@ -68,9 +68,23 @@ export default async function Page(props: {
               ))}
             </div>
           )}
+
+          {blog.tags && blog.tags.length > 0 && (
+            <div className="flex items-center gap-2 mt-5 flex-wrap">
+              {blog.tags.map((tag: string) => (
+                <span
+                  key={tag}
+                  className="px-2.5 py-1 rounded-full text-xs font-medium bg-fd-accent text-fd-foreground"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
-        <DocsBody>
+        <DocsBody className="mb-5">
           <MDX
+            // @ts-expect-error: Lucide is not assignable to MDXComponents
             components={getMDXComponents({
               ...mdxComponents,
               Banner,

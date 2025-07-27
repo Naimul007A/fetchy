@@ -7,6 +7,7 @@ import { Link } from "@/components/link";
 import { cn } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { Callout } from "fumadocs-ui/components/callout";
+import * as Lucide from "lucide-react";
 
 export const mdxComponents = {
   h1: ({ className, ...props }: React.ComponentProps<"h1">) => (
@@ -87,7 +88,13 @@ export const mdxComponents = {
     />
   ),
   strong: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <strong className={cn("font-medium", className)} {...props} />
+    <strong
+      className={cn(
+        "font-semibold bg-transparent border-0 font-sans p-0 rounded-none",
+        className
+      )}
+      {...props}
+    />
   ),
   ul: ({ className, ...props }: React.ComponentProps<"ul">) => (
     <ul className={cn("my-6 ml-6 list-disc", className)} {...props} />
@@ -201,6 +208,7 @@ export const mdxComponents = {
       {...props}
     />
   ),
+  Lucide,
 };
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {

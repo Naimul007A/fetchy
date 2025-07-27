@@ -1,6 +1,7 @@
 import Script from "next/script";
 import Navigation from "@/components/navigation-bar";
 import Footer from "@/components/footer";
+import MigrationBanner from "@/components/migration-banner";
 
 export default function RootLayout({
   children,
@@ -10,6 +11,7 @@ export default function RootLayout({
   return (
     <>
       <>
+        <MigrationBanner />
         <Navigation />
         {children}
         <Footer />

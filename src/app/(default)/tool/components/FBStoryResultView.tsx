@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/tooltip";
 import { FacebookStoryResponse } from "@/types/api/downloader";
 import { useEffect, useState } from "react";
+import TrustpilotReview from "@/components/trustpilot-review-button";
 
 const FBStoryResultView = ({
   data,
@@ -135,11 +136,19 @@ const FBStoryResultView = ({
                 </AspectRatio>
               </div>
 
-              <div className="md:w-1/2 p-4">
-                <h3 className="w-full bg-neutral-800/50 border border-neutral-700/50 rounded-lg py-2 text-sm text-neutral-400 text-center select-none mb-3 ">
+              <div className="md:w-1/2 p-4 flex flex-col">
+                <h3 className="w-full bg-neutral-800/50 border border-neutral-700/50 rounded-lg py-2 text-sm text-neutral-400 text-center select-none mb-1.5 ">
                   Available Formats
                 </h3>
-                <div className="overflow-y-auto overflow-x-hidden show-scrollbar md:aspect-[9/14.6]">
+                <TrustpilotReview
+                  containerProps={{
+                    className:
+                      "z-10 w-auto overflow-hidden hover:-translate-y-0 mb-3",
+                  }}
+                  ambientGlowProps={{ className: "opacity-30" }}
+                  className="rounded-lg bg-emerald-950/50 border-emerald-500/25 hover:border-emerald-500/25 hover:bg-emerald-950/75"
+                />
+                <div className="overflow-y-auto overflow-x-hidden show-scrollbar md:aspect-[9/13.5]">
                   <div className="flex flex-col gap-3">
                     {selectedStory?.resources.map(
                       (
@@ -172,8 +181,8 @@ const FBStoryResultView = ({
                                       res.type === "video"
                                         ? "bg-purple-800/40 text-purple-300"
                                         : res.type === "audio"
-                                        ? "bg-blue-800/40 text-blue-300"
-                                        : "bg-green-800/40 text-green-300"
+                                          ? "bg-blue-800/40 text-blue-300"
+                                          : "bg-green-800/40 text-green-300"
                                     }`}
                                   >
                                     {res.type.toUpperCase()}
@@ -226,7 +235,9 @@ const FBStoryResultView = ({
                                   }
                                   variant="default"
                                   size="sm"
-                                  className="bg-gradient-to-r from-[#7837d1] to-[#a168e3] hover:from-[#8a42e3] hover:to-[#b47aff] focus-visible:ring-0 transition-all duration-200 shadow-lg shadow-[#7837d1]/20 hover:shadow-[#a168e3]/30"
+                                  className="bg-gradient-to-r from-[#7837d1] to-[#a168e3] hover:from-[#8a42e3] hover:to-[#b47aff] 
+                                  text-foreground
+                                  focus-visible:ring-0 transition-all duration-200 shadow-lg shadow-[#7837d1]/20 hover:shadow-[#a168e3]/30"
                                 >
                                   {isDownloading ? (
                                     <Loader2 className="animate-spin mr- h-4 w-4" />
@@ -253,7 +264,7 @@ const FBStoryResultView = ({
                                           setIsRendering
                                         )
                                       }
-                                      className="bg-gradient-to-r from-amber-500/90 to-orange-500/90 text-white border-amber-500/30 hover:from-amber-500 hover:to-orange-500 hover:text-white focus-visible:ring-0 transition-all duration-200 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20"
+                                      className="bg-gradient-to-r from-amber-500/90 to-orange-500/90 text-foreground border-amber-500/30 hover:from-amber-500 hover:to-orange-500  focus-visible:ring-0 transition-all duration-200 shadow-lg shadow-amber-500/10 hover:shadow-amber-500/20"
                                     >
                                       {isRendering ? (
                                         <Loader2 className="animate-spin h-4 w-4" />

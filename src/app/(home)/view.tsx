@@ -10,6 +10,8 @@ import { Toaster } from "@/components/ui/sonner";
 import WhyFetchy from "./components/why";
 import Testimonials from "./components/testimonials";
 import OpenSource from "@/components/open-source";
+import { Link } from "@/components/link";
+import TrustpilotReview from "@/components/trustpilot-review-button";
 
 export default function Home() {
   const [isLoading, setLoading] = React.useState(true);

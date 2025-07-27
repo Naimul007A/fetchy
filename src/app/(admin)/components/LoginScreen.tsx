@@ -166,7 +166,7 @@ input:-webkit-autofill:focus {
 
           <Button
             type="submit"
-            className="w-full bg-indigo-600 py-2 text-base font-medium text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="w-full bg-indigo-600 py-2 text-base font-medium text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             disabled={loading}
           >
             {loading ? (

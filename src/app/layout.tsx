@@ -13,6 +13,7 @@ import { GoogleAnalytics } from "@/lib/GoogleAnalytics";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "@/components/ui/sonner";
+import Script from "next/script";
 
 const rethink = Rethink_Sans({
   weight: ["400", "800"],
