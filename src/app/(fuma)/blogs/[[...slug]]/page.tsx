@@ -7,6 +7,8 @@ import { TypeTable } from "fumadocs-ui/components/type-table";
 import { Banner } from "fumadocs-ui/components/banner";
 import BlogRootPage from "../root";
 import BGPattern from "../components/bg-pattern";
+import { metatag } from "@/lib/metatag";
+import { headers } from "next/headers";
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -104,12 +106,18 @@ export async function generateStaticParams() {
 export async function generateMetadata(props: {
   params: Promise<{ slug?: string[] }>;
 }) {
+  const headersList = await headers();
   const params = await props.params;
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
-  return {
-    title: page.data.title,
+  const url = new URL(headersList.get("x-current-url") || "").toString();
+  
+  return metatag({
+    title: `${page.data.title} | Fetchy`,
+    url,
+    robots: "index, follow",
     description: page.data.description,
-  };
+    keywords: page?.data?.tags || [],
+  });
 }

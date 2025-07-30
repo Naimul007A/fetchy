@@ -11,5 +11,5 @@ TiktokDownloaderPage.displayName = "TiktokDownloaderPage";
 export async function generateMetadata() {
   const headersList = await headers();
   const url = new URL(headersList.get("x-current-url") ?? "").toString();
-  return metatag("Tiktok Downloader | Fetchy", url, "index, follow");
+  return metatag({ title: "Tiktok Downloader | Fetchy", url });
 }

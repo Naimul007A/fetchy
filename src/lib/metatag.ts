@@ -1,11 +1,18 @@
 import { FETCHY_BASE_URL } from "@/constants";
 
-export const metatag = (
-  pageTitle: string,
-  pageUrl: string,
-  robots: string,
-  keywords: string[] = []
-) => {
+export const metatag = ({
+  title,
+  url,
+  robots = "index, follow",
+  keywords = [],
+  description,
+}: {
+  title: string;
+  url: string;
+  robots?: string;
+  keywords?: string[];
+  description?: string;
+}) => {
   const fav = `${FETCHY_BASE_URL}/logo.svg`;
 
   const fixedKeywords = [
@@ -40,14 +47,14 @@ export const metatag = (
 
   const margedkeywords = fixedKeywords.concat(keywords);
 
-  return {
-    title: pageTitle,
-    canonical: pageUrl,
+  const m: any = {
+    title: title,
+    canonical: url,
     keywords: margedkeywords,
     openGraph: {
-      title: pageTitle,
-      url: pageUrl,
-      siteName: pageTitle,
+      title: title,
+      url: url,
+      siteName: title,
       images: [
         {
           url: fav,
@@ -59,18 +66,21 @@ export const metatag = (
       type: "website",
     },
     twitter: {
-      title: pageTitle,
+      title: title,
       creator: "@prassamin78",
       images: [fav],
     },
     alternates: {
-      canonical: pageUrl,
-      languages: { "en-US": pageUrl },
+      canonical: url,
+      languages: { "en-US": url },
     },
     robots: robots,
     structuredData: {
-      name: pageTitle,
-      url: pageUrl,
+      name: title,
+      url: url,
     },
   };
+
+  if (description) m.description = description;
+  return m;
 };

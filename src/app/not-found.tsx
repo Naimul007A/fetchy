@@ -13,5 +13,9 @@ export default NotFoundPage;
 export async function generateMetadata() {
   const headersList = await headers();
   const url = new URL(headersList.get("x-current-url") ?? "");
-  return metatag("404 | Page Not Found", url.toString(), "noindex, nofollow");
+  return metatag({
+    title: "404 | Page Not Found",
+    url: url.toString(),
+    robots: "noindex, nofollow",
+  });
 }

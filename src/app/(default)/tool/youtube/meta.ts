@@ -9,5 +9,5 @@ export const frontmatter = {
   description: "Coming soon",
   isAvailable: "coming",
   isNew: false,
-  updatedAt: "2025-07-07T16:06:14.019Z",
+  updatedAt: "2025-07-30T18:24:09.420Z",
 };
