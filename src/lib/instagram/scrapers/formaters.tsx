@@ -7,12 +7,12 @@ import {
 import { _generateRandomId } from "@/lib/facebook/scrapers/formaters";
 import { DOMParser } from "xmldom";
 import { InstagramResource, InstagramResponse } from "@/types/api/downloader";
-import * as fs from "fs";
-export const formatGraphqlJson = async (postJson: any) => {
+
+export const formatGraphqlJson = (postJson: any) => {
   const data = postJson.data.xdt_shortcode_media;
 
   if (!data) {
-    throw new BadRequest("This post does not exist");
+    return null
   }
 
   const owner = data.owner;
@@ -144,7 +144,7 @@ export const formatGraphqlJson = async (postJson: any) => {
           videoJson.resources.push({
             id: `${rep[j].getAttribute("id")}`,
             mime_type: mimeType || "video/mp4",
-            filename: getIGVideoFileName(rep[j].getAttribute("id")),
+            filename: getIGVideoFileName(rep[j].getAttribute("id") || ""),
             type: "video",
             quality: quality,
             has_audio: false,
@@ -157,7 +157,7 @@ export const formatGraphqlJson = async (postJson: any) => {
           videoJson.resources.push({
             id: `${rep[j].getAttribute("id")}`,
             mime_type: "audio/mp3",
-            filename: getIGAudioFileName(rep[j].getAttribute("id")),
+            filename: getIGAudioFileName(rep[j].getAttribute("id") || ""),
             has_audio: true,
             type: "audio",
             bitrate: "128kbps",

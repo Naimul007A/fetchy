@@ -8,10 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Check, ExternalLink, Loader2, Trash } from "lucide-react";
+import { Check, ExternalLink, Loader2, Play, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { usePresence } from "@pras-ui/presence";
 import {
@@ -37,6 +37,7 @@ const ErrorRequestsVaultView = ({
       selected: false,
     }))
   );
+  const [workingOn, setWorkingOn] = useState<string | null>(null);
   const [isActionRunning, setIsActionRunning] = useState<
     string | string[] | null
   >(null);
@@ -48,6 +49,23 @@ const ErrorRequestsVaultView = ({
 
   const [filter, setFilter] = useState<"all" | "solved" | "unsolved">("all");
   const [activeStyle, setActiveStyle] = useState({ left: 0, width: 0 });
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    const savedWorkingOn = localStorage.getItem("workingOnKey");
+    if (savedWorkingOn) {
+      setWorkingOn(savedWorkingOn);
+    }
+  }, []);
+
+  // Save to localStorage on change
+  useEffect(() => {
+    if (workingOn) {
+      localStorage.setItem("workingOnKey", workingOn);
+    } else {
+      localStorage.removeItem("workingOnKey");
+    }
+  }, [workingOn]);
 
   useLayoutEffect(() => {
     const activeBtn = filterButtonRefs.current[filter];
@@ -87,8 +105,6 @@ const ErrorRequestsVaultView = ({
   return (
     <div className="bg-zinc-900 min-h-screen text-zinc-100 selection:bg-emerald-500/30">
       <main className="container mx-auto px-4 py-8 max-w-6xl">
-        <Toaster theme="dark" position="top-right" richColors closeButton />
-
         {/* Header with stats and filter */}
         <div className="mb-6 flex justify-between items-center">
           <div className="flex items-center gap-4">
@@ -183,7 +199,12 @@ const ErrorRequestsVaultView = ({
                 <div className="flex items-center gap-3">
                   <Button
                     onClick={() =>
-                      bulkSolve(localValues, setLocalValues, setIsActionRunning)
+                      bulkSolve(
+                        localValues,
+                        setLocalValues,
+                        setIsActionRunning,
+                        setWorkingOn
+                      )
                     }
                     disabled={isActionRunning === "update"}
                     className="group relative overflow-hidden bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-600/30 transition-all duration-300 rounded-full px-4 py-2"
@@ -258,11 +279,13 @@ const ErrorRequestsVaultView = ({
                   <TableRow
                     key={key}
                     className={`
-                        transition-all duration-200 flex 
+                        transition-all duration-200 flex
                         ${
-                          selected
-                            ? "bg-indigo-500/10 hover:bg-indigo-500/15 !border-l-4 border-l-indigo-600 text-indigo-50"
-                            : "hover:bg-zinc-700/30"
+                          workingOn === key
+                            ? "bg-yellow-500/10 hover:bg-yellow-500/15 !border-l-4 border-l-yellow-600"
+                            : selected
+                              ? "bg-indigo-500/10 hover:bg-indigo-500/15 !border-l-4 border-l-indigo-600 text-indigo-50"
+                              : "hover:bg-zinc-700/30"
                         }
                         ${
                           solved
@@ -270,7 +293,7 @@ const ErrorRequestsVaultView = ({
                             : ""
                         }
                         ${
-                          !solved && !selected
+                          !solved && !selected && workingOn !== key
                             ? "hover:bg-zinc-700/30 text-zinc-300"
                             : ""
                         }
@@ -310,13 +333,37 @@ const ErrorRequestsVaultView = ({
                             <Button
                               size="icon"
                               variant="ghost"
+                              className={`text-zinc-500 transition-colors ${
+                                workingOn === key
+                                  ? "!text-yellow-500"
+                                  : "hover:text-yellow-500"
+                              }`}
+                              onClick={() =>
+                                setWorkingOn((current) =>
+                                  current === key ? null : key
+                                )
+                              }
+                            >
+                              <Play className="w-4 h-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            {workingOn === key ? "Unmark" : "Mark as Working"}
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              size="icon"
+                              variant="ghost"
                               disabled={solved}
                               className="text-zinc-500 hover:text-emerald-500"
                               onClick={() =>
                                 normalUpdate(
                                   key,
                                   setIsActionRunning,
-                                  setLocalValues
+                                  setLocalValues,
+                                  setWorkingOn
                                 )
                               }
                             >

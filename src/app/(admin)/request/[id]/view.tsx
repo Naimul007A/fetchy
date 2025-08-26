@@ -11,6 +11,33 @@ import { CookieDisplay } from "./components/CookieDisplay";
 import { JSONDisplay } from "./components/JSONDisplay";
 import Editor from "@monaco-editor/react";
 import { Data } from "./page";
+import { QRCodeCanvas } from "qrcode.react";
+import { useEffect, useState } from "react";
+
+const QRCodeWrapper = () => {
+  const [url, setUrl] = useState("");
+  const [isHover, setIsHover] = useState(false);
+
+  useEffect(() => {
+    setUrl(window.location.href);
+  }, []);
+
+  return (
+    <div className="fixed top-4 right-4 bg-white p-2 rounded-lg shadow-lg z-50">
+      {url && (
+        <QRCodeCanvas
+          value={url}
+          size={isHover ? 512 : 128}
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+          className="transition-all duration-300"
+          bgColor={"#ffffff"}
+          fgColor={"#000000"}
+        />
+      )}
+    </div>
+  );
+};
 
 const isUrl = (str: string) => {
   try {
@@ -183,6 +210,7 @@ export default function RequestDetailsView({
 
   return (
     <main className="min-h-screen w-full px-4 md:px-10 py-12 bg-[#0e0e10] text-white space-y-10">
+      <QRCodeWrapper />
       <KeyValueTable title="Request Headers" data={headers} />
       <KeyValueTable title="Body" data={body} />
       <KeyValueTable title="Others" data={rest} />

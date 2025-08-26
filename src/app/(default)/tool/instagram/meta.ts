@@ -10,5 +10,5 @@ export const frontmatter = {
   description: "Download Instagram videos, reels, and photos.",
   isAvailable: ENABLE_INSTAGRAM,
   isNew: false,
-  updatedAt: "2025-07-30T18:23:41.578Z",
+  updatedAt: "2025-08-25T20:27:13.267Z",
 };

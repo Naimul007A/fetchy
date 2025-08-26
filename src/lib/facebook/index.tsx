@@ -133,6 +133,7 @@ export const fetchFBContentJson = async (
     const contentJson = await fetchFromFbGraphQL(
       urlDet.type,
       urlDet.contentId,
+      orgUrl,
       timeout
     );
 

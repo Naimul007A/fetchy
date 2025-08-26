@@ -11,8 +11,9 @@ type Values = {
 
 export const bulkSolve = async (
   values: Array<Values>,
-  setValues: React.Dispatch<React.SetStateAction<Array<Values>>>,
-  setAction: React.Dispatch<React.SetStateAction<string | string[] | null>>
+  setValues: React.Dispatch<React.SetStateAction<Array<Values>>>, 
+  setAction: React.Dispatch<React.SetStateAction<string | string[] | null>>,
+  setWorkingOn: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
   const selectedKeys = values
     .filter((item) => !item.solved && item.selected)
@@ -86,6 +87,9 @@ export const bulkSolve = async (
                     : item
                 )
               );
+              setWorkingOn((current) =>
+                current && selectedKeys.includes(current) ? null : current
+              );
             } else if (data.type === "error") {
               if (toastID) toast.dismiss(toastID);
               toast.error(data.message);
@@ -117,7 +121,7 @@ export const bulkSolve = async (
 export const bulkDelete = async (
   keys: string[],
   setAction: React.Dispatch<React.SetStateAction<string | string[] | null>>,
-  setValues: React.Dispatch<React.SetStateAction<Array<Values>>>,
+  setValues: React.Dispatch<React.SetStateAction<Array<Values>>>, 
   actionKey?: string
 ) => {
   if (keys.length === 0) {
@@ -139,7 +143,7 @@ export const bulkDelete = async (
   } catch (error: any) {
     console.error("Failed to delete items:", error);
     toast.error(
-      `Failed to delete items: ${
+      `Failed to delete items: ${ 
         error.response?.data?.message || error.message
       }`
     );
@@ -164,7 +168,9 @@ export const normalDelete = async (
   } catch (error: any) {
     console.error("Failed to delete item:", error);
     toast.error(
-      `Failed to delete item: ${error.response?.data?.message || error.message}`
+      `Failed to delete item: ${ 
+        error.response?.data?.message || error.message
+      }`
     );
   } finally {
     setAction((prev) => {
@@ -179,7 +185,8 @@ export const normalDelete = async (
 export const normalUpdate = async (
   key: string,
   setAction: React.Dispatch<React.SetStateAction<string | string[] | null>>,
-  setValues: React.Dispatch<React.SetStateAction<Array<Values>>>
+  setValues: React.Dispatch<React.SetStateAction<Array<Values>>>,
+  setWorkingOn: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
   try {
     setAction((prev) => (prev ? [...prev, `${key}up`] : [`${key}up`]));
@@ -193,10 +200,11 @@ export const normalUpdate = async (
         key === item.key ? { ...item, solved: true, selected: false } : item
       )
     );
+    setWorkingOn((current) => (current === key ? null : current));
     toast.success(`Log(${key}) has been successfully updated`);
   } catch (error: any) {
     console.error("Failed to update item:", error);
-    const message = `Failed to update item: ${
+    const message = `Failed to update item: ${ 
       error.response?.data?.message || error.message
     }`;
     toast.error(message);

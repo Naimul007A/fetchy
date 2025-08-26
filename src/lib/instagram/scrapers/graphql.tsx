@@ -3,6 +3,11 @@ import querystring from "querystring";
 import { HttpRequest } from "@/utils";
 import { handleScraperError } from "./helpers";
 import { formatGraphqlJson } from "./formaters";
+import { IG_SEMI_PRIVATE_REEL_FETCH_API } from "@/constants";
+import { InstagramResponse } from "@/types/api/downloader";
+import axios from "axios";
+import { FETCHY_CDN_API_KEY } from "@/conf";
+import { BadRequest } from "@/lib/exceptions";
 
 const encodePostRequestData = (shortcode: string) => {
   const requestData = {
@@ -49,7 +54,11 @@ const encodePostRequestData = (shortcode: string) => {
   return encoded;
 };
 
-export const fetchFromGraphQL = async (postId: string, timeout: number = 0) => {
+export const fetchFromGraphQL = async (
+  postId: string,
+  requestedUrl: string,
+  timeout: number = 0
+) => {
   if (!postId) return null;
 
   const API_URL = "https://www.instagram.com/api/graphql";
@@ -84,7 +93,7 @@ export const fetchFromGraphQL = async (postId: string, timeout: number = 0) => {
       return null;
     }
   } catch (e) {
-    handleScraperError(e);
+    handleScraperError(e as Error);
     return null;
   }
 
@@ -97,6 +106,46 @@ export const fetchFromGraphQL = async (postId: string, timeout: number = 0) => {
   const responseJson = response.data;
   if (!responseJson.data) return null;
 
-  const formattedJson = formatGraphqlJson(responseJson);
-  return formattedJson;
+  let json = formatGraphqlJson(responseJson);
+  // if formatedJson is null, thats mean it might be a private or semi-private video. so fetch it from the cdn
+  if (json === null) {
+    json = await fetchIGSemiPrivateReel(requestedUrl, timeout);
+  }
+
+  // if it is still null, then throw error
+  if (json === null) throw new BadRequest("This post does not exist");
+
+  return json;
+};
+
+export const fetchIGSemiPrivateReel = async (
+  url: string,
+  timeout: number = 5000
+): Promise<InstagramResponse | null> => {
+  if (!url) return null;
+  try {
+    const api = new URL(IG_SEMI_PRIVATE_REEL_FETCH_API);
+    const response = await axios.get(
+      `${IG_SEMI_PRIVATE_REEL_FETCH_API}${url}`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
+          "Accept-Language": "en-US,en;q=0.9",
+          "Accept-Encoding": "gzip, deflate, br",
+          Origin: api.origin,
+          Referer: api.origin,
+          Accept: "*/*",
+          "X-API-KEY": FETCHY_CDN_API_KEY,
+          Host: api.host,
+        },
+        timeout,
+      }
+    );
+    // it will return formated json so no need to format it again
+    return response.data;
+  } catch (e: any) {
+    handleScraperError(e);
+    return null;
+  }
 };

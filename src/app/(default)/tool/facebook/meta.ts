@@ -11,5 +11,5 @@ export const frontmatter = {
   description: "Download Facebook videos, reels, and stories",
   isAvailable: ENABLE_FACEBOOK,
   isNew: false,
-  updatedAt: "2025-07-30T18:24:44.284Z"
+  updatedAt: "2025-08-25T20:27:13.267Z"
 };

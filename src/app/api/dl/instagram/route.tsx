@@ -47,6 +47,7 @@ export async function POST(request: NextRequest) {
     }
 
     const json = await fetchInstaContentJson(url, 15000).catch((err) => {
+      console.log(err);
       response = handleError(err);
       throw new Exception(response.body.error, response.status);
     });

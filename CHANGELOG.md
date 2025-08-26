@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+### [Version 3.0.2] | 2025-08-26
+
+### Added
+- **Enhanced Content Support**: Introduced capabilities to fetch content from public Instagram and Facebook pages that may require a logged-in session to view.
+- **New Blog Content**: Published three new articles to improve SEO:
+  - *How to Download Instagram Posts & Carousels in HD*
+  - *How to Save Just the Audio from a TikTok (MP3)*
+  - *How to Download TikTok Slideshows as a Single Video*
+
+### Fixed
+- **Site Metadata**: Corrected sitewide metadata to ensure accurate information and improve social media link previews.
+
 ### [Version 3.0.1] | 2025/07/28
 
 ### Changes

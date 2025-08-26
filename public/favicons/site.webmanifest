@@ -12,7 +12,7 @@
   "related_applications": [],
   "icons": [
     {
-      "src": "/favicon-512x512-any.png",
+      "src": "/favicon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"

@@ -2,7 +2,7 @@ import { BoltIcon } from "@/components/icons/bolt";
 import { PasteIcon } from "@/components/icons/paste";
 import { useWhitelisted } from "@/hooks/useWhitelisted";
 import { cn } from "@/utils";
-import { useKeybindy } from "@keybindy/react";
+import { Keybindy } from "@keybindy/react";
 import axios from "axios";
 import { Link, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -41,27 +41,11 @@ const DownloadTool = ({
   const urlRef = useRef(url);
   const [isDownloading, setIsDownloading] = useState(false);
   const isDownloadingRef = useRef(isDownloading);
-  const binder = useKeybindy({ logs: false });
   const router = useRouter();
 
   useEffect(() => {
     urlRef.current = url;
   }, [url]);
-
-  useEffect(() => {
-    console.log(binder);
-    binder.register(["Ctrl", "V"], handlePaste, { preventDefault: true });
-    binder.register(
-      ["Ctrl", "X"],
-      () => {
-        setUrl("");
-      },
-      { preventDefault: true }
-    );
-    binder.register([["Enter"], ["Numpad Enter"]], fetchVideoData, {
-      preventDefault: true,
-    });
-  }, []);
 
   const handlePaste = async () => {
     try {
@@ -134,75 +118,104 @@ const DownloadTool = ({
   };
 
   return (
-    <section id="download-tool" className="pb-5 md:pb-10 bg-black relative">
-      <div className="max-w-[calc(100%-1rem)] md:container mx-auto md:px-6">
-        <div className="max-w-3xl mx-auto  relative z-20">
-          <div className="bg-neutral-900/50 backdrop-blur-md border border-neutral-800/50 rounded-xl shadow-xl p-6 md:p-8">
-            <h2 className="block capitalize text-neutral-400 mb-2 text-sm">
-              {platform} URL
-            </h2>
+    <Keybindy
+      logs={false}
+      shortcuts={[
+        {
+          keys: ["Ctrl", "V"],
+          handler: handlePaste,
+          options: {
+            preventDefault: true,
+          },
+        },
+        {
+          keys: ["Ctrl", "X"],
+          handler: () => {
+            setUrl("");
+          },
+          options: {
+            preventDefault: true,
+          },
+        },
+        {
+          keys: [["Enter"], ["Numpad Enter"]],
+          handler: fetchVideoData,
+          options: {
+            preventDefault: true,
+          },
+        },
+      ]}
+    >
+      <section id="download-tool" className="pb-5 md:pb-10 bg-black relative">
+        <div className="max-w-[calc(100%-1rem)] md:container mx-auto md:px-6">
+          <div className="max-w-3xl mx-auto  relative z-20">
+            <div className="bg-neutral-900/50 backdrop-blur-md border border-neutral-800/50 rounded-xl shadow-xl p-6 md:p-8">
+              <h2 className="block capitalize text-neutral-400 mb-2 text-sm">
+                {platform} URL
+              </h2>
 
-            <div className="relative mb-4">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                <Link size={20} className="text-neutral-400" />
-              </div>
-              <input
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                type="text"
-                className="w-full bg-neutral-800/50 border border-neutral-700/50 rounded-lg py-3 pl-12 pr-14 text-white focus:outline-none focus:ring-2 focus:ring-[#7837d1] focus:border-transparent transition-all placeholder:text-sm"
-                placeholder={`https://${EXAMPLE_URLS[platform].placeholder}`}
-              />
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 text-xs font-mono">
-                {url.length ? "⌘ + X" : "⌘ + V"}
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2 mb-6 overflow-hidden">
-              <button
-                onClick={handlePaste}
-                className="px-3 py-1.5 bg-neutral-800 rounded-full text-neutral-400 text-xs flex items-center cursor-pointer hover:bg-neutral-700 transition-colors gap-1.5"
-              >
-                <PasteIcon size={12} />
-                Paste link
-              </button>
-              <button
-                onClick={() => setUrl(EXAMPLE_URLS[platform].url)}
-                className="px-3 py-1.5 bg-neutral-800 rounded-full text-neutral-400 text-xs flex items-center cursor-pointer hover:bg-neutral-700 transition-colors"
-              >
-                Example: {EXAMPLE_URLS[platform].placeholder}
-              </button>
-            </div>
-
-            <button
-              disabled={isDownloading}
-              onClick={fetchVideoData}
-              style={{
-                fontSize: fluid("0.75rem", "1rem") as string,
-                lineHeight: fluid("1rem", "1.25rem") as string,
-              }}
-              className={cn(
-                "w-full bg-gradient-to-r from-[#7837d1] to-[#a168e3] text-white py-3 rounded-lg mt-10 transition-all duration-300 shadow-lg shadow-[#7837d1]/20 flex items-center justify-center gap-2 disabled:opacity-50",
-                !isDownloading && "hover:from-[#8a42e3] hover:to-[#b47aff]"
-              )}
-            >
-              {isDownloading ? (
-                <Loader2
-                  style={{
-                    width: fluid("1rem", "1.25rem") as string,
-                    height: fluid("1rem", "1.25rem") as string,
-                  }}
-                  className="animate-spin"
+              <div className="relative mb-4">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                  <Link size={20} className="text-neutral-400" />
+                </div>
+                <input
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  type="text"
+                  className="w-full bg-neutral-800/50 border border-neutral-700/50 rounded-lg py-3 pl-12 pr-14 text-white focus:outline-none focus:ring-2 focus:ring-[#7837d1] focus:border-transparent transition-all placeholder:text-sm"
+                  placeholder={`https://${EXAMPLE_URLS[platform].placeholder}`}
                 />
-              ) : (
-                <BoltIcon />
-              )}
-              Download
-            </button>
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 text-xs font-mono">
+                  {url.length ? "⌘ + X" : "⌘ + V"}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2 mb-6 overflow-hidden">
+                <button
+                  onClick={handlePaste}
+                  className="px-3 py-1.5 bg-neutral-800 rounded-full text-neutral-400 text-xs flex items-center cursor-pointer hover:bg-neutral-700 transition-colors gap-1.5"
+                >
+                  <PasteIcon size={12} />
+                  Paste link
+                </button>
+                <button
+                  onClick={() => setUrl(EXAMPLE_URLS[platform].url)}
+                  className="px-3 py-1.5 bg-neutral-800 rounded-full text-neutral-400 text-xs flex items-center cursor-pointer hover:bg-neutral-700 transition-colors"
+                >
+                  Example: {EXAMPLE_URLS[platform].placeholder}
+                </button>
+              </div>
+
+              <button
+                disabled={isDownloading}
+                onClick={fetchVideoData}
+                style={{
+                  fontSize: fluid("0.75rem", "1rem") as string,
+                  lineHeight: fluid("1rem", "1.25rem") as string,
+                }}
+                className={cn(
+                  "w-full bg-gradient-to-r from-[#7837d1] to-[#a168e3] text-white py-3 rounded-lg mt-10 transition-all duration-300 shadow-lg shadow-[#7837d1]/20 flex items-center justify-center gap-2 disabled:opacity-50",
+                  !isDownloading && "hover:from-[#8a42e3] hover:to-[#b47aff]"
+                )}
+              >
+                {isDownloading ? (
+                  <Loader2
+                    style={{
+                      width: fluid("1rem", "1.25rem") as string,
+                      height: fluid("1rem", "1.25rem") as string,
+                    }}
+                    className="animate-spin"
+                  />
+                ) : (
+                  <BoltIcon />
+                )}
+                Download
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </Keybindy>
   );
 };
 

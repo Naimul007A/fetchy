@@ -1,6 +1,8 @@
 export const CDN_HOST_URL = "https://cdn.gofetchy.app";
 export const TIKTOK_CONTENT_FETCH_API = `${CDN_HOST_URL}/api/tiktok/content?url=`;
 export const TIKTOK_PROFILE_FETCH_API = `${CDN_HOST_URL}/api/tiktok/profile?url=`;
+export const FB_SEMI_PRIVATE_REEL_OR_VIDEO_FETCH_API = `${CDN_HOST_URL}/api/facebook/reel/semi-private?url=`;
+export const IG_SEMI_PRIVATE_REEL_FETCH_API = `${CDN_HOST_URL}/api/instagram/reel/semi-private?url=`;
 export const MERGEIT_API = `${CDN_HOST_URL}/api/mergeit`;
 export const SERVEIT_API = `${CDN_HOST_URL}/api/serveit`;
 

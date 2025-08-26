@@ -28,9 +28,7 @@ const keysToRemoveFromOwner = [
 
 export const formatGraphqlVideoJson = (data: string) => {
   if (!data || !data?.split) {
-    throw new BadRequest(
-      "The requested post is either unavailable or has privacy restrictions."
-    );
+    return null;
   }
 
   const response = data?.split("\n");

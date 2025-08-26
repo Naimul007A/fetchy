@@ -45,7 +45,7 @@ export interface FacebookStoryResponse {
   }[];
 }
 
-export type FacebooResponse = FacebookVideoResponse | FacebookStoryResponse;
+export type FacebookResponse = FacebookVideoResponse | FacebookStoryResponse;
 
 export interface InstagramResource extends FacebookResource {
   thumbnail?: string;
