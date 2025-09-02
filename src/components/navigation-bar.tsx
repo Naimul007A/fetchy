@@ -68,6 +68,7 @@ export default function Navigation({ className = "" }) {
                 <Image
                   src={"/logo.png"}
                   width={100}
+                  priority
                   height={100}
                   alt="fetchy"
                   className="h-full py-2 w-auto"
